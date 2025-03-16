@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { mockCourses } from '../mocks/course';
 import Header from '../Component/Header';
 import Footer from '../Component/Footer';
-import '../Coursedetail.css';
+import '../Styles/Coursedetail.css';
 
 interface Review {
   id: number;

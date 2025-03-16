@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { mockCourses } from '../mocks/course';
 import Header from '../Component/Header';
 import Footer from '../Component/Footer';
-import '../Home.css';
+import '../Styles/Home.css';
 
 const Home: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState(''); // State สำหรับเก็บคำค้นหา
