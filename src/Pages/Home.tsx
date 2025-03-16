@@ -5,12 +5,28 @@ import Header from '../Component/Header';
 import Footer from '../Component/Footer';
 import '../Styles/Home.css';
 
+const ReviewCard: React.FC<{ review: Review }> = ({ review }) => {
+  const course = mockCourses.find((c) => c.reviews.some((r) => r.id === review.id));
+  if (!course) return null;
+
+  return (
+    <div className="review-card">
+      <h3>
+        <Link to={`/course/${course.id}`}>
+          {course.course_id} | {course.name}
+        </Link>
+      </h3>
+      <p className="review-text">{review.reviewText}</p>
+      <p className="reviewer-name">By: {review.reviewerName}</p>
+    </div>
+  );
+};
+
 const Home: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [allReviews, setAllReviews] = useState<Review[]>([]);
 
   useEffect(() => {
-    // ดึงรีวิวทั้งหมดจาก mockCourses
     const reviews: Review[] = mockCourses.flatMap((course) => course.reviews);
     setAllReviews(reviews);
   }, []);
@@ -29,8 +45,6 @@ const Home: React.FC = () => {
     <div>
       <Header />
       <main className="home">
-        <h2>Courses and Reviews</h2>
-
         <div className="search-container">
           <input
             type="text"
@@ -41,26 +55,13 @@ const Home: React.FC = () => {
           />
         </div>
 
-        <div className="course-list">
+        <div className="review-list">
           {filteredReviews.length > 0 ? (
-            filteredReviews.map((review) => {
-              const course = mockCourses.find((c) => c.reviews.some((r) => r.id === review.id));
-              if (!course) return null;
-
-              return (
-                <div key={review.id} className="course-card">
-                  <h3>
-                    <Link to={`/course/${course.id}`}>
-                      {course.course_id} | {course.name}
-                    </Link>
-                  </h3>
-                  <p>{review.reviewText}</p>
-                  <p>By: {review.reviewerName}</p>
-                </div>
-              );
-            })
+            filteredReviews.map((review) => (
+              <ReviewCard key={review.id} review={review} />
+            ))
           ) : (
-            <p>No reviews found.</p>
+            <p className="no-reviews">No reviews found.</p>
           )}
         </div>
       </main>

@@ -1,87 +1,89 @@
 .home {
-    padding: 2rem;
-  }
-  
-  .search-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 2rem;
-  }
-  
-  .search-box {
-    width: 100%;
-    max-width: 500px;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    border: 2px solid #007bff;
-    border-radius: 25px;
-    outline: none;
-    transition: border-color 0.3s ease;
-  }
-  
-  .search-box:focus {
-    border-color: #0056b3;
-  }
-  
-  .course-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-  
-  .course-card {
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 2rem;
+  padding: 2rem;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.search-box {
+  width: 100%;
+  max-width: 500px;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  border: 2px solid #007bff;
+  border-radius: 30px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.search-box:focus {
+  border-color: #0056b3;
+}
+
+.review-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.review-card {
+  background-color: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.review-card h3 {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+}
+
+.review-text {
+  color: #555;
+  line-height: 1.6;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.reviewer-name {
+  font-style: italic;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.review-card a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.review-card a:hover {
+  text-decoration: underline;
+}
+
+.no-reviews {
+  text-align: center;
+  font-style: italic;
+  color: #888;
+  padding: 2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .home {
     padding: 1rem;
-    width: calc(33.333% - 2rem);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
-  
-  .course-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+  .search-box {
+    padding: 0.8rem 1.2rem;
   }
-  
-  .course-card h3 {
-    margin: 1rem 0 0.5rem;
-    font-size: 1.25rem;
-  }
-  
-  .course-card p {
-    color: #555;
-    line-height: 1.6;
-  }
-  
-  .course-card a {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background-color: #007bff;
-    color: white;
-    text-decoration: none;
-    border-radius: 1rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .course-card a:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .course-card {
-      width: calc(50% - 1rem);
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .course-card {
-      width: 100%;
-    }
-  
-    .search-box {
-      padding: 0.5rem 1rem;
-      font-size: 0.9rem;
-    }
-  }
+}
