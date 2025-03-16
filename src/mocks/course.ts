@@ -3,7 +3,7 @@ export interface Course {
   name: string;
   description: string;
   image: string;
-  reviews: Review[]; // เพิ่มฟิลด์ reviews
+  reviews: Review[];
 }
 
 export interface Review {
@@ -18,16 +18,17 @@ export const mockCourses: Course[] = [
     name: 'Introduction to React',
     description: 'Learn the basics of React.',
     image: 'https://via.placeholder.com/150',
-    reviews: [], // เริ่มต้นด้วยอาร์เรย์ว่าง
+    reviews: [],
   },
   {
     id: 2,
     name: 'Advanced TypeScript',
     description: 'Deep dive into TypeScript.',
     image: 'https://via.placeholder.com/150',
-    reviews: [], // เริ่มต้นด้วยอาร์เรย์ว่าง
+    reviews: [],
   },
 ];
+
 export const mockReviews: Review[] = [
   {
     id: 1,
@@ -38,10 +39,5 @@ export const mockReviews: Review[] = [
     id: 2,
     rating: 4,
     comment: 'Very informative.',
-  },
-  {
-    id: 3,
-    rating: 3,
-    comment: 'Could be better.',
   },
 ];
