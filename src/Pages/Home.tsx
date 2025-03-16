@@ -4,7 +4,13 @@ import { mockCourses } from '../mocks/course';
 import '../App.css';
 
 const Home: React.FC = () => {
-  const [courses, setCourses] = useState(mockCourses);
+  const [searchTerm, setSearchTerm] = useState(''); // State สำหรับเก็บคำค้นหา
+  const [courses, setCourses] = useState(mockCourses); // State สำหรับเก็บรายวิชา
+
+  // กรองวิชาตามคำค้นหา
+  const filteredCourses = courses.filter((course) =>
+    course.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div>
@@ -27,10 +33,22 @@ const Home: React.FC = () => {
 
       <main>
         <h2>Courses</h2>
+
+        {/* Search Box */}
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Search for a course..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-box"
+          />
+        </div>
+
+        {/* แสดงรายวิชาที่กรองแล้ว */}
         <div className="course-list">
-          {courses.map((course) => (
+          {filteredCourses.map((course) => (
             <div key={course.id} className="course-card">
-              <img src={course.image} alt={course.name} />
               <h3>{course.name}</h3>
               <p>{course.description}</p>
               <Link to={`/course/${course.id}`}>View Details</Link>
