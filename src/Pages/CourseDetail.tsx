@@ -1,8 +1,13 @@
+// CourseDetail.tsx
 import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { mockCourses } from '../mocks/course';
+import { Link } from 'react-router-dom';
 import Header from '../Component/Header';
 import Footer from '../Component/Footer';
+import ReviewDetail from '../Component/CourseReviews';
+import QuestionDetail from '../Component/CourseQuestions';
+import ReviewForm from '../Component/ReviewForm';
 import '../Styles/Coursedetail.css';
 
 interface Review {
@@ -27,19 +32,16 @@ const CourseDetail: React.FC = () => {
   const [grade, setGrade] = useState('');
   const [academicYear, setAcademicYear] = useState('');
   const [section, setSection] = useState('');
+  const [expandedReviewId, setExpandedReviewId] = useState<number | null>(null);
+  const [showReviews, setShowReviews] = useState(true);
+  const [showQuestions, setShowQuestions] = useState(false);
 
-  // เปิด modal สำหรับรีวิว
-  const openReviewModal = () => {
-    setIsModalOpen(true);
-  };
-
-  // ปิด modal สำหรับรีวิว
+  const openReviewModal = () => setIsModalOpen(true);
   const closeReviewModal = () => {
     setIsModalOpen(false);
     resetForm();
   };
 
-  // รีเซ็ตฟอร์ม
   const resetForm = () => {
     setReviewerName('');
     setReviewText('');
@@ -50,7 +52,6 @@ const CourseDetail: React.FC = () => {
     setSection('');
   };
 
-  // เพิ่มรีวิว
   const handleAddReview = (e: React.FormEvent) => {
     e.preventDefault();
     if (course) {
@@ -77,124 +78,124 @@ const CourseDetail: React.FC = () => {
     return <div>Course not found</div>;
   }
 
+  const calculateAverageScore = (scoreType: 'homeScore' | 'interestScore') => {
+    if (!course.reviews.length) return 0;
+    const totalScore = course.reviews.reduce((sum, review) => sum + review[scoreType], 0);
+    return Math.round((totalScore / course.reviews.length) * 10);
+  };
+
+  const homeScoreAverage = calculateAverageScore('homeScore');
+  const interestScoreAverage = calculateAverageScore('interestScore');
+
+  const handleExpandReview = (reviewId: number) => {
+    if (expandedReviewId === reviewId) {
+      setExpandedReviewId(null);
+    } else {
+      setExpandedReviewId(reviewId);
+    }
+  };
+
+  const handleShowReviews = () => {
+    setShowReviews(true);
+    setShowQuestions(false);
+  };
+
+  const handleShowQuestions = () => {
+    setShowReviews(false);
+    setShowQuestions(true);
+  };
+
   return (
     <div>
       <Header />
       <main className="course-detail">
-        <h1>{course.name}</h1>
-        <img src={course.image} alt={course.name} />
-        <p>{course.description}</p>
-
-        <h2>Reviews</h2>
-        <button className="add-review-button" onClick={openReviewModal}>
-          Add Review
-        </button>
-
-        {/* แสดงรีวิวของวิชา */}
-        <div className="reviews">
-          {course.reviews.length > 0 ? (
-            course.reviews.map((review) => (
-              <div key={review.id} className="review">
-                <p><strong>Reviewer:</strong> {review.reviewerName}</p>
-                <p><strong>Review:</strong> {review.reviewText}</p>
-                <p><strong>Home Score:</strong> {review.homeScore}</p>
-                <p><strong>Interest Score:</strong> {review.interestScore}</p>
-                <p><strong>Grade:</strong> {review.grade}</p>
-                <p><strong>Academic Year:</strong> {review.academicYear}</p>
-                <p><strong>Section:</strong> {review.section}</p>
-              </div>
-            ))
-          ) : (
-            <p>No reviews yet.</p>
-          )}
+        <div className="course-header">
+          <h1>{course.name}</h1>
+          {/*           <img src={course.image} alt={course.name} className="course-image" />
+ */}          <p className="course-description">{course.description}</p>
         </div>
-      </main>
-      <Footer />
 
-      {/* Modal สำหรับรีวิว */}
-      {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2>Add Review</h2>
-            <form onSubmit={handleAddReview}>
-              <div>
-                <label>Reviewer Name:</label>
-                <input
-                  type="text"
-                  value={reviewerName}
-                  onChange={(e) => setReviewerName(e.target.value)}
-                  required
-                />
+        <div className="score-summary">
+          <Link to="/" className="home-button">Home</Link>
+          <h2>คะแนนภาพรวม</h2>
+          <div className="score-bars">
+            <div className="score-bar">
+              <label>จำนวนงานและการบ้าน</label>
+              <div className="bar">
+                <div className="fill" style={{ width: `${homeScoreAverage}%` }}></div>
               </div>
-              <div>
-                <label>Review Text:</label>
-                <textarea
-                  value={reviewText}
-                  onChange={(e) => setReviewText(e.target.value)}
-                  required
-                />
+              <span className="score">{homeScoreAverage}%</span>
+            </div>
+            <div className="score-bar">
+              <label>ความน่าสนใจของเนื้อหา</label>
+              <div className="bar">
+                <div className="fill" style={{ width: `${interestScoreAverage}%` }}></div>
               </div>
-              <div>
-                <label>Home Score:</label>
-                <input
-                  type="number"
-                  value={homeScore}
-                  onChange={(e) => setHomeScore(Number(e.target.value))}
-                  min="0"
-                  max="10"
-                  required
-                />
+              <span className="score">{interestScoreAverage}%</span>
+            </div>
+            <div className="score-bar">
+              <label>การสอนของอาจารย์</label>
+              <div className="bar">
+                <div className="fill" style={{ width: `${(homeScoreAverage + interestScoreAverage) / 2}%` }}></div>
               </div>
-              <div>
-                <label>Interest Score:</label>
-                <input
-                  type="number"
-                  value={interestScore}
-                  onChange={(e) => setInterestScore(Number(e.target.value))}
-                  min="0"
-                  max="10"
-                  required
-                />
-              </div>
-              <div>
-                <label>Grade:</label>
-                <select
-                  value={grade}
-                  onChange={(e) => setGrade(e.target.value)}
-                  required
-                >
-                  <option value="">Select Grade</option>
-                  <option value="A">A</option>
-                  <option value="B">B</option>
-                  <option value="C">C</option>
-                  <option value="D">D</option>
-                </select>
-              </div>
-              <div>
-                <label>Academic Year:</label>
-                <input
-                  type="text"
-                  value={academicYear}
-                  onChange={(e) => setAcademicYear(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label>Section:</label>
-                <input
-                  type="text"
-                  value={section}
-                  onChange={(e) => setSection(e.target.value)}
-                  required
-                />
-              </div>
-              <button type="submit">Submit</button>
-              <button type="button" onClick={closeReviewModal}>Cancel</button>
-            </form>
+              <span className="score">{(homeScoreAverage + interestScoreAverage) / 2}%</span>
+            </div>
           </div>
         </div>
-      )}
-    </div>
+
+        <div className="toggle-sections">
+          <button
+            className={`toggle-button ${showReviews ? 'active' : ''}`}
+            onClick={handleShowReviews}
+          >
+            รีวิวทั้งหมด
+          </button>
+          <button
+            className={`toggle-button ${showQuestions ? 'active' : ''}`}
+            onClick={handleShowQuestions}
+          >
+            คำถามทั้งหมด
+          </button>
+        </div>
+
+        {
+          showReviews && (
+            <ReviewDetail
+              reviews={course.reviews}
+              expandedReviewId={expandedReviewId}
+              handleExpandReview={handleExpandReview}
+              openReviewModal={openReviewModal} // ส่ง prop ไปยัง ReviewDetail
+            />
+          )
+        }
+
+        {showQuestions && <QuestionDetail questions={course.questions} />}
+      </main >
+      <Footer />
+
+      {
+        isModalOpen && (
+          <ReviewForm
+            reviewerName={reviewerName}
+            setReviewerName={setReviewerName}
+            reviewText={reviewText}
+            setReviewText={setReviewText}
+            homeScore={homeScore}
+            setHomeScore={setHomeScore}
+            interestScore={interestScore}
+            setInterestScore={setInterestScore}
+            grade={grade}
+            setGrade={setGrade}
+            academicYear={academicYear}
+            setAcademicYear={setAcademicYear}
+            section={section}
+            setSection={setSection}
+            handleAddReview={handleAddReview}
+            closeReviewModal={closeReviewModal}
+          />
+        )
+      }
+    </div >
   );
 };
 

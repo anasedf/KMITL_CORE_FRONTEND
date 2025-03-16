@@ -55,6 +55,13 @@ const Home: React.FC = () => {
           />
         </div>
 
+        <nav>
+          <ul>
+            <li><Link to="/">รีวิวทั้งหมด</Link></li>
+            <li><Link to="/questions">คำถามทั้งหมด</Link></li>
+          </ul>
+        </nav>
+
         <div className="review-list">
           {filteredReviews.length > 0 ? (
             filteredReviews.map((review) => (

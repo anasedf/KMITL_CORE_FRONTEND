@@ -29,12 +29,23 @@ const Questions: React.FC = () => {
   return (
     <div>
       <Header />
-      <main className="questions-page"> {/* เปลี่ยน className เป็น questions-page */}
-        <h2>Questions</h2>
-
+      <main className="questions-page">
         <div className="search-container">
-          {/* ... (search box) */}
+          <input
+            type="text"
+            placeholder="Search by course name or ID..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-box"
+          />
         </div>
+
+        <nav>
+          <ul>
+            <li><Link to="/">รีวิวทั้งหมด</Link></li>
+            <li><Link to="/questions">คำถามทั้งหมด</Link></li>
+          </ul>
+        </nav>
 
         <div className="question-list"> {/* เปลี่ยน className เป็น question-list */}
           {filteredQuestions.length > 0 ? (
@@ -51,7 +62,7 @@ const Questions: React.FC = () => {
                   </h3>
                   <p>{question.questionText}</p>
                   {question.answers && question.answers.map((answer) => (
-                    <p key={answer.id} className="answer">Answer: {answer.answerText}</p> 
+                    <p key={answer.id} className="answer">Answer: {answer.answerText}</p>
                   ))}
                 </div>
               );

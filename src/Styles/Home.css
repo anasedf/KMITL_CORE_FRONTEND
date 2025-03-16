@@ -19,6 +19,31 @@
   transition: border-color 0.3s ease;
 }
 
+nav h1 {
+  margin: 0;
+}
+
+nav img {
+  width: 15rem;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+nav ul li {
+  margin: 0 1rem;
+}
+
+nav ul li a {
+  font-size: 2rem;
+  color: black;
+  text-decoration: none;
+}
+
 .search-box:focus {
   border-color: #0056b3;
 }
