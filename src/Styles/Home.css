@@ -32,7 +32,7 @@
   .course-card {
     background-color: white;
     border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 2rem;
     padding: 1rem;
     width: calc(33.333% - 2rem);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -56,12 +56,11 @@
   
   .course-card a {
     display: inline-block;
-    margin-top: 1rem;
     padding: 0.5rem 1rem;
     background-color: #007bff;
     color: white;
     text-decoration: none;
-    border-radius: 4px;
+    border-radius: 1rem;
     transition: background-color 0.3s ease;
   }
   

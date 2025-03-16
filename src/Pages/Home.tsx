@@ -1,48 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { mockCourses } from '../mocks/course';
+import { mockCourses, Review } from '../mocks/course';
 import Header from '../Component/Header';
 import Footer from '../Component/Footer';
 import '../Styles/Home.css';
 
 const Home: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState(''); // State สำหรับเก็บคำค้นหา
+  const [searchTerm, setSearchTerm] = useState('');
+  const [allReviews, setAllReviews] = useState<Review[]>([]);
 
-  // กรองวิชาตามคำค้นหา (ชื่อหรือคำอธิบาย)
-  const filteredCourses = mockCourses.filter((course) =>
-    course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    course.description.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  useEffect(() => {
+    // ดึงรีวิวทั้งหมดจาก mockCourses
+    const reviews: Review[] = mockCourses.flatMap((course) => course.reviews);
+    setAllReviews(reviews);
+  }, []);
+
+  const filteredReviews = allReviews.filter((review) => {
+    const course = mockCourses.find((c) => c.reviews.some((r) => r.id === review.id));
+    if (!course) return false;
+
+    return (
+      course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      course.course_id.toString().includes(searchTerm)
+    );
+  });
 
   return (
     <div>
       <Header />
       <main className="home">
-        <h2>Courses</h2>
+        <h2>Courses and Reviews</h2>
 
-        {/* Search Box */}
         <div className="search-container">
           <input
             type="text"
-            placeholder="Search for a course..."
+            placeholder="Search by course name or ID..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="search-box"
           />
         </div>
 
-        {/* แสดงรายวิชาที่กรองแล้ว */}
         <div className="course-list">
-          {filteredCourses.length > 0 ? (
-            filteredCourses.map((course) => (
-              <div key={course.id} className="course-card">
-                <h3>{course.name}</h3>
-                <p>{course.description}</p>
-                <Link to={`/course/${course.id}`}>View Details</Link>
-              </div>
-            ))
+          {filteredReviews.length > 0 ? (
+            filteredReviews.map((review) => {
+              const course = mockCourses.find((c) => c.reviews.some((r) => r.id === review.id));
+              if (!course) return null;
+
+              return (
+                <div key={review.id} className="course-card">
+                  <h3>
+                    <Link to={`/course/${course.id}`}>
+                      {course.course_id} | {course.name}
+                    </Link>
+                  </h3>
+                  <p>{review.reviewText}</p>
+                  <p>By: {review.reviewerName}</p>
+                </div>
+              );
+            })
           ) : (
-            <p>No courses found.</p>
+            <p>No reviews found.</p>
           )}
         </div>
       </main>

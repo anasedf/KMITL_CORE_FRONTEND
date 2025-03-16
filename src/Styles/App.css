@@ -1,35 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&display=swap');
+
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Kanit', sans-serif;
   margin: 0;
   padding: 0;
   background-color: #f4f4f4;
-}
-
-header {
-  background-color: #333;
-  color: white;
-  padding: 1rem;
-  text-align: center;
-}
-
-header h1 {
-  margin: 0;
-}
-
-nav ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-}
-
-nav ul li {
-  margin: 0 1rem;
-}
-
-nav ul li a {
-  color: white;
-  text-decoration: none;
 }
 
 main {

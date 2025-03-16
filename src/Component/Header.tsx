@@ -1,17 +1,19 @@
-import { useParams ,Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import '../Styles/Header.css';
+
 const Header = () => {
     return (
-      <header>
-        <h1>KMITLCLAP</h1>
-        <nav>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/contact">Contact</Link></li>
-          </ul>
-        </nav>
-      </header>
+        <header>
+            <img src="kmitl.png" alt="KMITL Logo" /> {/* เพิ่ม alt attribute */}
+            <h1>ค้นหาและรีวิววิชา GENED</h1>
+            <nav>
+                <ul>
+                    <li><Link to="/">Home</Link></li>
+                    <li><Link to="/questions">Questions</Link></li>
+                </ul>
+            </nav>
+        </header>
     );
-  };
-  
-  export default Header;
+};
+
+export default Header;
