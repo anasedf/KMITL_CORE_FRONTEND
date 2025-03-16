@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { useParams ,Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { mockCourses } from '../mocks/course';
-import '../App.css';
+import Header from '../Component/Header';
+import Footer from '../Component/Footer';
+import '../Coursedetail.css';
 
 interface Review {
   id: number;
@@ -18,16 +20,13 @@ const CourseDetail: React.FC = () => {
   const { courseId } = useParams<{ courseId: string }>();
   const course = mockCourses.find((c) => c.id === Number(courseId));
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newReview, setNewReview] = useState<Review>({
-    id: 0,
-    reviewerName: '',
-    reviewText: '',
-    homeScore: 0,
-    interestScore: 0,
-    grade: '',
-    academicYear: '',
-    section: '',
-  });
+  const [reviewerName, setReviewerName] = useState('');
+  const [reviewText, setReviewText] = useState('');
+  const [homeScore, setHomeScore] = useState(0);
+  const [interestScore, setInterestScore] = useState(0);
+  const [grade, setGrade] = useState('');
+  const [academicYear, setAcademicYear] = useState('');
+  const [section, setSection] = useState('');
 
   // เปิด modal สำหรับรีวิว
   const openReviewModal = () => {
@@ -37,33 +36,38 @@ const CourseDetail: React.FC = () => {
   // ปิด modal สำหรับรีวิว
   const closeReviewModal = () => {
     setIsModalOpen(false);
-    setNewReview({
-      id: 0,
-      reviewerName: '',
-      reviewText: '',
-      homeScore: 0,
-      interestScore: 0,
-      grade: '',
-      academicYear: '',
-      section: '',
-    });
+    resetForm();
+  };
+
+  // รีเซ็ตฟอร์ม
+  const resetForm = () => {
+    setReviewerName('');
+    setReviewText('');
+    setHomeScore(0);
+    setInterestScore(0);
+    setGrade('');
+    setAcademicYear('');
+    setSection('');
   };
 
   // เพิ่มรีวิว
   const handleAddReview = (e: React.FormEvent) => {
     e.preventDefault();
     if (course) {
+      const newReview = {
+        id: course.reviews.length + 1,
+        reviewerName,
+        reviewText,
+        homeScore,
+        interestScore,
+        grade,
+        academicYear,
+        section,
+      };
       const updatedCourse = {
         ...course,
-        reviews: [
-          ...course.reviews,
-          {
-            ...newReview,
-            id: course.reviews.length + 1,
-          },
-        ],
+        reviews: [...course.reviews, newReview],
       };
-      // อัปเดตข้อมูลวิชา (หรือส่งไปยัง backend)
       console.log('Updated Course:', updatedCourse);
       closeReviewModal();
     }
@@ -75,30 +79,16 @@ const CourseDetail: React.FC = () => {
 
   return (
     <div>
-      <header>
-        <h1>KMITLCLAP</h1>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-            <li>
-              <Link to="/contact">Contact</Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
-
-      <main>
+      <Header />
+      <main className="course-detail">
         <h1>{course.name}</h1>
         <img src={course.image} alt={course.name} />
         <p>{course.description}</p>
 
         <h2>Reviews</h2>
-        <button onClick={openReviewModal}>Add Review</button>
+        <button className="add-review-button" onClick={openReviewModal}>
+          Add Review
+        </button>
 
         {/* แสดงรีวิวของวิชา */}
         <div className="reviews">
@@ -119,11 +109,7 @@ const CourseDetail: React.FC = () => {
           )}
         </div>
       </main>
-
-      <footer>
-        <p>Contact us: info@kmitlclap.com</p>
-        <p>&copy; 2023 KMITLCLAP. All rights reserved.</p>
-      </footer>
+      <Footer />
 
       {/* Modal สำหรับรีวิว */}
       {isModalOpen && (
@@ -135,16 +121,16 @@ const CourseDetail: React.FC = () => {
                 <label>Reviewer Name:</label>
                 <input
                   type="text"
-                  value={newReview.reviewerName}
-                  onChange={(e) => setNewReview({ ...newReview, reviewerName: e.target.value })}
+                  value={reviewerName}
+                  onChange={(e) => setReviewerName(e.target.value)}
                   required
                 />
               </div>
               <div>
                 <label>Review Text:</label>
                 <textarea
-                  value={newReview.reviewText}
-                  onChange={(e) => setNewReview({ ...newReview, reviewText: e.target.value })}
+                  value={reviewText}
+                  onChange={(e) => setReviewText(e.target.value)}
                   required
                 />
               </div>
@@ -152,8 +138,8 @@ const CourseDetail: React.FC = () => {
                 <label>Home Score:</label>
                 <input
                   type="number"
-                  value={newReview.homeScore}
-                  onChange={(e) => setNewReview({ ...newReview, homeScore: Number(e.target.value) })}
+                  value={homeScore}
+                  onChange={(e) => setHomeScore(Number(e.target.value))}
                   min="0"
                   max="10"
                   required
@@ -163,8 +149,8 @@ const CourseDetail: React.FC = () => {
                 <label>Interest Score:</label>
                 <input
                   type="number"
-                  value={newReview.interestScore}
-                  onChange={(e) => setNewReview({ ...newReview, interestScore: Number(e.target.value) })}
+                  value={interestScore}
+                  onChange={(e) => setInterestScore(Number(e.target.value))}
                   min="0"
                   max="10"
                   required
@@ -173,8 +159,8 @@ const CourseDetail: React.FC = () => {
               <div>
                 <label>Grade:</label>
                 <select
-                  value={newReview.grade}
-                  onChange={(e) => setNewReview({ ...newReview, grade: e.target.value })}
+                  value={grade}
+                  onChange={(e) => setGrade(e.target.value)}
                   required
                 >
                   <option value="">Select Grade</option>
@@ -188,8 +174,8 @@ const CourseDetail: React.FC = () => {
                 <label>Academic Year:</label>
                 <input
                   type="text"
-                  value={newReview.academicYear}
-                  onChange={(e) => setNewReview({ ...newReview, academicYear: e.target.value })}
+                  value={academicYear}
+                  onChange={(e) => setAcademicYear(e.target.value)}
                   required
                 />
               </div>
@@ -197,8 +183,8 @@ const CourseDetail: React.FC = () => {
                 <label>Section:</label>
                 <input
                   type="text"
-                  value={newReview.section}
-                  onChange={(e) => setNewReview({ ...newReview, section: e.target.value })}
+                  value={section}
+                  onChange={(e) => setSection(e.target.value)}
                   required
                 />
               </div>

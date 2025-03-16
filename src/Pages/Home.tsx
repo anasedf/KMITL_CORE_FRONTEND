@@ -1,37 +1,23 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { mockCourses } from '../mocks/course';
-import '../App.css';
+import Header from '../Component/Header';
+import Footer from '../Component/Footer';
+import '../Home.css';
 
 const Home: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState(''); // State สำหรับเก็บคำค้นหา
-  const [courses, setCourses] = useState(mockCourses); // State สำหรับเก็บรายวิชา
 
-  // กรองวิชาตามคำค้นหา
-  const filteredCourses = courses.filter((course) =>
-    course.name.toLowerCase().includes(searchTerm.toLowerCase())
+  // กรองวิชาตามคำค้นหา (ชื่อหรือคำอธิบาย)
+  const filteredCourses = mockCourses.filter((course) =>
+    course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    course.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <div>
-      <header>
-        <h1>KMITLCLAP</h1>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-            <li>
-              <Link to="/contact">Contact</Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
-
-      <main>
+      <Header />
+      <main className="home">
         <h2>Courses</h2>
 
         {/* Search Box */}
@@ -47,20 +33,20 @@ const Home: React.FC = () => {
 
         {/* แสดงรายวิชาที่กรองแล้ว */}
         <div className="course-list">
-          {filteredCourses.map((course) => (
-            <div key={course.id} className="course-card">
-              <h3>{course.name}</h3>
-              <p>{course.description}</p>
-              <Link to={`/course/${course.id}`}>View Details</Link>
-            </div>
-          ))}
+          {filteredCourses.length > 0 ? (
+            filteredCourses.map((course) => (
+              <div key={course.id} className="course-card">
+                <h3>{course.name}</h3>
+                <p>{course.description}</p>
+                <Link to={`/course/${course.id}`}>View Details</Link>
+              </div>
+            ))
+          ) : (
+            <p>No courses found.</p>
+          )}
         </div>
       </main>
-
-      <footer>
-        <p>Contact us: info@kmitlclap.com</p>
-        <p>&copy; 2023 KMITLCLAP. All rights reserved.</p>
-      </footer>
+      <Footer />
     </div>
   );
 };
