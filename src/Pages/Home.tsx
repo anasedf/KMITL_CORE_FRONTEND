@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { mockCourses, Review, Question, Course } from '../mocks/course';
+import { mockCourses, Question } from '../mocks/course';
+import { Review, Course } from './types';
 import Header from '../Component/Header';
 import Footer from '../Component/Footer';
 import '../Styles/Home.css';
 
-const ReviewCard: React.FC<{ review: Review }> = ({ review }) => {
-  const course = mockCourses.find((c) => c.reviews.some((r) => r.id === review.id));
-  if (!course) return null;
-
+const ReviewCard: React.FC<{ review: Review, course: Course }> = ({ review, course }) => {
   return (
-    <div className="review-card">
+    <div className="course-card">
       <h3>
-        <Link to={`/course/${course.course_id}`}>
-          {course.course_id} | {course.name}
+        <Link to={`/course/${review.courseId}`}>
+          {review.courseId} | {course.name}
         </Link>
       </h3>
-      <p className="review-text">{review.reviewText}</p>
-      <p className="reviewer-name">By: {review.reviewerName}</p>
+      <p className="course-description">{review.reviewText}</p>
     </div>
   );
 };
@@ -64,57 +61,51 @@ const Home: React.FC = () => {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    const reviews: Review[] = mockCourses.flatMap((course) => course.reviews);
-    const questions: Question[] = mockCourses.flatMap((course) => course.questions);
-    setAllReviews(reviews);
-    setAllQuestions(questions);
+    const fetchData = async () => {
+      try {
+        const questions: Question[] = mockCourses.flatMap((course) => course.questions);
+        setAllQuestions(questions);
 
-    fetch('https://92f7-203-150-171-252.ngrok-free.app/api/courses/', {
-      headers: new Headers({
-        "ngrok-skip-browser-warning": "69420",
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.status}`);
-        }
-        const contentType = response.headers.get('content-type');
-        if (!contentType) {
-          throw new Error('Response has no Content-Type header');
-        } else if (!contentType.includes('application/json')) {
-          return response.text().then((text) => {
-            throw new Error(`Response is not JSON, Content-Type: ${contentType}, Body: ${text}`);
-          });
-        }
-        return response.json();
-      })
-      .then((data: Course[]) => {
-        setAllCourses(data);
+        const [coursesResponse, reviewsResponse] = await Promise.all([
+          fetch('https://92f7-203-150-171-252.ngrok-free.app/api/courses/', {
+            headers: new Headers({ "ngrok-skip-browser-warning": "69420" }),
+          }),
+          fetch('https://92f7-203-150-171-252.ngrok-free.app/api/reviews/', {
+            headers: new Headers({ "ngrok-skip-browser-warning": "69420" }),
+          }),
+        ]);
+
+        if (!coursesResponse.ok) throw new Error(`Courses API error: ${coursesResponse.status}`);
+        if (!reviewsResponse.ok) throw new Error(`Reviews API error: ${reviewsResponse.status}`);
+
+        const coursesData: Course[] = await coursesResponse.json();
+        const reviewsData: Review[] = await reviewsResponse.json();
+
+        setAllCourses(coursesData);
+        setAllReviews(reviewsData);
         setLoading(false);
-      })
-      .catch((err: Error) => {
+      } catch (err: any) {
         setError(err);
         setLoading(false);
-      });
+      }
+    };
+
+    fetchData();
   }, []);
 
   const filteredReviews = allReviews.filter((review) => {
-    const course = mockCourses.find((c) => c.reviews.some((r) => r.id === review.id));
+    const course = allCourses.find((c) => c.course_id === review.courseId);
     if (!course) return false;
-
-    return (
-      course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      course.course_id.toString().includes(searchTerm)
-    );
+    return course.name.toLowerCase().includes(searchTerm.toLowerCase()) || review.courseId.toString().includes(searchTerm);
   });
 
   const filteredQuestions = allQuestions.filter((question) => {
-    const course = mockCourses.find((c) => c.questions.some((q) => q.id === question.id));
+/*     const course = allCourses.find((c) => c.course_id === question.courseId);
     if (!course) return false;
-
+ */
     return (
-      course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      course.course_id.toString().includes(searchTerm) ||
+/*       course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      course.course_id.toString().includes(searchTerm) || */
       question.questionText.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
@@ -128,7 +119,6 @@ const Home: React.FC = () => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
-
   return (
     <div>
       <Header />
@@ -158,12 +148,14 @@ const Home: React.FC = () => {
         </nav>
 
         <div className="content-list">
-          {activeTab === 'reviews' && (
+        {activeTab === 'reviews' && (
             <div className="review-list">
               {filteredReviews.length > 0 ? (
-                filteredReviews.map((review) => (
-                  <ReviewCard key={review.id} review={review} />
-                ))
+                filteredReviews.map((review) => {
+                  const course = allCourses.find((c) => c.course_id === review.courseId);
+                  if (!course) return null;
+                  return <ReviewCard key={review.courseId} review={review} course={course} />;
+                })
               ) : (
                 <p className="no-reviews">No reviews found.</p>
               )}

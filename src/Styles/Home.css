@@ -1,5 +1,6 @@
 .home {
   padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* เพิ่ม font ที่อ่านง่าย */
 }
 
 .search-container {
@@ -16,15 +17,13 @@
   border: 2px solid #007bff;
   border-radius: 30px;
   outline: none;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* เพิ่มเงาเล็กน้อย */
 }
 
-nav h1 {
-  margin: 0;
-}
-
-nav img {
-  width: 15rem;
+.search-box:focus {
+  border-color: #0056b3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* เพิ่มเงาเมื่อ focus */
 }
 
 nav ul {
@@ -32,29 +31,48 @@ nav ul {
   padding: 0;
   display: flex;
   justify-content: center;
+  margin-bottom: 2rem;
 }
 
 nav ul li {
   margin: 0 1rem;
 }
 
-nav ul li a {
-  font-size: 2rem;
-  color: black;
-  text-decoration: none;
+nav ul li button {
+  background-color: #f0f0f0; /* สีพื้นหลังปุ่ม */
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 1rem;
 }
 
-.search-box:focus {
-  border-color: #0056b3;
+nav ul li button:hover {
+  background-color: #e0e0e0; /* สีพื้นหลังเมื่อ hover */
+  transform: translateY(-2px);
 }
 
-.review-list {
+nav ul li button.active {
+  background-color: #007bff; /* สีพื้นหลังเมื่อ active */
+  color: white;
+}
+
+.content-list {
+  margin-top: 2rem;
+}
+
+.review-list,
+.question-list,
+.course-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
 }
 
-.review-card {
+.review-card,
+.question-card,
+.course-card {
   background-color: white;
   border-radius: 1rem;
   padding: 1.5rem;
@@ -62,40 +80,46 @@ nav ul li a {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.review-card:hover {
+.review-card:hover,
+.question-card:hover,
+.course-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.review-card h3 {
+.review-card h3,
+.question-card h3,
+.course-card h3 {
   margin: 0 0 1rem;
   font-size: 1.25rem;
 }
 
-.review-text {
+.review-card p,
+.question-card p,
+.course-card p {
   color: #555;
   line-height: 1.6;
   font-size: 1rem;
   margin-bottom: 0.5rem;
 }
 
-.reviewer-name {
-  font-style: italic;
-  font-size: 0.9rem;
-  color: #777;
-}
-
-.review-card a {
+.review-card a,
+.question-card a,
+.course-card a {
   color: #007bff;
   text-decoration: none;
   font-weight: bold;
 }
 
-.review-card a:hover {
+.review-card a:hover,
+.question-card a:hover,
+.course-card a:hover {
   text-decoration: underline;
 }
 
-.no-reviews {
+.no-reviews,
+.no-questions,
+.no-courses {
   text-align: center;
   font-style: italic;
   color: #888;
@@ -110,5 +134,20 @@ nav ul li a {
 
   .search-box {
     padding: 0.8rem 1.2rem;
+  }
+
+  nav ul {
+    flex-direction: column; /* จัดปุ่มเป็นแนวตั้ง */
+    align-items: center;
+  }
+
+  nav ul li {
+    margin: 0.5rem 0;
+  }
+
+  .review-list,
+  .question-list,
+  .course-list {
+    grid-template-columns: 1fr; /* แสดงผลเป็นคอลัมน์เดียว */
   }
 }
