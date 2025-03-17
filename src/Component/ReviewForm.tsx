@@ -1,4 +1,3 @@
-// ReviewForm.tsx
 import React from 'react';
 
 interface ReviewFormProps {
@@ -45,34 +44,70 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
         <form onSubmit={handleAddReview}>
           <div className="form-group">
             <label>Reviewer Name:</label>
-            <input type="text" value={reviewerName} onChange={(e) => setReviewerName(e.target.value)} required />
+            <input
+              type="text"
+              value={reviewerName}
+              onChange={(e) => setReviewerName(e.target.value)}
+              required
+            />
           </div>
           <div className="form-group">
             <label>Review Text:</label>
-            <textarea value={reviewText} onChange={(e) => setReviewText(e.target.value)} required />
+            <textarea
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
+              required
+            />
           </div>
           <div className="form-group">
             <label>Home Score:</label>
-            <input type="number" value={homeScore} onChange={(e) => setHomeScore(Number(e.target.value))} required />
+            <input
+              type="number"
+              value={homeScore}
+              onChange={(e) => setHomeScore(Number(e.target.value))}
+              required
+            />
           </div>
           <div className="form-group">
             <label>Interest Score:</label>
-            <input type="number" value={interestScore} onChange={(e) => setInterestScore(Number(e.target.value))} required />
+            <input
+              type="number"
+              value={interestScore}
+              onChange={(e) => setInterestScore(Number(e.target.value))}
+              required
+            />
           </div>
           <div className="form-group">
             <label>Grade:</label>
-            <input type="text" value={grade} onChange={(e) => setGrade(e.target.value)} required />
+            <input
+              type="text"
+              value={grade}
+              onChange={(e) => setGrade(e.target.value)}
+              required
+            />
           </div>
           <div className="form-group">
             <label>Academic Year:</label>
-            <input type="text" value={academicYear} onChange={(e) => setAcademicYear(e.target.value)} required />
+            <input
+              type="text"
+              value={academicYear}
+              onChange={(e) => setAcademicYear(e.target.value)}
+              required
+            />
           </div>
           <div className="form-group">
             <label>Section:</label>
-            <input type="text" value={section} onChange={(e) => setSection(e.target.value)} required />
+            <input
+              type="text"
+              value={section}
+              onChange={(e) => setSection(e.target.value)}
+              required
+            />
           </div>
           <button type="submit">Submit Review</button>
-          <button type="button" onClick={closeReviewModal}>Cancel</button>
+          <button type="button" onClick={closeReviewModal}>
+            Cancel
+          </button>
         </form>
       </div>
     </div>

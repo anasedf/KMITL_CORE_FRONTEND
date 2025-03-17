@@ -17,6 +17,7 @@ interface Review {
   grade: string;
   academicYear: string;
   section: string;
+  courseId: number;
 }
 
 interface Question {
@@ -50,32 +51,33 @@ const CourseDetail: React.FC = () => {
   const [showReviews, setShowReviews] = useState(true);
   const [showQuestions, setShowQuestions] = useState(false);
 
-  // ดึงข้อมูลเฉพาะ course ที่ตรงกับ courseId
-  useEffect(() => {
-    const fetchCourse = async () => {
-      try {
-        const response = await axios.get(`https://fabe-203-150-171-252.ngrok-free.app/api/courses/${courseId}`, {
+  // ดึงข้อมูล course จาก API
+  const fetchCourse = async () => {
+    try {
+      const response = await axios.get(
+        `https://fabe-203-150-171-252.ngrok-free.app/api/courses/${courseId}`,
+        {
           headers: {
             'ngrok-skip-browser-warning': '69420',
           },
-        });
-        setCourse(response.data);  // เก็บข้อมูล course ที่ตรงกับ courseId
-      } catch (error) {
-        console.error("Error fetching course:", error);
-      }
-    };
+        }
+      );
+      setCourse(response.data); // อัพเดต state ของ course
+    } catch (error) {
+      console.error("Error fetching course:", error);
+    }
+  };
 
+  // เรียกใช้ fetchCourse เมื่อ component โหลดหรือเมื่อ courseId เปลี่ยน
+  useEffect(() => {
     if (courseId) {
       fetchCourse();
     }
   }, [courseId]);
 
-  if (!course) {
-    return <div>Course not found</div>;
-  }
-
+  // คำนวณคะแนนเฉลี่ย
   const calculateAverageScore = (scoreType: 'homeScore' | 'interestScore') => {
-    if (!course.reviews.length) return 0;
+    if (!course?.reviews.length) return 0;
     const totalScore = course.reviews.reduce((sum, review) => sum + review[scoreType], 0);
     return Math.round((totalScore / course.reviews.length) * 10);
   };
@@ -83,23 +85,62 @@ const CourseDetail: React.FC = () => {
   const homeScoreAverage = calculateAverageScore('homeScore');
   const interestScoreAverage = calculateAverageScore('interestScore');
 
-  const handleExpandReview = (reviewId: number) => {
-    if (expandedReviewId === reviewId) {
-      setExpandedReviewId(null);
-    } else {
-      setExpandedReviewId(reviewId);
+  // ส่งรีวิวใหม่ไปยัง API
+  const handleAddReview = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const newReview = {
+      courseId: course?.course_id, // ใช้ courseId จาก course ที่ดึงมา
+      reviewerName,
+      reviewText,
+      homeScore,
+      interestScore,
+      grade,
+      academicYear,
+      section,
+    };
+
+    try {
+      // ส่งรีวิวใหม่ไปยัง API
+      const response = await axios.post(
+        `https://fabe-203-150-171-252.ngrok-free.app/api/reviews/`,
+        newReview,
+        {
+          headers: {
+            'ngrok-skip-browser-warning': '69420',
+          },
+        }
+      );
+
+      // ตรวจสอบ response จาก API
+      console.log("API Response:", response.data);
+
+      // ดึงข้อมูล course ใหม่หลังจากส่งรีวิวสำเร็จ
+      await fetchCourse();
+
+      // ปิด modal และรีเซ็ตฟอร์ม
+      setIsModalOpen(false);
+      setReviewerName('');
+      setReviewText('');
+      setHomeScore(0);
+      setInterestScore(0);
+      setGrade('');
+      setAcademicYear('');
+      setSection('');
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      if (axios.isAxiosError(error)) {
+        console.error("API Error Response:", error.response?.data); // ตรวจสอบข้อผิดพลาดจาก API
+      } else {
+        console.error("Unexpected error:", error);
+      }
+      alert("เกิดข้อผิดพลาดในการส่งรีวิว กรุณาลองอีกครั้ง");
     }
   };
 
-  const handleShowReviews = () => {
-    setShowReviews(true);
-    setShowQuestions(false);
-  };
-
-  const handleShowQuestions = () => {
-    setShowReviews(false);
-    setShowQuestions(true);
-  };
+  if (!course) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
@@ -141,13 +182,19 @@ const CourseDetail: React.FC = () => {
         <div className="toggle-sections">
           <button
             className={`toggle-button ${showReviews ? 'active' : ''}`}
-            onClick={handleShowReviews}
+            onClick={() => {
+              setShowReviews(true);
+              setShowQuestions(false);
+            }}
           >
             รีวิวทั้งหมด
           </button>
           <button
             className={`toggle-button ${showQuestions ? 'active' : ''}`}
-            onClick={handleShowQuestions}
+            onClick={() => {
+              setShowReviews(false);
+              setShowQuestions(true);
+            }}
           >
             คำถามทั้งหมด
           </button>
@@ -157,7 +204,9 @@ const CourseDetail: React.FC = () => {
           <ReviewDetail
             reviews={course.reviews}
             expandedReviewId={expandedReviewId}
-            handleExpandReview={handleExpandReview}
+            handleExpandReview={(reviewId: number) =>
+              setExpandedReviewId(expandedReviewId === reviewId ? null : reviewId)
+            }
             openReviewModal={() => setIsModalOpen(true)}
           />
         )}
@@ -182,27 +231,7 @@ const CourseDetail: React.FC = () => {
           setAcademicYear={setAcademicYear}
           section={section}
           setSection={setSection}
-          handleAddReview={(e: React.FormEvent) => {
-            e.preventDefault();
-            if (course) {
-              const newReview = {
-                id: course.reviews.length + 1,
-                reviewerName,
-                reviewText,
-                homeScore,
-                interestScore,
-                grade,
-                academicYear,
-                section,
-              };
-              const updatedCourse = {
-                ...course,
-                reviews: [...course.reviews, newReview],
-              };
-              setCourse(updatedCourse);
-            }
-            setIsModalOpen(false);
-          }}
+          handleAddReview={handleAddReview}
           closeReviewModal={() => setIsModalOpen(false)}
         />
       )}
