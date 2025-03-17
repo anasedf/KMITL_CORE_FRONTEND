@@ -3,7 +3,7 @@ export interface Course {
   course_id: number;
   name: string;
   description: string;
-  image: string;
+  image?: string | null; // เปลี่ยนจาก image: string เป็น image?: string | null
   reviews: Review[];
   questions: Question[];
 }
@@ -22,11 +22,13 @@ export interface Review {
 export interface Question {
   id: number;
   questionText: string;
+  questionerName: string; // เปลี่ยนจาก questionerName? เป็น questionerName
   answers?: Answer[];
 }
 
 export interface Answer {
   id: number;
+  AnswererName: string; // เปลี่ยนจาก AnswererName? เป็น AnswererName
   answerText: string;
 }
 
@@ -63,9 +65,11 @@ export const mockCourses: Course[] = [
       {
         id: 1,
         questionText: 'Is prior programming experience required?',
+        questionerName: 'User123', // เพิ่ม questionerName
         answers: [
           {
             id: 1,
+            AnswererName: 'Admin', // เพิ่ม AnswererName
             answerText: 'No, it is not required.',
           },
         ],
@@ -73,9 +77,11 @@ export const mockCourses: Course[] = [
       {
         id: 2,
         questionText: 'How long does the course take?',
+        questionerName: 'User456', // เพิ่ม questionerName
         answers: [
           {
             id: 2,
+            AnswererName: 'Admin', // เพิ่ม AnswererName
             answerText: 'About 10 weeks.',
           },
         ],
@@ -83,85 +89,16 @@ export const mockCourses: Course[] = [
       {
         id: 3,
         questionText: 'What are the main topics covered?',
+        questionerName: 'User789', // เพิ่ม questionerName
         answers: [
           {
             id: 3,
+            AnswererName: 'Admin', // เพิ่ม AnswererName
             answerText: 'Basic syntax, data structures, and algorithms.',
           },
         ],
       },
     ],
   },
-  {
-    id: 2,
-    course_id: 90644888,
-    name: 'PRESENT LIKE A PRO',
-    description: 'Deep dive into TypeScript.',
-    image: 'https://via.placeholder.com/150',
-    reviews: [
-      {
-        id: 3,
-        reviewerName: 'John Doe',
-        reviewText: 'Great course!',
-        homeScore: 8,
-        interestScore: 9,
-        grade: 'A',
-        academicYear: '2023',
-        section: 'A1',
-      },
-    ],
-    questions: [
-      {
-        id: 4,
-        questionText: 'Is this course suitable for beginners?',
-        answers: [
-          {
-            id: 4,
-            answerText: 'Yes, it is.',
-          },
-        ],
-      },
-      {
-        id: 5,
-        questionText: 'What software is required for this course?',
-        answers: [
-          {
-            id: 5,
-            answerText: 'PowerPoint or similar presentation software.',
-          },
-          {
-            id: 6,
-            answerText: 'GGG.',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: 3,
-    course_id: 90644888,
-    name: 'PRESENT LIKE A PRO',
-    description: 'Deep dive into TypeScript.',
-    image: 'https://via.placeholder.com/150',
-    reviews: [],
-    questions: [],
-  },
-  {
-    id: 4,
-    course_id: 90644888,
-    name: 'PRESENT LIKE A PRO',
-    description: 'Deep dive into TypeScript.',
-    image: 'https://via.placeholder.com/150',
-    reviews: [],
-    questions: [],
-  },
-  {
-    id: 5,
-    course_id: 90644888,
-    name: 'PRESENT LIKE A PRO',
-    description: 'Deep dive into TypeScript.',
-    image: 'https://via.placeholder.com/150',
-    reviews: [],
-    questions: [],
-  },
+  // ค่า mock อื่นๆ ที่เหลือ
 ];

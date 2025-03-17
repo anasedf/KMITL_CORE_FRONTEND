@@ -5,7 +5,6 @@ import Header from '../Component/Header';
 import Footer from '../Component/Footer';
 import ReviewDetail from '../Component/CourseReviews';
 import QuestionDetail from '../Component/CourseQuestions';
-import ReviewForm from '../Component/ReviewForm';
 import '../Styles/Coursedetail.css';
 
 interface Review {
@@ -20,10 +19,17 @@ interface Review {
   courseId: number;
 }
 
+interface Answer {
+  id: number;
+  answerText: string;
+  AnswererName: string;
+}
+
 interface Question {
   id: number;
   questionText: string;
-  answers?: { id: number; answerText: string }[];
+  questionerName: string;
+  answers?: Answer[];
 }
 
 interface Course {
@@ -51,7 +57,12 @@ const CourseDetail: React.FC = () => {
   const [showReviews, setShowReviews] = useState(true);
   const [showQuestions, setShowQuestions] = useState(false);
 
-  // ดึงข้อมูล course จาก API
+  // สำหรับการเพิ่มคำถาม
+  const [isQuestionModalOpen, setIsQuestionModalOpen] = useState(false);
+  const [questionerName, setQuestionerName] = useState('');
+  const [questionText, setQuestionText] = useState('');
+
+  // Fetch course data from API
   const fetchCourse = async () => {
     try {
       const response = await axios.get(
@@ -62,35 +73,32 @@ const CourseDetail: React.FC = () => {
           },
         }
       );
-      setCourse(response.data); // อัพเดต state ของ course
+      setCourse(response.data); // Update course state
     } catch (error) {
       console.error("Error fetching course:", error);
     }
   };
 
-  // เรียกใช้ fetchCourse เมื่อ component โหลดหรือเมื่อ courseId เปลี่ยน
   useEffect(() => {
     if (courseId) {
       fetchCourse();
     }
   }, [courseId]);
 
-  // คำนวณคะแนนเฉลี่ย
   const calculateAverageScore = (scoreType: 'homeScore' | 'interestScore') => {
     if (!course?.reviews.length) return 0;
     const totalScore = course.reviews.reduce((sum, review) => sum + review[scoreType], 0);
-    return Math.round((totalScore / course.reviews.length) * 10);
+    return Math.round(totalScore / course.reviews.length);
   };
 
   const homeScoreAverage = calculateAverageScore('homeScore');
   const interestScoreAverage = calculateAverageScore('interestScore');
 
-  // ส่งรีวิวใหม่ไปยัง API
   const handleAddReview = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const newReview = {
-      courseId: course?.course_id, // ใช้ courseId จาก course ที่ดึงมา
+      courseId: course?.course_id,
       reviewerName,
       reviewText,
       homeScore,
@@ -101,8 +109,7 @@ const CourseDetail: React.FC = () => {
     };
 
     try {
-      // ส่งรีวิวใหม่ไปยัง API
-      const response = await axios.post(
+      await axios.post(
         `https://92f7-203-150-171-252.ngrok-free.app/api/reviews/`,
         newReview,
         {
@@ -111,14 +118,8 @@ const CourseDetail: React.FC = () => {
           },
         }
       );
+      await fetchCourse(); // Refresh course data after submitting review
 
-      // ตรวจสอบ response จาก API
-      console.log("API Response:", response.data);
-
-      // ดึงข้อมูล course ใหม่หลังจากส่งรีวิวสำเร็จ
-      await fetchCourse();
-
-      // ปิด modal และรีเซ็ตฟอร์ม
       setIsModalOpen(false);
       setReviewerName('');
       setReviewText('');
@@ -129,12 +130,37 @@ const CourseDetail: React.FC = () => {
       setSection('');
     } catch (error) {
       console.error("Error submitting review:", error);
-      if (axios.isAxiosError(error)) {
-        console.error("API Error Response:", error.response?.data); // ตรวจสอบข้อผิดพลาดจาก API
-      } else {
-        console.error("Unexpected error:", error);
-      }
       alert("เกิดข้อผิดพลาดในการส่งรีวิว กรุณาลองอีกครั้ง");
+    }
+  };
+
+  const handleAddQuestion = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const newQuestion = {
+      courseId: course?.course_id,
+      questionerName,
+      questionText,
+    };
+
+    try {
+      await axios.post(
+        `https://92f7-203-150-171-252.ngrok-free.app/api/questions/`,
+        newQuestion,
+        {
+          headers: {
+            'ngrok-skip-browser-warning': '69420',
+          },
+        }
+      );
+      await fetchCourse(); // Refresh course data after submitting question
+
+      setIsQuestionModalOpen(false);
+      setQuestionerName('');
+      setQuestionText('');
+    } catch (error) {
+      console.error("Error submitting question:", error);
+      alert("เกิดข้อผิดพลาดในการส่งคำถาม กรุณาลองอีกครั้ง");
     }
   };
 
@@ -149,6 +175,9 @@ const CourseDetail: React.FC = () => {
         <div className="course-header">
           <h1>{course.name}</h1>
           <p className="course-description">{course.description}</p>
+          {course.image && (
+            <img src={course.image} alt={course.name} className="course-image" />
+          )}
         </div>
 
         <div className="score-summary">
@@ -201,39 +230,161 @@ const CourseDetail: React.FC = () => {
         </div>
 
         {showReviews && (
-          <ReviewDetail
-            reviews={course.reviews}
-            expandedReviewId={expandedReviewId}
-            handleExpandReview={(reviewId: number) =>
-              setExpandedReviewId(expandedReviewId === reviewId ? null : reviewId)
-            }
-            openReviewModal={() => setIsModalOpen(true)}
-          />
+          <div className="reviews-section">
+            <div className="reviews-header">
+              <h2>รีวิวทั้งหมด</h2>
+              <button className="add-review-button" onClick={() => setIsModalOpen(true)}>รีวิววิชานี้</button>
+            </div>
+            {course.reviews.length > 0 ? (
+              <ReviewDetail
+                reviews={course.reviews}
+                expandedReviewId={expandedReviewId}
+                handleExpandReview={(reviewId: number) =>
+                  setExpandedReviewId(expandedReviewId === reviewId ? null : reviewId)
+                }
+              />
+            ) : (
+              <p>ไม่มีรีวิวสำหรับคอร์สนี้</p>
+            )}
+          </div>
         )}
 
-        {showQuestions && <QuestionDetail questions={course.questions} />}
+        {showQuestions && (
+          <div className="questions-section">
+            <div className="questions-header">
+              <h2>คำถามทั้งหมด</h2>
+              <button
+                className="add-question-button"
+                onClick={() => setIsQuestionModalOpen(true)}
+              >
+                เพิ่มคำถาม
+              </button>
+            </div>
+            {course.questions.length > 0 ? (
+              <QuestionDetail
+                questions={course.questions}
+                courseId={course.course_id}
+                fetchCourse={fetchCourse}
+              />
+            ) : (
+              <p>ไม่มีคำถามสำหรับคอร์สนี้</p>
+            )}
+          </div>
+        )}
       </main>
       <Footer />
 
+      {/* Modal สำหรับเพิ่มรีวิว */}
       {isModalOpen && (
-        <ReviewForm
-          reviewerName={reviewerName}
-          setReviewerName={setReviewerName}
-          reviewText={reviewText}
-          setReviewText={setReviewText}
-          homeScore={homeScore}
-          setHomeScore={setHomeScore}
-          interestScore={interestScore}
-          setInterestScore={setInterestScore}
-          grade={grade}
-          setGrade={setGrade}
-          academicYear={academicYear}
-          setAcademicYear={setAcademicYear}
-          section={section}
-          setSection={setSection}
-          handleAddReview={handleAddReview}
-          closeReviewModal={() => setIsModalOpen(false)}
-        />
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>เพิ่มรีวิว</h2>
+            <form onSubmit={handleAddReview}>
+              <div className="form-group">
+                <label>ชื่อผู้รีวิว:</label>
+                <input
+                  type="text"
+                  value={reviewerName}
+                  onChange={(e) => setReviewerName(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>รีวิว:</label>
+                <textarea
+                  value={reviewText}
+                  onChange={(e) => setReviewText(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>คะแนนงานและการบ้าน:</label>
+                <input
+                  type="number"
+                  value={homeScore}
+                  onChange={(e) => setHomeScore(Number(e.target.value))}
+                  min="0"
+                  max="10"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>คะแนนความน่าสนใจ:</label>
+                <input
+                  type="number"
+                  value={interestScore}
+                  onChange={(e) => setInterestScore(Number(e.target.value))}
+                  min="0"
+                  max="10"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>เกรดที่ได้:</label>
+                <input
+                  type="text"
+                  value={grade}
+                  onChange={(e) => setGrade(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>ปีการศึกษา:</label>
+                <input
+                  type="text"
+                  value={academicYear}
+                  onChange={(e) => setAcademicYear(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Section:</label>
+                <input
+                  type="text"
+                  value={section}
+                  onChange={(e) => setSection(e.target.value)}
+                  required
+                />
+              </div>
+              <button type="submit">ส่งรีวิว</button>
+              <button type="button" onClick={() => setIsModalOpen(false)}>
+                ยกเลิก
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal สำหรับเพิ่มคำถาม */}
+      {isQuestionModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>เพิ่มคำถาม</h2>
+            <form onSubmit={handleAddQuestion}>
+              <div className="form-group">
+                <label>ชื่อผู้ถาม:</label>
+                <input
+                  type="text"
+                  value={questionerName}
+                  onChange={(e) => setQuestionerName(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>คำถาม:</label>
+                <textarea
+                  value={questionText}
+                  onChange={(e) => setQuestionText(e.target.value)}
+                  required
+                />
+              </div>
+              <button type="submit">ส่งคำถาม</button>
+              <button type="button" onClick={() => setIsQuestionModalOpen(false)}>
+                ยกเลิก
+              </button>
+            </form>
+          </div>
+        </div>
       )}
     </div>
   );
