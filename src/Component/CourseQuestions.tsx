@@ -92,7 +92,7 @@ const QuestionDetail: React.FC<QuestionDetailProps> = ({ questions, courseId, fe
           {/* แสดงคำตอบ */}
           {question.answers && question.answers.map((answer) => (
             <p key={answer.id} className="answer-text">
-              <strong>คำตอบจาก {answer.AnswererName}:</strong> {answer.answerText}
+              <strong>คำตอบจาก {answer.answererName || "ไม่ระบุชื่อ"}:</strong> {answer.answerText}
             </p>
           ))}
         </div>

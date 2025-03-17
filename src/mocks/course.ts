@@ -28,7 +28,7 @@ export interface Question {
 
 export interface Answer {
   id: number;
-  AnswererName: string; // เปลี่ยนจาก AnswererName? เป็น AnswererName
+  answererName: string; // เปลี่ยนจาก AnswererName? เป็น AnswererName
   answerText: string;
 }
 
@@ -69,7 +69,7 @@ export const mockCourses: Course[] = [
         answers: [
           {
             id: 1,
-            AnswererName: 'Admin', // เพิ่ม AnswererName
+            answererName: 'Admin', // เพิ่ม AnswererName
             answerText: 'No, it is not required.',
           },
         ],
@@ -81,7 +81,7 @@ export const mockCourses: Course[] = [
         answers: [
           {
             id: 2,
-            AnswererName: 'Admin', // เพิ่ม AnswererName
+            answererName: 'Admin', // เพิ่ม AnswererName
             answerText: 'About 10 weeks.',
           },
         ],
@@ -93,7 +93,7 @@ export const mockCourses: Course[] = [
         answers: [
           {
             id: 3,
-            AnswererName: 'Admin', // เพิ่ม AnswererName
+            answererName: 'Admin', // เพิ่ม AnswererName
             answerText: 'Basic syntax, data structures, and algorithms.',
           },
         ],
