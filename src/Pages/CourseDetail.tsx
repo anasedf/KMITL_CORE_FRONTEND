@@ -1,8 +1,6 @@
-// CourseDetail.tsx
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { mockCourses } from '../mocks/course';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import axios from 'axios';
 import Header from '../Component/Header';
 import Footer from '../Component/Footer';
 import ReviewDetail from '../Component/CourseReviews';
@@ -21,9 +19,25 @@ interface Review {
   section: string;
 }
 
+interface Question {
+  id: number;
+  questionText: string;
+  answers?: { id: number; answerText: string }[];
+}
+
+interface Course {
+  id: number;
+  course_id: number;
+  name: string;
+  description: string;
+  image: string | null;
+  reviews: Review[];
+  questions: Question[];
+}
+
 const CourseDetail: React.FC = () => {
   const { courseId } = useParams<{ courseId: string }>();
-  const course = mockCourses.find((c) => c.id === Number(courseId));
+  const [course, setCourse] = useState<Course | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [reviewerName, setReviewerName] = useState('');
   const [reviewText, setReviewText] = useState('');
@@ -36,43 +50,25 @@ const CourseDetail: React.FC = () => {
   const [showReviews, setShowReviews] = useState(true);
   const [showQuestions, setShowQuestions] = useState(false);
 
-  const openReviewModal = () => setIsModalOpen(true);
-  const closeReviewModal = () => {
-    setIsModalOpen(false);
-    resetForm();
-  };
+  // ดึงข้อมูลเฉพาะ course ที่ตรงกับ courseId
+  useEffect(() => {
+    const fetchCourse = async () => {
+      try {
+        const response = await axios.get(`https://fabe-203-150-171-252.ngrok-free.app/api/courses/${courseId}`, {
+          headers: {
+            'ngrok-skip-browser-warning': '69420',
+          },
+        });
+        setCourse(response.data);  // เก็บข้อมูล course ที่ตรงกับ courseId
+      } catch (error) {
+        console.error("Error fetching course:", error);
+      }
+    };
 
-  const resetForm = () => {
-    setReviewerName('');
-    setReviewText('');
-    setHomeScore(0);
-    setInterestScore(0);
-    setGrade('');
-    setAcademicYear('');
-    setSection('');
-  };
-
-  const handleAddReview = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (course) {
-      const newReview = {
-        id: course.reviews.length + 1,
-        reviewerName,
-        reviewText,
-        homeScore,
-        interestScore,
-        grade,
-        academicYear,
-        section,
-      };
-      const updatedCourse = {
-        ...course,
-        reviews: [...course.reviews, newReview],
-      };
-      console.log('Updated Course:', updatedCourse);
-      closeReviewModal();
+    if (courseId) {
+      fetchCourse();
     }
-  };
+  }, [courseId]);
 
   if (!course) {
     return <div>Course not found</div>;
@@ -111,8 +107,7 @@ const CourseDetail: React.FC = () => {
       <main className="course-detail">
         <div className="course-header">
           <h1>{course.name}</h1>
-          {/*           <img src={course.image} alt={course.name} className="course-image" />
- */}          <p className="course-description">{course.description}</p>
+          <p className="course-description">{course.description}</p>
         </div>
 
         <div className="score-summary">
@@ -158,44 +153,60 @@ const CourseDetail: React.FC = () => {
           </button>
         </div>
 
-        {
-          showReviews && (
-            <ReviewDetail
-              reviews={course.reviews}
-              expandedReviewId={expandedReviewId}
-              handleExpandReview={handleExpandReview}
-              openReviewModal={openReviewModal} // ส่ง prop ไปยัง ReviewDetail
-            />
-          )
-        }
+        {showReviews && (
+          <ReviewDetail
+            reviews={course.reviews}
+            expandedReviewId={expandedReviewId}
+            handleExpandReview={handleExpandReview}
+            openReviewModal={() => setIsModalOpen(true)}
+          />
+        )}
 
         {showQuestions && <QuestionDetail questions={course.questions} />}
-      </main >
+      </main>
       <Footer />
 
-      {
-        isModalOpen && (
-          <ReviewForm
-            reviewerName={reviewerName}
-            setReviewerName={setReviewerName}
-            reviewText={reviewText}
-            setReviewText={setReviewText}
-            homeScore={homeScore}
-            setHomeScore={setHomeScore}
-            interestScore={interestScore}
-            setInterestScore={setInterestScore}
-            grade={grade}
-            setGrade={setGrade}
-            academicYear={academicYear}
-            setAcademicYear={setAcademicYear}
-            section={section}
-            setSection={setSection}
-            handleAddReview={handleAddReview}
-            closeReviewModal={closeReviewModal}
-          />
-        )
-      }
-    </div >
+      {isModalOpen && (
+        <ReviewForm
+          reviewerName={reviewerName}
+          setReviewerName={setReviewerName}
+          reviewText={reviewText}
+          setReviewText={setReviewText}
+          homeScore={homeScore}
+          setHomeScore={setHomeScore}
+          interestScore={interestScore}
+          setInterestScore={setInterestScore}
+          grade={grade}
+          setGrade={setGrade}
+          academicYear={academicYear}
+          setAcademicYear={setAcademicYear}
+          section={section}
+          setSection={setSection}
+          handleAddReview={(e: React.FormEvent) => {
+            e.preventDefault();
+            if (course) {
+              const newReview = {
+                id: course.reviews.length + 1,
+                reviewerName,
+                reviewText,
+                homeScore,
+                interestScore,
+                grade,
+                academicYear,
+                section,
+              };
+              const updatedCourse = {
+                ...course,
+                reviews: [...course.reviews, newReview],
+              };
+              setCourse(updatedCourse);
+            }
+            setIsModalOpen(false);
+          }}
+          closeReviewModal={() => setIsModalOpen(false)}
+        />
+      )}
+    </div>
   );
 };
 
