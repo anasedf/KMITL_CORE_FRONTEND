@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import Header from '../Component/Header';
-import Footer from '../Component/Footer';
+import Header from '../Component/Nav/Header';
+import Footer from '../Component/Nav/Footer';
 import ReviewDetail from '../Component/CourseReviews';
 import QuestionDetail from '../Component/CourseQuestions';
 import { Question, Answer } from '../mocks/course'; // นำเข้า interface จากไฟล์นี้

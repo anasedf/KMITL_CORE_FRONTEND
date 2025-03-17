@@ -1,57 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { mockCourses } from '../mocks/course'; // Removed Question import
-import { Review, Course, Question } from './types'; // Added Question to types
-import Header from '../Component/Header';
-import Footer from '../Component/Footer';
+import { Review, Course, Question } from '../mocks/types';
+import Header from '../Component/Nav/Header';
+import Footer from '../Component/Nav/Footer';
+import ReviewCard from '../Component/All/ReviewCard';
+import QuestionCard from '../Component/All/QuestionCard';
+import CourseCard from '../Component/All/CourseCard';
 import '../Styles/Home.css';
 
-const ReviewCard: React.FC<{ review: Review, course: Course }> = ({ review, course }) => {
-  return (
-    <div className="course-card">
-      <h3>
-        <Link to={`/course/${review.courseId}`}>
-          {review.courseId} | {course.name}
-        </Link>
-      </h3>
-      <p className="course-description">{review.reviewText}</p>
-    </div>
-  );
-};
-
-const QuestionCard: React.FC<{ question: Question, courses: Course[] }> = ({ question, courses }) => {
-  const course = courses.find((c) => c.course_id === question.courseId);
-  if (!course) return null;
-
-  return (
-    <div className="question-card">
-      <h3>
-        <Link to={`/course/${course.course_id}`}>
-          {course.course_id} | {course.name}
-        </Link>
-      </h3>
-      <p className="question-text">{question.questionText}</p>
-      {/* The API response for questions doesn't include answers */}
-      {/* {question.answers && question.answers.map((answer) => (
-        <p key={answer.id} className="answer">Answer: {answer.answerText}</p>
-      ))} */}
-      <p className="questioner">ถามโดย: {question.questionerName}</p>
-    </div>
-  );
-};
-
-const CourseCard: React.FC<{ course: Course }> = ({ course }) => {
-  return (
-    <div className="course-card">
-      <h3>
-        <Link to={`/course/${course.course_id}`}>
-          {course.course_id} | {course.name}
-        </Link>
-      </h3>
-      <p className="course-description">{course.description}</p>
-    </div>
-  );
-};
 
 const Home: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -114,7 +69,6 @@ const Home: React.FC = () => {
     const course = allCourses.find((c) => c.course_id === question.courseId);
     if (!course) return false;
     return course.name.toLowerCase().includes(searchTerm.toLowerCase()) || question.courseId.toString().includes(searchTerm);
-
   });
 
   const filteredCourses = allCourses.filter((course) => {
@@ -141,13 +95,28 @@ const Home: React.FC = () => {
         <nav>
           <ul>
             <li>
-              <button onClick={() => setActiveTab('reviews')}>รีวิวทั้งหมด</button>
+              <button
+                onClick={() => setActiveTab('reviews')}
+                className={activeTab === 'reviews' ? 'active' : ''}
+              >
+                รีวิวทั้งหมด
+              </button>
             </li>
             <li>
-              <button onClick={() => setActiveTab('questions')}>คำถามทั้งหมด</button>
+              <button
+                onClick={() => setActiveTab('questions')}
+                className={activeTab === 'questions' ? 'active' : ''}
+              >
+                คำถามทั้งหมด
+              </button>
             </li>
             <li>
-              <button onClick={() => setActiveTab('courses')}>Courses</button>
+              <button
+                onClick={() => setActiveTab('courses')}
+                className={activeTab === 'courses' ? 'active' : ''}
+              >
+                Courses
+              </button>
             </li>
           </ul>
         </nav>

@@ -18,6 +18,7 @@ export interface Review {
   academicYear: string;
   section: string;
   courseId: string;
+  createdAt: string;
 }
 
 export interface Question {

@@ -1,6 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 .home {
   padding: 2rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* เพิ่ม font ที่อ่านง่าย */
+  font-family: 'Kanit', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ffffff;
+  color: #484848;
 }
 
 .search-container {
@@ -11,52 +15,63 @@
 
 .search-box {
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   padding: 1rem 1.5rem;
   font-size: 1rem;
-  border: 2px solid #007bff;
-  border-radius: 30px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   outline: none;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* เพิ่มเงาเล็กน้อย */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .search-box:focus {
-  border-color: #0056b3;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* เพิ่มเงาเมื่อ focus */
+  border-color: #FF5A5F;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 nav ul {
   list-style: none;
-  padding: 0;
   display: flex;
-  justify-content: center;
-  margin-bottom: 2rem;
+  gap: 10px;
+  padding: 0;
 }
 
 nav ul li {
-  margin: 0 1rem;
+  display: inline;
 }
 
 nav ul li button {
-  background-color: #f0f0f0; /* สีพื้นหลังปุ่ม */
-  border: none;
-  padding: 0.8rem 1.5rem;
+  padding: 10px 20px;
+  border: 2px solid #007bff;
+  background: transparent;
+  color: #007bff;
   border-radius: 20px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  font-size: 1rem;
+  font-size: 16px;
+  transition: all 0.3s ease;
 }
 
-nav ul li button:hover {
-  background-color: #e0e0e0; /* สีพื้นหลังเมื่อ hover */
-  transform: translateY(-2px);
+nav ul li button:hover,
+nav ul li button:focus {
+  background: #007bff;
+  color: white;
 }
 
 nav ul li button.active {
-  background-color: #007bff; /* สีพื้นหลังเมื่อ active */
+  background: #000;
+  /* หรือสีดำที่คุณต้องการ */
   color: white;
+  border-color: #000;
+  /* หรือสีดำที่คุณต้องการ */
 }
+
 
 .content-list {
   margin-top: 2rem;
@@ -70,11 +85,11 @@ nav ul li button.active {
   gap: 2rem;
 }
 
-.review-card,
+/* .review-card,
 .question-card,
 .course-card {
   background-color: white;
-  border-radius: 1rem;
+  border-radius: 8px;
   padding: 1.5rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -84,7 +99,7 @@ nav ul li button.active {
 .question-card:hover,
 .course-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 .review-card h3,
@@ -92,12 +107,13 @@ nav ul li button.active {
 .course-card h3 {
   margin: 0 0 1rem;
   font-size: 1.25rem;
+  color: #FF5A5F;
 }
 
 .review-card p,
 .question-card p,
 .course-card p {
-  color: #555;
+  color: #484848;
   line-height: 1.6;
   font-size: 1rem;
   margin-bottom: 0.5rem;
@@ -106,7 +122,7 @@ nav ul li button.active {
 .review-card a,
 .question-card a,
 .course-card a {
-  color: #007bff;
+  color: #FF5A5F;
   text-decoration: none;
   font-weight: bold;
 }
@@ -124,6 +140,75 @@ nav ul li button.active {
   font-style: italic;
   color: #888;
   padding: 2rem;
+} */
+
+.course-card {
+  border: 1px solid #ddd;
+  border-radius: 1rem;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease-in-out;
+}
+
+.course-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.course-card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.course-card h3 a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+.course-card h3 a:hover {
+  color: #007bff;
+  /* Example hover color */
+}
+
+.course-card h3 a span {
+  font-size: 0.8em; /* ทำให้ตัวเล็ก */
+  color: #777; /* สีเทาอ่อน */
+  font-weight: 400;
+}
+
+.review-detail {
+  font-size: 1.2rem;
+  margin: 0;
+  color: #555;
+}
+
+.review-buttom {
+  display: flex;
+  justify-content: space-between;
+  color: #777;
+  font-size: 0.85em;
+}
+
+/* Style for the average score */
+.average-score-container {
+  display: flex;
+  align-items: center;
+}
+
+.average-score-icon {
+  color: gold;
+  /* Or any color you prefer for the star */
+  font-size: 1.2em;
+  margin-right: 5px;
+}
+
+.average-score-value {
+  font-weight: bold;
 }
 
 /* Responsive Design */
@@ -137,7 +222,7 @@ nav ul li button.active {
   }
 
   nav ul {
-    flex-direction: column; /* จัดปุ่มเป็นแนวตั้ง */
+    flex-direction: column;
     align-items: center;
   }
 
@@ -148,6 +233,6 @@ nav ul li button.active {
   .review-list,
   .question-list,
   .course-list {
-    grid-template-columns: 1fr; /* แสดงผลเป็นคอลัมน์เดียว */
+    grid-template-columns: 1fr;
   }
 }
