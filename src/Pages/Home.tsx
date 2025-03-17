@@ -92,34 +92,37 @@ const Home: React.FC = () => {
           />
         </div>
 
-        <nav>
-          <ul>
-            <li>
-              <button
-                onClick={() => setActiveTab('reviews')}
-                className={activeTab === 'reviews' ? 'active' : ''}
-              >
-                รีวิวทั้งหมด
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => setActiveTab('questions')}
-                className={activeTab === 'questions' ? 'active' : ''}
-              >
-                คำถามทั้งหมด
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => setActiveTab('courses')}
-                className={activeTab === 'courses' ? 'active' : ''}
-              >
-                Courses
-              </button>
-            </li>
-          </ul>
-        </nav>
+        <div className='Nav-con'>
+          <nav>
+            <ul>
+              <li>
+                <button
+                  onClick={() => setActiveTab('reviews')}
+                  className={activeTab === 'reviews' ? 'active' : ''}
+                >
+                  รีวิวทั้งหมด
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => setActiveTab('questions')}
+                  className={activeTab === 'questions' ? 'active' : ''}
+                >
+                  คำถามทั้งหมด
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => setActiveTab('courses')}
+                  className={activeTab === 'courses' ? 'active' : ''}
+                >
+                  Courses
+                </button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
 
         <div className="content-list">
           {loading && <p>Loading...</p>}

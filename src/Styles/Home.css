@@ -26,21 +26,28 @@
 }
 
 .search-box:focus {
-  border-color: #FF5A5F;
+  border-color: #000000;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-nav {
+.Nav-con {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+}
+nav {
+  display: flex;
+  width: fit-content;
+  padding: 1rem;
+  border: 2px solid #000000; /* กรอบของ NAV ที่ต้องการ */
+  border-radius: 1rem;
 }
 
 nav ul {
   list-style: none;
   display: flex;
-  gap: 10px;
+  gap: 1rem;
   padding: 0;
+  margin: 0;
 }
 
 nav ul li {
@@ -49,10 +56,10 @@ nav ul li {
 
 nav ul li button {
   padding: 10px 20px;
-  border: 2px solid #007bff;
-  background: transparent;
-  color: #007bff;
-  border-radius: 20px;
+  background: white;
+  color: #000000;
+  border-radius: 0.6rem;
+  border: none;
   cursor: pointer;
   font-size: 16px;
   transition: all 0.3s ease;
@@ -60,16 +67,14 @@ nav ul li button {
 
 nav ul li button:hover,
 nav ul li button:focus {
-  background: #007bff;
+  background: #8c8c8c;
   color: white;
 }
 
 nav ul li button.active {
   background: #000;
-  /* หรือสีดำที่คุณต้องการ */
   color: white;
-  border-color: #000;
-  /* หรือสีดำที่คุณต้องการ */
+
 }
 
 
@@ -219,15 +224,6 @@ nav ul li button.active {
 
   .search-box {
     padding: 0.8rem 1.2rem;
-  }
-
-  nav ul {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  nav ul li {
-    margin: 0.5rem 0;
   }
 
   .review-list,
