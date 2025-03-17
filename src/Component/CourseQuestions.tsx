@@ -4,28 +4,42 @@ import { Question, Answer } from '../mocks/course'; // ปรับ path ตา�
 
 interface QuestionDetailProps {
   questions: Question[];
-  courseId: number; // เพิ่ม courseId เพื่อใช้ในการส่งคำถาม
-  fetchCourse: () => void; // ฟังก์ชันสำหรับดึงข้อมูล course ใหม่
+  courseId: number;
+  fetchCourse: () => void;
 }
 
 const QuestionDetail: React.FC<QuestionDetailProps> = ({ questions, courseId, fetchCourse }) => {
   const [isAnswerModalOpen, setIsAnswerModalOpen] = useState(false);
   const [currentQuestionId, setCurrentQuestionId] = useState<number | null>(null);
   const [answerText, setAnswerText] = useState('');
-  const [answererName, setAnswererName] = useState(''); // เพิ่ม state สำหรับชื่อผู้ตอบ
+  const [answererName, setAnswererName] = useState('');
 
-  // ส่งคำตอบใหม่ไปยัง API
   const handleAddAnswer = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // ตรวจสอบว่าข้อมูลครบถ้วนและถูกต้อง
+    if (!currentQuestionId) {
+      alert("ไม่พบคำถามที่ต้องการตอบ");
+      return;
+    }
+    if (!answerText || answerText.trim() === "") {
+      alert("กรุณากรอกคำตอบ");
+      return;
+    }
+    if (!answererName || answererName.trim().length < 3) {
+      alert("ชื่อผู้ตอบต้องมีความยาวอย่างน้อย 3 ตัวอักษร");
+      return;
+    }
 
     const newAnswer = {
       questionId: currentQuestionId,
       answerText,
-      AnswererName: answererName, // ใช้ชื่อ property ตรงกับ API
+      answererName: answererName, // ใช้ key ตามที่ API คาดหวัง
     };
 
+    console.log("Data being sent to API:", newAnswer); // Debug: ตรวจสอบข้อมูลที่ส่งไป
+
     try {
-      // ส่งคำตอบใหม่ไปยัง API
       const response = await axios.post(
         `https://92f7-203-150-171-252.ngrok-free.app/api/answers/`,
         newAnswer,
@@ -35,20 +49,20 @@ const QuestionDetail: React.FC<QuestionDetailProps> = ({ questions, courseId, fe
           },
         }
       );
+      console.log("API Response:", response.data); // Debug: ตรวจสอบ response จาก API
 
-      console.log("API Response:", response.data); // ตรวจสอบ response จาก API
+      await fetchCourse(); // Refresh course data after submitting answer
 
-      // ดึงข้อมูล course ใหม่หลังจากส่งคำตอบสำเร็จ
-      await fetchCourse();
-
-      // ปิด modal และรีเซ็ตฟอร์ม
       setIsAnswerModalOpen(false);
       setAnswerText('');
-      setAnswererName(''); // รีเซ็ตชื่อผู้ตอบ
+      setAnswererName('');
     } catch (error) {
       console.error("Error submitting answer:", error);
       if (axios.isAxiosError(error)) {
-        console.error("API Error Response:", error.response?.data); // ตรวจสอบข้อผิดพลาดจาก API
+        console.error("API Error Response:", error.response?.data); // Debug: ตรวจสอบข้อผิดพลาดจาก API
+        if (error.response?.data.errors) {
+          console.error("Validation Errors:", error.response.data.errors); // Debug: ตรวจสอบ validation errors
+        }
       } else {
         console.error("Unexpected error:", error);
       }
@@ -58,7 +72,6 @@ const QuestionDetail: React.FC<QuestionDetailProps> = ({ questions, courseId, fe
 
   return (
     <div className="questions-section">
-      {/* แสดงคำถามและคำตอบ */}
       {questions.map((question) => (
         <div key={question.id} className="question-item">
           <p className="question-text">

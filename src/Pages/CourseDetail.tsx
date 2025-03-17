@@ -163,6 +163,7 @@ const CourseDetail: React.FC = () => {
       alert("เกิดข้อผิดพลาดในการส่งคำถาม กรุณาลองอีกครั้ง");
     }
   };
+  
 
   if (!course) {
     return <div>Loading...</div>;
