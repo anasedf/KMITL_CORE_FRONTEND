@@ -76,10 +76,12 @@ const CourseDetail: React.FC = () => {
     }
   }, [courseId]);
 
+  // คำนวณค่าเฉลี่ยและแปลงเป็นเปอร์เซ็นต์
   const calculateAverageScore = (scoreType: 'homeScore' | 'interestScore') => {
     if (!course?.reviews.length) return 0;
     const totalScore = course.reviews.reduce((sum, review) => sum + review[scoreType], 0);
-    return Math.round(totalScore / course.reviews.length);
+    const averageScore = totalScore / course.reviews.length;
+    return Math.round((averageScore / 5) * 100); // แปลงเป็นเปอร์เซ็นต์
   };
 
   const homeScoreAverage = calculateAverageScore('homeScore');
@@ -163,7 +165,7 @@ const CourseDetail: React.FC = () => {
     try {
       console.log("Deleting review with ID:", reviewId);
       console.log("Using passcode_pin:", passcode_pin);
-  
+
       const response = await axios.delete(
         `https://92f7-203-150-171-252.ngrok-free.app/api/reviews/${reviewId}`,
         {
@@ -173,9 +175,9 @@ const CourseDetail: React.FC = () => {
           data: { passcode_pin }, // ส่ง passcode_pin ไปกับ request
         }
       );
-  
+
       console.log("API Response:", response.data); // Debug: ตรวจสอบ response จาก API
-  
+
       await fetchCourse(); // Refresh course data after deleting review
     } catch (error) {
       console.error("Error deleting review:", error);
@@ -190,7 +192,7 @@ const CourseDetail: React.FC = () => {
     try {
       console.log("Deleting question with ID:", questionId);
       console.log("Using passcode_pin:", passcode_pin);
-  
+
       const response = await axios.delete(
         `https://92f7-203-150-171-252.ngrok-free.app/api/questions/${questionId}`,
         {
@@ -200,9 +202,9 @@ const CourseDetail: React.FC = () => {
           data: { passcode_pin }, // ส่ง passcode_pin ไปกับ request
         }
       );
-  
+
       console.log("API Response:", response.data); // Debug: ตรวจสอบ response จาก API
-  
+
       await fetchCourse(); // Refresh course data after deleting question
     } catch (error) {
       console.error("Error deleting question:", error);
@@ -212,6 +214,7 @@ const CourseDetail: React.FC = () => {
       alert("เกิดข้อผิดพลาดในการลบคำถาม กรุณาตรวจสอบ passcode และลองอีกครั้ง");
     }
   };
+
   if (!course) {
     return <div>Loading...</div>;
   }
@@ -326,134 +329,142 @@ const CourseDetail: React.FC = () => {
 
       {/* Modal สำหรับเพิ่มรีวิว */}
       {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2>เพิ่มรีวิว</h2>
-            <form onSubmit={handleAddReview}>
-              <div className="form-group">
-                <label>ชื่อผู้รีวิว:</label>
-                <input
-                  type="text"
-                  value={reviewerName}
-                  onChange={(e) => setReviewerName(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>รีวิว:</label>
-                <textarea
-                  value={reviewText}
-                  onChange={(e) => setReviewText(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>คะแนนงานและการบ้าน:</label>
-                <input
-                  type="number"
-                  value={homeScore}
-                  onChange={(e) => setHomeScore(Number(e.target.value))}
-                  min="0"
-                  max="10"
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>คะแนนความน่าสนใจ:</label>
-                <input
-                  type="number"
-                  value={interestScore}
-                  onChange={(e) => setInterestScore(Number(e.target.value))}
-                  min="0"
-                  max="10"
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>เกรดที่ได้:</label>
-                <input
-                  type="text"
-                  value={grade}
-                  onChange={(e) => setGrade(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>ปีการศึกษา:</label>
-                <input
-                  type="text"
-                  value={academicYear}
-                  onChange={(e) => setAcademicYear(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>Section:</label>
-                <input
-                  type="text"
-                  value={section}
-                  onChange={(e) => setSection(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>Passcode:</label>
-                <input
-                  type="password"
-                  value={passcodePin}
-                  onChange={(e) => setPasscodePin(e.target.value)}
-                  required
-                />
-              </div>
-              <button type="submit">ส่งรีวิว</button>
-              <button type="button" onClick={() => setIsModalOpen(false)}>
-                ยกเลิก
-              </button>
-            </form>
-          </div>
+  <div className="modal-overlay">
+    <div className="modal">
+      <h2>เพิ่มรีวิว</h2>
+      <form onSubmit={handleAddReview}>
+        <div className="form-group">
+          <label>ชื่อผู้รีวิว:</label>
+          <input
+            type="text"
+            value={reviewerName}
+            onChange={(e) => setReviewerName(e.target.value)}
+            required
+          />
         </div>
-      )}
-
-      {/* Modal สำหรับเพิ่มคำถาม */}
+        <div className="form-group">
+          <label>รีวิว:</label>
+          <textarea
+            value={reviewText}
+            onChange={(e) => setReviewText(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>คะแนนงานและการบ้าน:</label>
+          <select
+            value={homeScore}
+            onChange={(e) => setHomeScore(Number(e.target.value))}
+            required
+          >
+            {Array.from({ length: 6 }, (_, score) => (
+              <option key={score} value={score}>
+                {score}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label>คะแนนความน่าสนใจ:</label>
+          <select
+            value={interestScore}
+            onChange={(e) => setInterestScore(Number(e.target.value))}
+            required
+          >
+            {Array.from(Array(6).keys()).map((score) => (
+              <option key={score} value={score}>
+                {score}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label>เกรดที่ได้:</label>
+          <input
+            type="text"
+            value={grade}
+            onChange={(e) => setGrade(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>ปีการศึกษา:</label>
+          <input
+            type="text"
+            value={academicYear}
+            onChange={(e) => setAcademicYear(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Section:</label>
+          <input
+            type="text"
+            value={section}
+            onChange={(e) => setSection(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Passcode:</label>
+          <input
+            type="password"
+            value={passcodePin}
+            onChange={(e) => setPasscodePin(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-buttons">
+          <button type="submit">ส่งรีวิว</button>
+          <button type="button" onClick={() => setIsModalOpen(false)}>
+            ยกเลิก
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
       {isQuestionModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2>เพิ่มคำถาม</h2>
-            <form onSubmit={handleAddQuestion}>
-              <div className="form-group">
-                <label>ชื่อผู้ถาม:</label>
-                <input
-                  type="text"
-                  value={questionerName}
-                  onChange={(e) => setQuestionerName(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>คำถาม:</label>
-                <textarea
-                  value={questionText}
-                  onChange={(e) => setQuestionText(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>Passcode:</label>
-                <input
-                  type="password"
-                  value={questionPasscodePin}
-                  onChange={(e) => setQuestionPasscodePin(e.target.value)}
-                  required
-                />
-              </div>
-              <button type="submit">ส่งคำถาม</button>
-              <button type="button" onClick={() => setIsQuestionModalOpen(false)}>
-                ยกเลิก
-              </button>
-            </form>
-          </div>
+  <div className="modal-overlay">
+    <div className="modal">
+      <h2>เพิ่มคำถาม</h2>
+      <form onSubmit={handleAddQuestion}>
+        <div className="form-group">
+          <label>ชื่อผู้ถาม:</label>
+          <input
+            type="text"
+            value={questionerName}
+            onChange={(e) => setQuestionerName(e.target.value)}
+            required
+          />
         </div>
-      )}
+        <div className="form-group">
+          <label>คำถาม:</label>
+          <textarea
+            value={questionText}
+            onChange={(e) => setQuestionText(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Passcode:</label>
+          <input
+            type="password"
+            value={questionPasscodePin}
+            onChange={(e) => setQuestionPasscodePin(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-buttons">
+          <button type="submit">ส่งคำถาม</button>
+          <button type="button" onClick={() => setIsQuestionModalOpen(false)}>
+            ยกเลิก
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
     </div>
   );
 };

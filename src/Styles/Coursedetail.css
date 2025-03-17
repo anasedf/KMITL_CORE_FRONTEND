@@ -1,3 +1,12 @@
+/* Global Styles */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+/* Course Detail Page */
 .course-detail {
   padding: 3rem;
   font-family: 'Arial', sans-serif;
@@ -30,6 +39,7 @@
   font-size: 1.1rem;
 }
 
+/* Score Summary Section */
 .score-summary {
   background-color: #f4f4f4;
   border-radius: 12px;
@@ -84,6 +94,7 @@
   color: #555;
 }
 
+/* Reviews and Questions Sections */
 .reviews-section,
 .questions-section {
   margin-top: 3rem;
@@ -104,7 +115,8 @@
   font-weight: 600;
 }
 
-.add-review-button {
+.add-review-button,
+.add-question-button {
   padding: 1rem 2rem;
   background-color: #007bff;
   color: white;
@@ -115,7 +127,8 @@
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.add-review-button:hover {
+.add-review-button:hover,
+.add-question-button:hover {
   background-color: #0056b3;
   transform: translateY(-2px);
 }
@@ -185,21 +198,7 @@
   margin: 0 0.75rem;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .course-detail {
-    padding: 2rem;
-  }
-
-  .course-detail h1 {
-    font-size: 2rem;
-  }
-
-  .score-bar label {
-    width: 150px;
-  }
-}
-
+/* Modal Styles */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -215,63 +214,102 @@
 
 .modal {
   background-color: white;
-  padding: 2.5rem;
+  padding: 1.5rem;
   border-radius: 12px;
-  width: 80%; /* ลดขนาด modal */
-  max-width: 500px;
+  width: 90%;
+  max-width: 400px; /* ปรับขนาด modal ให้เล็กลง */
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   animation: slideIn 0.3s ease-out;
 }
 
-@keyframes slideIn {
-  from {
-    transform: translateY(-30px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
 .modal h2 {
   margin-top: 0;
-  font-size: 2rem;
+  font-size: 1.5rem; /* ปรับขนาดหัวข้อให้เล็กลง */
   font-weight: 600;
   color: #333;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem; /* ปรับระยะห่างใต้หัวข้อ */
 }
 
-.modal form div {
-  margin-bottom: 1.2rem; /* ปรับระยะห่าง */
+.modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* ปรับระยะห่างระหว่างฟิลด์ให้เล็กลง */
 }
 
-.modal form label {
-  display: block;
-  margin-bottom: 0.75rem;
+.modal .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* ปรับระยะห่างระหว่าง label และ input ให้เล็กลง */
+}
+
+.modal .form-group label {
   font-weight: 500;
   color: #444;
+  font-size: 0.9rem; /* ปรับขนาดฟอนต์ label ให้เล็กลง */
 }
 
-.modal form input,
-.modal {
+.modal .form-group input,
+.modal .form-group textarea,
+.modal .form-group select {
+  padding: 0.5rem; /* ปรับ padding ของ input ให้เล็กลง */
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.9rem; /* ปรับขนาดฟอนต์ input ให้เล็กลง */
+  color: #333;
+  background-color: #f8f8f8;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modal .form-group input:focus,
+.modal .form-group textarea:focus,
+.modal .form-group select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  outline: none;
+}
+
+.modal .form-group textarea {
+  resize: vertical;
+  min-height: 100px; /* ปรับความสูงของ textarea ให้เล็กลง */
+}
+
+.modal .form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem; /* ปรับระยะห่างระหว่างปุ่มให้เล็กลง */
+  margin-top: 1rem; /* ปรับระยะห่างของปุ่มให้เล็กลง */
+}
+
+.modal button[type="submit"],
+.modal button[type="button"] {
+  padding: 0.5rem 1rem; /* ปรับขนาดปุ่มให้เล็กลง */
+  font-size: 0.9rem; /* ปรับขนาดฟอนต์ปุ่มให้เล็กลง */
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.modal button[type="submit"] {
+  background-color: #007bff;
   color: white;
 }
 
-.modal form button[type="submit"]:hover {
+.modal button[type="submit"]:hover {
   background-color: #0056b3;
   transform: translateY(-2px);
 }
 
-.modal form button[type="button"] {
-  background-color: #ccc;
-  color: black;
+.modal button[type="button"] {
+  background-color: #f0f0f0;
+  color: #333;
 }
 
-.modal form button[type="button"]:hover {
-  background-color: #bbb;
+.modal button[type="button"]:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-2px);
 }
-
+/* Toggle Buttons */
 .toggle-sections {
   display: flex;
   justify-content: center;
@@ -298,6 +336,7 @@
   background-color: #e0e0e0;
 }
 
+/* Question Item Styles */
 .question-item {
   border-left: 4px solid #007bff;
   padding-left: 1.5rem;
@@ -314,6 +353,7 @@
   line-height: 1.6;
 }
 
+/* Home Button */
 .home-button {
   top: 20px;
   left: 20px;
@@ -327,4 +367,29 @@
 
 .home-button:hover {
   background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .course-detail {
+    padding: 2rem;
+  }
+
+  .course-detail h1 {
+    font-size: 2rem;
+  }
+
+  .score-bar label {
+    width: 150px;
+  }
+
+  .modal {
+    width: 90%;
+    padding: 1.5rem;
+  }
+
+  .toggle-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
 }
