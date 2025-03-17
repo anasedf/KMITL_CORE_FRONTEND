@@ -12,7 +12,7 @@ const ReviewCard: React.FC<{ review: Review }> = ({ review }) => {
   return (
     <div className="review-card">
       <h3>
-        <Link to={`/course/${course.id}`}>
+        <Link to={`/course/${course.course_id}`}>
           {course.course_id} | {course.name}
         </Link>
       </h3>
@@ -29,7 +29,7 @@ const QuestionCard: React.FC<{ question: Question }> = ({ question }) => {
   return (
     <div className="question-card">
       <h3>
-        <Link to={`/course/${course.id}`}>
+        <Link to={`/course/${course.course_id}`}>
           {course.course_id} | {course.name}
         </Link>
       </h3>
@@ -45,7 +45,7 @@ const CourseCard: React.FC<{ course: Course }> = ({ course }) => {
   return (
     <div className="course-card">
       <h3>
-        <Link to={`/course/${course.id}`}>
+        <Link to={`/course/${course.course_id}`}>
           {course.course_id} | {course.name}
         </Link>
       </h3>

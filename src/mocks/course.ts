@@ -33,7 +33,7 @@ export interface Answer {
 export const mockCourses: Course[] = [
   {
     id: 1,
-    course_id: 90642211,
+    course_id: 90642111,
     name: 'CODING WITH PYTHON',
     description: 'Learn the basics of React.',
     image: 'https://via.placeholder.com/150',
