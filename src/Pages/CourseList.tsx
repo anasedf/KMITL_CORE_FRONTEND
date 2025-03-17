@@ -9,7 +9,7 @@ const CourseList: React.FC = () => {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    fetch('https://fabe-203-150-171-252.ngrok-free.app/api/courses/', { // แทนที่ YOUR_API_ENDPOINT ด้วย URL API ของคุณ
+    fetch('https://92f7-203-150-171-252.ngrok-free.app/api/courses/', { // แทนที่ YOUR_API_ENDPOINT ด้วย URL API ของคุณ
       headers: new Headers({
         "ngrok-skip-browser-warning": "69420",
       }),

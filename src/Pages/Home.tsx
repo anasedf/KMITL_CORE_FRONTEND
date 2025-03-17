@@ -69,7 +69,7 @@ const Home: React.FC = () => {
     setAllReviews(reviews);
     setAllQuestions(questions);
 
-    fetch('https://fabe-203-150-171-252.ngrok-free.app/api/courses/', {
+    fetch('https://92f7-203-150-171-252.ngrok-free.app/api/courses/', {
       headers: new Headers({
         "ngrok-skip-browser-warning": "69420",
       }),

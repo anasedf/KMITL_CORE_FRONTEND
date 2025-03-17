@@ -55,7 +55,7 @@ const CourseDetail: React.FC = () => {
   const fetchCourse = async () => {
     try {
       const response = await axios.get(
-        `https://fabe-203-150-171-252.ngrok-free.app/api/courses/${courseId}`,
+        `https://92f7-203-150-171-252.ngrok-free.app/api/courses/${courseId}`,
         {
           headers: {
             'ngrok-skip-browser-warning': '69420',
@@ -103,7 +103,7 @@ const CourseDetail: React.FC = () => {
     try {
       // ส่งรีวิวใหม่ไปยัง API
       const response = await axios.post(
-        `https://fabe-203-150-171-252.ngrok-free.app/api/reviews/`,
+        `https://92f7-203-150-171-252.ngrok-free.app/api/reviews/`,
         newReview,
         {
           headers: {
