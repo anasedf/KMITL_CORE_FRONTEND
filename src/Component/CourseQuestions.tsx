@@ -79,81 +79,87 @@ const QuestionDetail: React.FC<QuestionDetailProps> = ({
 
   return (
     <div className="questions-section">
-      {questions.map((question) => (
-        <div key={question.id} className="question-item">
-          {/* แยกชื่อคนถามและคำถาม */}
-          <div className="question-header">
-            <p className="questioner-name">{question.questionerName}</p>
-            <p className="question-text">{question.questionText}</p>
-          </div>
+  {questions.map((question) => (
+    <div key={question.id} className="question-item">
+      {/* ส่วนของคำถาม */}
+      <div className="question-header">
+        <p className="questioner-name">{question.questionerName}</p>
+        <p className="question-text">{question.questionText}</p>
+      </div>
 
-          {/* ย้ายปุ่มไปไว้ที่มุมขวา */}
-          <div className="question-actions">
-            <button
-              className="add-answer-button"
-              onClick={() => {
-                setCurrentQuestionId(question.id);
-                setIsAnswerModalOpen(true);
-              }}
-            >
-              ตอบ
-            </button>
-            <button
-              className="delete-question-button"
-              onClick={() => {
-                const passcode_pin = prompt('กรุณาใส่รหัสผ่าน (passcode_pin) เพื่อลบคำถาม');
-                if (passcode_pin) {
-                  handleDeleteQuestion(question.id, passcode_pin);
-                }
-              }}
-            >
-              ลบ
-            </button>
-          </div>
-
-          {/* แสดงคำตอบ */}
-          {question.answers && question.answers.map((answer) => (
-            <p key={answer.id} className="answer-text">
-              <strong>{answer.answererName || "ไม่ระบุชื่อ"}:</strong> {answer.answerText}
-            </p>
+      {/* ส่วนของคำตอบ */}
+      {question.answers && question.answers.length > 0 && (
+        <div className="answers-list">
+          {question.answers.map((answer) => (
+            <div key={answer.id} className="answer-item">
+              <p className="answer-text">
+                <strong>{answer.answererName || "ไม่ระบุชื่อ"}:</strong> {answer.answerText}
+              </p>
+            </div>
           ))}
         </div>
-      ))}
-
-      {/* ฟอร์มตอบคำถาม */}
-      {isAnswerModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2>ตอบคำถาม</h2>
-            <form onSubmit={handleAddAnswer}>
-              <div className="form-group">
-                <label>ชื่อผู้ตอบ:</label>
-                <input
-                  type="text"
-                  value={answererName}
-                  onChange={(e) => setAnswererName(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>คำตอบ:</label>
-                <textarea
-                  value={answerText}
-                  onChange={(e) => setAnswerText(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-buttons">
-                <button type="submit">ส่งคำตอบ</button>
-                <button type="button" onClick={() => setIsAnswerModalOpen(false)}>
-                  ยกเลิก
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
       )}
+
+      {/* ปุ่มตอบและลบ */}
+      <div className="question-actions">
+        <button
+          className="add-answer-button"
+          onClick={() => {
+            setCurrentQuestionId(question.id);
+            setIsAnswerModalOpen(true);
+          }}
+        >
+          ตอบ
+        </button>
+        <button
+          className="delete-question-button"
+          onClick={() => {
+            const passcode_pin = prompt('กรุณาใส่รหัสผ่าน (passcode_pin) เพื่อลบคำถาม');
+            if (passcode_pin) {
+              handleDeleteQuestion(question.id, passcode_pin);
+            }
+          }}
+        >
+          ลบ
+        </button>
+      </div>
     </div>
+  ))}
+
+  {/* ฟอร์มตอบคำถาม */}
+  {isAnswerModalOpen && (
+    <div className="modal-overlay">
+      <div className="modal">
+        <h2>ตอบคำถาม</h2>
+        <form onSubmit={handleAddAnswer}>
+          <div className="form-group">
+            <label>ชื่อผู้ตอบ:</label>
+            <input
+              type="text"
+              value={answererName}
+              onChange={(e) => setAnswererName(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>คำตอบ:</label>
+            <textarea
+              value={answerText}
+              onChange={(e) => setAnswerText(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-buttons">
+            <button type="submit">ส่งคำตอบ</button>
+            <button type="button" onClick={() => setIsAnswerModalOpen(false)}>
+              ยกเลิก
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  )}
+</div>
   );
 };
 
