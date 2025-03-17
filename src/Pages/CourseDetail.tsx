@@ -5,6 +5,7 @@ import Header from '../Component/Header';
 import Footer from '../Component/Footer';
 import ReviewDetail from '../Component/CourseReviews';
 import QuestionDetail from '../Component/CourseQuestions';
+import { Question, Answer } from '../mocks/course'; // นำเข้า interface จากไฟล์นี้
 import '../Styles/Coursedetail.css';
 
 interface Review {
@@ -19,19 +20,6 @@ interface Review {
   courseId: number;
 }
 
-interface Answer {
-  id: number;
-  answerText: string;
-  AnswererName: string;
-}
-
-interface Question {
-  id: number;
-  questionText: string;
-  questionerName: string;
-  answers?: Answer[];
-}
-
 interface Course {
   id: number;
   course_id: number;
@@ -39,7 +27,7 @@ interface Course {
   description: string;
   image: string | null;
   reviews: Review[];
-  questions: Question[];
+  questions: Question[]; // ใช้ Question จาก ../mocks/course
 }
 
 const CourseDetail: React.FC = () => {
@@ -163,7 +151,6 @@ const CourseDetail: React.FC = () => {
       alert("เกิดข้อผิดพลาดในการส่งคำถาม กรุณาลองอีกครั้ง");
     }
   };
-  
 
   if (!course) {
     return <div>Loading...</div>;
