@@ -17,6 +17,8 @@ export interface Review {
   grade: string;
   academicYear: string;
   section: string;
+  courseId: number;
+  passcode_pin: string;
 }
 
 export interface Question {
@@ -49,6 +51,8 @@ export const mockCourses: Course[] = [
         grade: 'A',
         academicYear: '2023',
         section: 'A1',
+        passcode_pin: '111',
+        courseId: 90642111,
       },
       {
         id: 2,
@@ -58,7 +62,9 @@ export const mockCourses: Course[] = [
         interestScore: 8,
         grade: 'B',
         academicYear: '2023',
-        section: 'B2',
+        section: 'B1',
+        courseId: 90642111,
+        passcode_pin: '111aaa',
       },
     ],
     questions: [

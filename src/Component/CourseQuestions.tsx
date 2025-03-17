@@ -6,9 +6,15 @@ interface QuestionDetailProps {
   questions: Question[];
   courseId: number;
   fetchCourse: () => void;
+  handleDeleteQuestion: (questionId: number, passcode_pin: string) => void; // เพิ่ม prop นี้
 }
 
-const QuestionDetail: React.FC<QuestionDetailProps> = ({ questions, courseId, fetchCourse }) => {
+const QuestionDetail: React.FC<QuestionDetailProps> = ({
+  questions,
+  courseId,
+  fetchCourse,
+  handleDeleteQuestion, // รับ prop นี้
+}) => {
   const [isAnswerModalOpen, setIsAnswerModalOpen] = useState(false);
   const [currentQuestionId, setCurrentQuestionId] = useState<number | null>(null);
   const [answerText, setAnswerText] = useState('');
@@ -87,6 +93,19 @@ const QuestionDetail: React.FC<QuestionDetailProps> = ({ questions, courseId, fe
             }}
           >
             ตอบ
+          </button>
+
+          {/* ปุ่มลบคำถาม */}
+          <button
+            className="delete-question-button"
+            onClick={() => {
+              const passcode_pin = prompt('กรุณาใส่รหัสผ่าน (passcode_pin) เพื่อลบคำถาม');
+              if (passcode_pin) {
+                handleDeleteQuestion(question.id, passcode_pin);
+              }
+            }}
+          >
+            ลบคำถาม
           </button>
 
           {/* แสดงคำตอบ */}

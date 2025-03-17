@@ -18,6 +18,7 @@ interface Review {
   academicYear: string;
   section: string;
   courseId: number;
+  passcode_pin: string;
 }
 
 interface Course {
@@ -41,6 +42,7 @@ const CourseDetail: React.FC = () => {
   const [grade, setGrade] = useState('');
   const [academicYear, setAcademicYear] = useState('');
   const [section, setSection] = useState('');
+  const [passcodePin, setPasscodePin] = useState(''); // สำหรับรีวิว
   const [expandedReviewId, setExpandedReviewId] = useState<number | null>(null);
   const [showReviews, setShowReviews] = useState(true);
   const [showQuestions, setShowQuestions] = useState(false);
@@ -49,6 +51,7 @@ const CourseDetail: React.FC = () => {
   const [isQuestionModalOpen, setIsQuestionModalOpen] = useState(false);
   const [questionerName, setQuestionerName] = useState('');
   const [questionText, setQuestionText] = useState('');
+  const [questionPasscodePin, setQuestionPasscodePin] = useState(''); // สำหรับคำถาม
 
   // Fetch course data from API
   const fetchCourse = async () => {
@@ -94,6 +97,7 @@ const CourseDetail: React.FC = () => {
       grade,
       academicYear,
       section,
+      passcode_pin: passcodePin, // เพิ่ม passcode_pin
     };
 
     try {
@@ -116,6 +120,7 @@ const CourseDetail: React.FC = () => {
       setGrade('');
       setAcademicYear('');
       setSection('');
+      setPasscodePin('');
     } catch (error) {
       console.error("Error submitting review:", error);
       alert("เกิดข้อผิดพลาดในการส่งรีวิว กรุณาลองอีกครั้ง");
@@ -129,6 +134,7 @@ const CourseDetail: React.FC = () => {
       courseId: course?.course_id,
       questionerName,
       questionText,
+      passcode_pin: questionPasscodePin, // เพิ่ม passcode_pin
     };
 
     try {
@@ -146,12 +152,66 @@ const CourseDetail: React.FC = () => {
       setIsQuestionModalOpen(false);
       setQuestionerName('');
       setQuestionText('');
+      setQuestionPasscodePin('');
     } catch (error) {
       console.error("Error submitting question:", error);
       alert("เกิดข้อผิดพลาดในการส่งคำถาม กรุณาลองอีกครั้ง");
     }
   };
 
+  const handleDeleteReview = async (reviewId: number, passcode_pin: string) => {
+    try {
+      console.log("Deleting review with ID:", reviewId);
+      console.log("Using passcode_pin:", passcode_pin);
+  
+      const response = await axios.delete(
+        `https://92f7-203-150-171-252.ngrok-free.app/api/reviews/${reviewId}`,
+        {
+          headers: {
+            'ngrok-skip-browser-warning': '69420',
+          },
+          data: { passcode_pin }, // ส่ง passcode_pin ไปกับ request
+        }
+      );
+  
+      console.log("API Response:", response.data); // Debug: ตรวจสอบ response จาก API
+  
+      await fetchCourse(); // Refresh course data after deleting review
+    } catch (error) {
+      console.error("Error deleting review:", error);
+      if (axios.isAxiosError(error)) {
+        console.error("API Error Response:", error.response?.data); // Debug: ตรวจสอบข้อผิดพลาดจาก API
+      }
+      alert("เกิดข้อผิดพลาดในการลบรีวิว กรุณาตรวจสอบ passcode และลองอีกครั้ง");
+    }
+  };
+
+  const handleDeleteQuestion = async (questionId: number, passcode_pin: string) => {
+    try {
+      console.log("Deleting question with ID:", questionId);
+      console.log("Using passcode_pin:", passcode_pin);
+  
+      const response = await axios.delete(
+        `https://92f7-203-150-171-252.ngrok-free.app/api/questions/${questionId}`,
+        {
+          headers: {
+            'ngrok-skip-browser-warning': '69420',
+          },
+          data: { passcode_pin }, // ส่ง passcode_pin ไปกับ request
+        }
+      );
+  
+      console.log("API Response:", response.data); // Debug: ตรวจสอบ response จาก API
+  
+      await fetchCourse(); // Refresh course data after deleting question
+    } catch (error) {
+      console.error("Error deleting question:", error);
+      if (axios.isAxiosError(error)) {
+        console.error("API Error Response:", error.response?.data); // Debug: ตรวจสอบข้อผิดพลาดจาก API
+      }
+      alert("เกิดข้อผิดพลาดในการลบคำถาม กรุณาตรวจสอบ passcode และลองอีกครั้ง");
+    }
+  };
   if (!course) {
     return <div>Loading...</div>;
   }
@@ -230,6 +290,7 @@ const CourseDetail: React.FC = () => {
                 handleExpandReview={(reviewId: number) =>
                   setExpandedReviewId(expandedReviewId === reviewId ? null : reviewId)
                 }
+                handleDeleteReview={handleDeleteReview} // ส่งฟังก์ชันลบรีวิว
               />
             ) : (
               <p>ไม่มีรีวิวสำหรับคอร์สนี้</p>
@@ -253,6 +314,7 @@ const CourseDetail: React.FC = () => {
                 questions={course.questions}
                 courseId={course.course_id}
                 fetchCourse={fetchCourse}
+                handleDeleteQuestion={handleDeleteQuestion} // ส่งฟังก์ชันลบคำถาม
               />
             ) : (
               <p>ไม่มีคำถามสำหรับคอร์สนี้</p>
@@ -334,6 +396,15 @@ const CourseDetail: React.FC = () => {
                   required
                 />
               </div>
+              <div className="form-group">
+                <label>Passcode:</label>
+                <input
+                  type="password"
+                  value={passcodePin}
+                  onChange={(e) => setPasscodePin(e.target.value)}
+                  required
+                />
+              </div>
               <button type="submit">ส่งรีวิว</button>
               <button type="button" onClick={() => setIsModalOpen(false)}>
                 ยกเลิก
@@ -363,6 +434,15 @@ const CourseDetail: React.FC = () => {
                 <textarea
                   value={questionText}
                   onChange={(e) => setQuestionText(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Passcode:</label>
+                <input
+                  type="password"
+                  value={questionPasscodePin}
+                  onChange={(e) => setQuestionPasscodePin(e.target.value)}
                   required
                 />
               </div>
