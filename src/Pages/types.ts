@@ -21,7 +21,11 @@ export interface Review {
 }
 
 export interface Question {
+  id: number;
   questionText: string;
   questionerName: string | null; // Allow null
   courseId: string;
+  createdAt: string;
+  updatedAt: string;
+  passcode_pin?: string; // Optional property
 }

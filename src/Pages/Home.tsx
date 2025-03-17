@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { mockCourses, Question } from '../mocks/course';
-import { Review, Course } from './types';
+import { mockCourses } from '../mocks/course'; // Removed Question import
+import { Review, Course, Question } from './types'; // Added Question to types
 import Header from '../Component/Header';
 import Footer from '../Component/Footer';
 import '../Styles/Home.css';
@@ -19,8 +19,8 @@ const ReviewCard: React.FC<{ review: Review, course: Course }> = ({ review, cour
   );
 };
 
-const QuestionCard: React.FC<{ question: Question }> = ({ question }) => {
-  const course = mockCourses.find((c) => c.questions.some((q) => q.id === question.id));
+const QuestionCard: React.FC<{ question: Question, courses: Course[] }> = ({ question, courses }) => {
+  const course = courses.find((c) => c.course_id === question.courseId);
   if (!course) return null;
 
   return (
@@ -31,9 +31,11 @@ const QuestionCard: React.FC<{ question: Question }> = ({ question }) => {
         </Link>
       </h3>
       <p className="question-text">{question.questionText}</p>
-      {question.answers && question.answers.map((answer) => (
+      {/* The API response for questions doesn't include answers */}
+      {/* {question.answers && question.answers.map((answer) => (
         <p key={answer.id} className="answer">Answer: {answer.answerText}</p>
-      ))}
+      ))} */}
+      <p className="questioner">ถามโดย: {question.questionerName}</p>
     </div>
   );
 };
@@ -63,26 +65,35 @@ const Home: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const questions: Question[] = mockCourses.flatMap((course) => course.questions);
-        setAllQuestions(questions);
-
-        const [coursesResponse, reviewsResponse] = await Promise.all([
+        const [coursesResponse, reviewsResponse, questionsResponse] = await Promise.all([
           fetch('https://92f7-203-150-171-252.ngrok-free.app/api/courses/', {
             headers: new Headers({ "ngrok-skip-browser-warning": "69420" }),
           }),
           fetch('https://92f7-203-150-171-252.ngrok-free.app/api/reviews/', {
             headers: new Headers({ "ngrok-skip-browser-warning": "69420" }),
           }),
+          fetch('https://92f7-203-150-171-252.ngrok-free.app/api/questions/', {
+            headers: new Headers({ "ngrok-skip-browser-warning": "69420" }),
+          }),
         ]);
 
-        if (!coursesResponse.ok) throw new Error(`Courses API error: ${coursesResponse.status}`);
-        if (!reviewsResponse.ok) throw new Error(`Reviews API error: ${reviewsResponse.status}`);
+        if (!coursesResponse.ok) {
+          throw new Error(`Courses API error: ${coursesResponse.status}`);
+        }
+        if (!reviewsResponse.ok) {
+          throw new Error(`Reviews API error: ${reviewsResponse.status}`);
+        }
+        if (!questionsResponse.ok) {
+          throw new Error(`Questions API error: ${questionsResponse.status}`);
+        }
 
         const coursesData: Course[] = await coursesResponse.json();
         const reviewsData: Review[] = await reviewsResponse.json();
+        const questionsData: Question[] = await questionsResponse.json();
 
         setAllCourses(coursesData);
         setAllReviews(reviewsData);
+        setAllQuestions(questionsData);
         setLoading(false);
       } catch (err: any) {
         setError(err);
@@ -100,14 +111,10 @@ const Home: React.FC = () => {
   });
 
   const filteredQuestions = allQuestions.filter((question) => {
-/*     const course = allCourses.find((c) => c.course_id === question.courseId);
+    const course = allCourses.find((c) => c.course_id === question.courseId);
     if (!course) return false;
- */
-    return (
-/*       course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      course.course_id.toString().includes(searchTerm) || */
-      question.questionText.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    return course.name.toLowerCase().includes(searchTerm.toLowerCase()) || question.courseId.toString().includes(searchTerm);
+
   });
 
   const filteredCourses = allCourses.filter((course) => {
@@ -117,8 +124,6 @@ const Home: React.FC = () => {
     );
   });
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
   return (
     <div>
       <Header />
@@ -148,7 +153,10 @@ const Home: React.FC = () => {
         </nav>
 
         <div className="content-list">
-        {activeTab === 'reviews' && (
+          {loading && <p>Loading...</p>}
+          {error && <p className="error-message">Error: {error.message}</p>}
+
+          {!loading && !error && activeTab === 'reviews' && (
             <div className="review-list">
               {filteredReviews.length > 0 ? (
                 filteredReviews.map((review) => {
@@ -162,11 +170,11 @@ const Home: React.FC = () => {
             </div>
           )}
 
-          {activeTab === 'questions' && (
+          {!loading && !error && activeTab === 'questions' && (
             <div className="question-list">
               {filteredQuestions.length > 0 ? (
                 filteredQuestions.map((question) => (
-                  <QuestionCard key={question.id} question={question} />
+                  <QuestionCard key={question.id} question={question} courses={allCourses} />
                 ))
               ) : (
                 <p className="no-questions">No questions found.</p>
@@ -174,7 +182,7 @@ const Home: React.FC = () => {
             </div>
           )}
 
-          {activeTab === 'courses' && (
+          {!loading && !error && activeTab === 'courses' && (
             <div className="course-list">
               {filteredCourses.length > 0 ? (
                 filteredCourses.map((course) => (
