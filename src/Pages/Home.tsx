@@ -6,7 +6,7 @@ import ReviewCard from '../Component/All/ReviewCard';
 import QuestionCard from '../Component/All/QuestionCard';
 import CourseCard from '../Component/All/CourseCard';
 import '../Styles/Home.css';
-
+import { COURSES_API_URL, REVIEWS_API_URL, QUESTIONS_API_URL } from '../mocks/Api'; // หรือพาธไปยังไฟล์ที่คุณสร้าง
 
 const Home: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -21,15 +21,9 @@ const Home: React.FC = () => {
     const fetchData = async () => {
       try {
         const [coursesResponse, reviewsResponse, questionsResponse] = await Promise.all([
-          fetch('https://92f7-203-150-171-252.ngrok-free.app/api/courses/', {
-            headers: new Headers({ "ngrok-skip-browser-warning": "69420" }),
-          }),
-          fetch('https://92f7-203-150-171-252.ngrok-free.app/api/reviews/', {
-            headers: new Headers({ "ngrok-skip-browser-warning": "69420" }),
-          }),
-          fetch('https://92f7-203-150-171-252.ngrok-free.app/api/questions/', {
-            headers: new Headers({ "ngrok-skip-browser-warning": "69420" }),
-          }),
+          fetch(COURSES_API_URL, {}),
+          fetch(REVIEWS_API_URL, {}),
+          fetch(QUESTIONS_API_URL, {}),
         ]);
 
         if (!coursesResponse.ok) {

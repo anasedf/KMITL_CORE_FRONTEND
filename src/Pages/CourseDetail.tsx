@@ -57,7 +57,7 @@ const CourseDetail: React.FC = () => {
   const fetchCourse = async () => {
     try {
       const response = await axios.get(
-        `https://92f7-203-150-171-252.ngrok-free.app/api/courses/${courseId}`,
+        `https://course-review-back-app-741869911637.asia-southeast1.run.app/api/courses/${courseId}`,
         {
           headers: {
             'ngrok-skip-browser-warning': '69420',
@@ -104,7 +104,7 @@ const CourseDetail: React.FC = () => {
 
     try {
       await axios.post(
-        `https://92f7-203-150-171-252.ngrok-free.app/api/reviews/`,
+        `https://course-review-back-app-741869911637.asia-southeast1.run.app/api/reviews/`,
         newReview,
         {
           headers: {
