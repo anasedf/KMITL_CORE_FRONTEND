@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { mockCourses, Question } from '../mocks/course';
-import Header from '../Component/Header';
-import Footer from '../Component/Footer';
-import '../Styles/Questions.css'; // ใช้ CSS เดียวกันกับ Home
+import '../Styles/Questions.css';
 
 const Questions: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [allQuestions, setAllQuestions] = useState<Question[]>([]);
 
   useEffect(() => {
-    // ดึงคำถามทั้งหมดจาก mockCourses
     const questions: Question[] = mockCourses.flatMap((course) => course.questions);
     setAllQuestions(questions);
   }, []);
@@ -27,52 +23,39 @@ const Questions: React.FC = () => {
   });
 
   return (
-    <div>
-      <Header />
-      <main className="questions-page">
-        <div className="search-container">
-          <input
-            type="text"
-            placeholder="Search by course name or ID..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="search-box"
-          />
-        </div>
+    <div className="questions-page">
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Search by course name or ID..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-box"
+        />
+      </div>
 
-        <nav>
-          <ul>
-            <li><Link to="/">รีวิวทั้งหมด</Link></li>
-            <li><Link to="/questions">คำถามทั้งหมด</Link></li>
-          </ul>
-        </nav>
+      <div className="question-list">
+        {filteredQuestions.length > 0 ? (
+          filteredQuestions.map((question) => {
+            const course = mockCourses.find((c) => c.questions.some((q) => q.id === question.id));
+            if (!course) return null;
 
-        <div className="question-list"> {/* เปลี่ยน className เป็น question-list */}
-          {filteredQuestions.length > 0 ? (
-            filteredQuestions.map((question) => {
-              const course = mockCourses.find((c) => c.questions.some((q) => q.id === question.id));
-              if (!course) return null;
-
-              return (
-                <div key={question.id} className="question-card"> {/* เปลี่ยน className เป็น question-card */}
-                  <h3>
-                    <Link to={`/course/${course.id}`}>
-                      {course.course_id} | {course.name}
-                    </Link>
-                  </h3>
-                  <p>{question.questionText}</p>
-                  {question.answers && question.answers.map((answer) => (
-                    <p key={answer.id} className="answer">Answer: {answer.answerText}</p>
-                  ))}
-                </div>
-              );
-            })
-          ) : (
-            <p className="no-questions">No questions found.</p>
-          )}
-        </div>
-      </main>
-      <Footer />
+            return (
+              <div key={question.id} className="question-card">
+                <h3>
+                  {course.course_id} | {course.name}
+                </h3>
+                <p>{question.questionText}</p>
+                {question.answers && question.answers.length > 0 && question.answers.map((answer) => (
+                  <p key={answer.id} className="answer">Answer: {answer.answerText}</p>
+                ))}
+              </div>
+            );
+          })
+        ) : (
+          <p className="no-questions">No questions found.</p>
+        )}
+      </div>
     </div>
   );
 };

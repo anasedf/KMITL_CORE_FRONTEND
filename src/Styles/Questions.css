@@ -1,89 +1,90 @@
 .questions-page {
-    padding: 2rem;
+  padding: 2rem;
+}
+
+.questions-page .search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.questions-page .search-box {
+  width: 100%;
+  max-width: 500px;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  border: 2px solid #007bff;
+  border-radius: 30px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.questions-page .search-box:focus {
+  border-color: #0056b3;
+}
+
+.questions-page .question-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.questions-page .question-card {
+  background-color: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.questions-page .question-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.questions-page .question-card h3 {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+}
+
+.questions-page .question-card p {
+  color: #555;
+  line-height: 1.6;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.questions-page .question-card p.answer {
+  margin-left: 1rem;
+  /* เยื้องคำตอบ */
+  font-style: italic;
+  color: #777;
+}
+
+.questions-page .question-card a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.questions-page .question-card a:hover {
+  text-decoration: underline;
+}
+
+.questions-page .no-questions {
+  text-align: center;
+  font-style: italic;
+  color: #888;
+  padding: 2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .questions-page {
+    padding: 1rem;
   }
-  
-  .questions-page .search-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 2rem;
-  }
-  
+
   .questions-page .search-box {
-    width: 100%;
-    max-width: 500px;
-    padding: 1rem 1.5rem;
-    font-size: 1rem;
-    border: 2px solid #007bff;
-    border-radius: 30px;
-    outline: none;
-    transition: border-color 0.3s ease;
+    padding: 0.8rem 1.2rem;
   }
-  
-  .questions-page .search-box:focus {
-    border-color: #0056b3;
-  }
-  
-  .questions-page .question-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-  }
-  
-  .questions-page .question-card {
-    background-color: white;
-    border-radius: 1rem;
-    padding: 1.5rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .questions-page .question-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  .questions-page .question-card h3 {
-    margin: 0 0 1rem;
-    font-size: 1.25rem;
-  }
-  
-  .questions-page .question-card p {
-    color: #555;
-    line-height: 1.6;
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .questions-page .question-card p.answer {
-    margin-left: 1rem; /* เยื้องคำตอบ */
-    font-style: italic;
-    color: #777;
-  }
-  
-  .questions-page .question-card a {
-    color: #007bff;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  .questions-page .question-card a:hover {
-    text-decoration: underline;
-  }
-  
-  .questions-page .no-questions {
-    text-align: center;
-    font-style: italic;
-    color: #888;
-    padding: 2rem;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .questions-page {
-      padding: 1rem;
-    }
-  
-    .questions-page .search-box {
-      padding: 0.8rem 1.2rem;
-    }
-  }
+}
