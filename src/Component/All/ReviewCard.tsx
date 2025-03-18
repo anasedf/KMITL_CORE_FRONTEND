@@ -17,7 +17,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, course }) => {
       <h3>
         <Link to={`/course/${review.courseId}`}>
           {review.courseId} | {course.name}
-          <br /> {/* เพิ่มบรรทัดใหม่หากต้องการให้อยู่คนละบรรทัดชัดเจน */}
+          <br />
           <span>{course.nameTH}</span>
         </Link>
         <div className="average-score-container">
@@ -27,8 +27,8 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, course }) => {
       </h3>
       <p className="review-detail">{review.reviewText}</p>
       <div className='review-buttom'>
-        <span>โดย : {review.reviewerName}</span>
-        <span>วันที่ : {formattedDate}</span>
+        <span>{review.reviewerName}</span>
+        <span>{formattedDate}</span>
       </div>
     </div>
   );

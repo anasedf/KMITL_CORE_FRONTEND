@@ -141,7 +141,7 @@ const CourseDetail: React.FC = () => {
 
     try {
       await axios.post(
-        `https://92f7-203-150-171-252.ngrok-free.app/api/questions/`,
+        `https://course-review-back-app-741869911637.asia-southeast1.run.app/api/questions/`,
         newQuestion,
         {
           headers: {
@@ -167,7 +167,7 @@ const CourseDetail: React.FC = () => {
       console.log("Using passcode_pin:", passcode_pin);
 
       const response = await axios.delete(
-        `https://92f7-203-150-171-252.ngrok-free.app/api/reviews/${reviewId}`,
+        `https://course-review-back-app-741869911637.asia-southeast1.run.app/api/reviews/${reviewId}`,
         {
           headers: {
             'ngrok-skip-browser-warning': '69420',
@@ -194,7 +194,7 @@ const CourseDetail: React.FC = () => {
       console.log("Using passcode_pin:", passcode_pin);
 
       const response = await axios.delete(
-        `https://92f7-203-150-171-252.ngrok-free.app/api/questions/${questionId}`,
+        `https://course-review-back-app-741869911637.asia-southeast1.run.app/api/questions/${questionId}`,
         {
           headers: {
             'ngrok-skip-browser-warning': '69420',

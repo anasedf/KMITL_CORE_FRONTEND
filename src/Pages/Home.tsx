@@ -94,7 +94,7 @@ const Home: React.FC = () => {
                   onClick={() => setActiveTab('reviews')}
                   className={activeTab === 'reviews' ? 'active' : ''}
                 >
-                  รีวิวทั้งหมด
+                  รีวิว
                 </button>
               </li>
               <li>
@@ -102,7 +102,7 @@ const Home: React.FC = () => {
                   onClick={() => setActiveTab('questions')}
                   className={activeTab === 'questions' ? 'active' : ''}
                 >
-                  คำถามทั้งหมด
+                  คำถาม
                 </button>
               </li>
               <li>
@@ -110,7 +110,7 @@ const Home: React.FC = () => {
                   onClick={() => setActiveTab('courses')}
                   className={activeTab === 'courses' ? 'active' : ''}
                 >
-                  Courses
+                  วิชา
                 </button>
               </li>
             </ul>
