@@ -13,7 +13,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, course }) => {
   const averageScore = (review.homeScore + review.interestScore) / 2;
 
   return (
-    <div className="course-card">
+    <div className="review-card">
       <h3>
         <Link to={`/course/${review.courseId}`}>
           {review.courseId} | {course.name}

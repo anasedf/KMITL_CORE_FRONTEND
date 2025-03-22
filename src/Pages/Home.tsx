@@ -56,18 +56,27 @@ const Home: React.FC = () => {
   const filteredReviews = allReviews.filter((review) => {
     const course = allCourses.find((c) => c.course_id === review.courseId);
     if (!course) return false;
-    return course.name.toLowerCase().includes(searchTerm.toLowerCase()) || review.courseId.toString().includes(searchTerm);
+    return (
+      course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      course.nameTH.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      review.courseId.toString().includes(searchTerm)
+    );
   });
 
   const filteredQuestions = allQuestions.filter((question) => {
     const course = allCourses.find((c) => c.course_id === question.courseId);
     if (!course) return false;
-    return course.name.toLowerCase().includes(searchTerm.toLowerCase()) || question.courseId.toString().includes(searchTerm);
+    return (
+      course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      course.nameTH.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      question.courseId.toString().includes(searchTerm)
+    );
   });
 
   const filteredCourses = allCourses.filter((course) => {
     return (
       course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      course.nameTH.toLowerCase().includes(searchTerm.toLowerCase()) ||
       course.course_id.toString().includes(searchTerm)
     );
   });
