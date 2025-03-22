@@ -1,64 +1,53 @@
-/* Global Styles */
-body {
-  margin: 0;
-  font-family: 'Arial', sans-serif;
-  background-color: #f9f9f9;
-  color: #333;
-}
-
-/* Course Detail Page */
 .course-detail {
-  padding: 3rem;
   font-family: 'Arial', sans-serif;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .course-header {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 30px;
 }
 
-.course-detail h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1.5rem;
+.course-header h1 {
   color: #333;
-  font-weight: 600;
+  margin-bottom: 10px;
 }
 
-.course-image {
-  width: 100%;
-  max-width: 600px;
-  height: auto;
-  border-radius: 12px;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.course-description {
+.course-header .course-description {
   color: #666;
-  line-height: 1.7;
-  font-size: 1.1rem;
+  margin-bottom: 20px;
 }
 
-/* Score Summary Section */
+.course-header .course-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
 .score-summary {
-  background-color: #f4f4f4;
-  border-radius: 12px;
-  padding: 2rem;
-  margin-bottom: 3rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .score-summary h2 {
-  font-size: 1.8rem;
-  margin-bottom: 1.5rem;
   color: #333;
-  font-weight: 600;
+  margin-bottom: 15px;
+  text-align: center;
 }
 
 .score-bars {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 10px;
 }
 
 .score-bar {
@@ -67,37 +56,59 @@ body {
 }
 
 .score-bar label {
-  width: 180px;
-  font-weight: 500;
-  color: #444;
-}
-
-.bar {
-  flex: 1;
-  height: 12px;
-  background-color: #e0e0e0;
-  border-radius: 6px;
-  margin: 0 1.5rem;
-  overflow: hidden;
-}
-
-.fill {
-  height: 100%;
-  background-color: #007bff;
-  border-radius: 6px;
-  transition: width 0.5s ease-in-out;
-}
-
-.score {
-  width: 50px;
-  text-align: right;
+  width: 200px;
   color: #555;
+  font-weight: bold;
 }
 
-/* Reviews and Questions Sections */
+.score-bar .bar {
+  flex-grow: 1;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  height: 20px;
+  overflow: hidden;
+  margin: 0 10px;
+}
+
+.score-bar .fill {
+  background-color: #4CAF50;
+  height: 100%;
+}
+
+.score-bar .score {
+  width: 40px;
+  text-align: right;
+  color: #333;
+}
+
+.toggle-sections {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.toggle-button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-button.active,
+.toggle-button:hover {
+  background-color: #ddd;
+}
+
 .reviews-section,
 .questions-section {
-  margin-top: 3rem;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .reviews-header,
@@ -105,291 +116,41 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 15px;
 }
 
 .reviews-header h2,
 .questions-header h2 {
-  font-size: 1.8rem;
   color: #333;
-  font-weight: 600;
 }
 
 .add-review-button,
 .add-question-button {
-  padding: 1rem 2rem;
+  padding: 10px 15px;
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 1.1rem;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background-color 0.3s ease;
 }
 
 .add-review-button:hover,
 .add-question-button:hover {
   background-color: #0056b3;
-  transform: translateY(-2px);
 }
 
-.reviews-list,
-.questions-section .question-item {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.review-card,
-.question-item {
-  background-color: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-  transition: box-shadow 0.3s ease;
-}
-
-.review-card:hover,
-.question-item:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-}
-
-.review-text {
-  margin-bottom: 1rem;
-  color: #444;
-  line-height: 1.6;
-}
-
-.reviewer-info {
-  font-style: italic;
-  color: #777;
-  margin-bottom: 1.2rem;
-}
-
-.review-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.expand-button,
-.like-dislike,
-.share {
-  padding: 0.75rem 1.5rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #f8f8f8;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.expand-button:hover,
-.like-dislike button:hover,
-.share:hover {
-  background-color: #f0f0f0;
-  transform: translateY(-2px);
-}
-
-.like-dislike button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin: 0 0.75rem;
-}
-
-/* Modal Styles */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal {
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 400px; /* ปรับขนาด modal ให้เล็กลง */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  animation: slideIn 0.3s ease-out;
-}
-
-.modal h2 {
-  margin-top: 0;
-  font-size: 1.5rem; /* ปรับขนาดหัวข้อให้เล็กลง */
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 1rem; /* ปรับระยะห่างใต้หัวข้อ */
-}
-
-.modal form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem; /* ปรับระยะห่างระหว่างฟิลด์ให้เล็กลง */
-}
-
-.modal .form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem; /* ปรับระยะห่างระหว่าง label และ input ให้เล็กลง */
-}
-
-.modal .form-group label {
-  font-weight: 500;
-  color: #444;
-  font-size: 0.9rem; /* ปรับขนาดฟอนต์ label ให้เล็กลง */
-}
-
-.modal .form-group input,
-.modal .form-group textarea,
-.modal .form-group select {
-  padding: 0.5rem; /* ปรับ padding ของ input ให้เล็กลง */
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
-  font-size: 0.9rem; /* ปรับขนาดฟอนต์ input ให้เล็กลง */
-  color: #333;
-  background-color: #f8f8f8;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.modal .form-group input:focus,
-.modal .form-group textarea:focus,
-.modal .form-group select:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
-  outline: none;
-}
-
-.modal .form-group textarea {
-  resize: vertical;
-  min-height: 100px; /* ปรับความสูงของ textarea ให้เล็กลง */
-}
-
-.modal .form-buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.75rem; /* ปรับระยะห่างระหว่างปุ่มให้เล็กลง */
-  margin-top: 1rem; /* ปรับระยะห่างของปุ่มให้เล็กลง */
-}
-
-.modal button[type="submit"],
-.modal button[type="button"] {
-  padding: 0.5rem 1rem; /* ปรับขนาดปุ่มให้เล็กลง */
-  font-size: 0.9rem; /* ปรับขนาดฟอนต์ปุ่มให้เล็กลง */
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.modal button[type="submit"] {
-  background-color: #007bff;
-  color: white;
-}
-
-.modal button[type="submit"]:hover {
-  background-color: #0056b3;
-  transform: translateY(-2px);
-}
-
-.modal button[type="button"] {
-  background-color: #f0f0f0;
-  color: #333;
-}
-
-.modal button[type="button"]:hover {
-  background-color: #e0e0e0;
-  transform: translateY(-2px);
-}
-/* Toggle Buttons */
-.toggle-sections {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2rem;
-}
-
-.toggle-button {
-  padding: 1rem 2rem;
-  margin: 0 1rem;
-  border: none;
-  background-color: #f0f0f0;
-  cursor: pointer;
-  border-radius: 6px;
-  font-size: 1.1rem;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.toggle-button.active {
-  background-color: #007bff;
-  color: white;
-}
-
-.toggle-button:hover {
-  background-color: #e0e0e0;
-}
-
-/* Question Item Styles */
-.question-item {
-  border-left: 4px solid #007bff;
-  padding-left: 1.5rem;
-}
-
-.question-text {
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 0.5rem;
-}
-
-.answer-text {
-  color: #666;
-  line-height: 1.6;
-}
-
-/* Home Button */
 .home-button {
-  top: 20px;
-  left: 20px;
-  padding: 10px 20px;
+  display: inline-block;
+  padding: 10px 15px;
   background-color: #007bff;
   color: white;
-  text-decoration: none;
+  border: none;
   border-radius: 5px;
-  transition: background-color 0.3s ease;
+  text-decoration: none;
+  margin-bottom: 20px;
 }
 
 .home-button:hover {
   background-color: #0056b3;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .course-detail {
-    padding: 2rem;
-  }
-
-  .course-detail h1 {
-    font-size: 2rem;
-  }
-
-  .score-bar label {
-    width: 150px;
-  }
-
-  .modal {
-    width: 90%;
-    padding: 1.5rem;
-  }
-
-  .toggle-button {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-  }
 }

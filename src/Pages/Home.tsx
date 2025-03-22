@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Review, Course, Question } from '../mocks/types';
 import Header from '../Component/Nav/Header';
 import Footer from '../Component/Nav/Footer';
-import ReviewCard from '../Component/All/ReviewCard';
-import QuestionCard from '../Component/All/QuestionCard';
-import CourseCard from '../Component/All/CourseCard';
+import ReviewCard from '../Component/Home/ReviewCard';
+import QuestionCard from '../Component/Home/QuestionCard';
+import CourseCard from '../Component/Home/CourseCard';
 import '../Styles/Home.css';
-import { COURSES_API_URL, REVIEWS_API_URL, QUESTIONS_API_URL } from '../mocks/Api'; // หรือพาธไปยังไฟล์ที่คุณสร้าง
+import { fetchCourses, fetchReviews, fetchQuestions } from '../services/api';
 
 const Home: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -15,37 +15,23 @@ const Home: React.FC = () => {
   const [allCourses, setAllCourses] = useState<Course[]>([]);
   const [activeTab, setActiveTab] = useState<'reviews' | 'questions' | 'courses'>('reviews');
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [coursesResponse, reviewsResponse, questionsResponse] = await Promise.all([
-          fetch(COURSES_API_URL, {}),
-          fetch(REVIEWS_API_URL, {}),
-          fetch(QUESTIONS_API_URL, {}),
+        const [coursesData, reviewsData, questionsData] = await Promise.all([
+          fetchCourses(),
+          fetchReviews(),
+          fetchQuestions(),
         ]);
-
-        if (!coursesResponse.ok) {
-          throw new Error(`Courses API error: ${coursesResponse.status}`);
-        }
-        if (!reviewsResponse.ok) {
-          throw new Error(`Reviews API error: ${reviewsResponse.status}`);
-        }
-        if (!questionsResponse.ok) {
-          throw new Error(`Questions API error: ${questionsResponse.status}`);
-        }
-
-        const coursesData: Course[] = await coursesResponse.json();
-        const reviewsData: Review[] = await reviewsResponse.json();
-        const questionsData: Question[] = await questionsResponse.json();
 
         setAllCourses(coursesData);
         setAllReviews(reviewsData);
         setAllQuestions(questionsData);
-        setLoading(false);
       } catch (err: any) {
-        setError(err);
+        setError(err.message);
+      } finally {
         setLoading(false);
       }
     };
@@ -53,33 +39,26 @@ const Home: React.FC = () => {
     fetchData();
   }, []);
 
-  const filteredReviews = allReviews.filter((review) => {
-    const course = allCourses.find((c) => c.course_id === review.courseId);
-    if (!course) return false;
-    return (
-      course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      course.nameTH.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      review.courseId.toString().includes(searchTerm)
-    );
-  });
+  const filterData = useCallback((items: any[], key: string) => {
+    return items.filter((item) => {
+      const course = allCourses.find((c) => c.course_id === item.courseId);
+      return course 
+        ? course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          course.nameTH.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.courseId.toString().includes(searchTerm)
+        : false;
+    });
+  }, [allCourses, searchTerm]);
 
-  const filteredQuestions = allQuestions.filter((question) => {
-    const course = allCourses.find((c) => c.course_id === question.courseId);
-    if (!course) return false;
-    return (
-      course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      course.nameTH.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      question.courseId.toString().includes(searchTerm)
-    );
-  });
-
-  const filteredCourses = allCourses.filter((course) => {
-    return (
+  const filteredReviews = useMemo(() => filterData(allReviews, 'review'), [allReviews, filterData]);
+  const filteredQuestions = useMemo(() => filterData(allQuestions, 'question'), [allQuestions, filterData]);
+  const filteredCourses = useMemo(() => {
+    return allCourses.filter((course) => 
       course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       course.nameTH.toLowerCase().includes(searchTerm.toLowerCase()) ||
       course.course_id.toString().includes(searchTerm)
     );
-  });
+  }, [allCourses, searchTerm]);
 
   return (
     <div>
@@ -95,78 +74,57 @@ const Home: React.FC = () => {
           />
         </div>
 
-        <div className='Nav-con'>
+        <div className="Nav-con">
           <nav>
             <ul>
-              <li>
-                <button
-                  onClick={() => setActiveTab('reviews')}
-                  className={activeTab === 'reviews' ? 'active' : ''}
-                >
-                  รีวิว
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => setActiveTab('questions')}
-                  className={activeTab === 'questions' ? 'active' : ''}
-                >
-                  คำถาม
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => setActiveTab('courses')}
-                  className={activeTab === 'courses' ? 'active' : ''}
-                >
-                  วิชา
-                </button>
-              </li>
+              {['reviews', 'questions', 'courses'].map((tab) => (
+                <li key={tab}>
+                  <button 
+                    onClick={() => setActiveTab(tab as any)}
+                    className={activeTab === tab ? 'active' : ''}
+                  >
+                    {tab === 'reviews' ? 'รีวิว' : tab === 'questions' ? 'คำถาม' : 'วิชา'}
+                  </button>
+                </li>
+              ))}
             </ul>
           </nav>
         </div>
 
-
         <div className="content-list">
-          {loading && <p>Loading...</p>}
-          {error && <p className="error-message">Error: {error.message}</p>}
-
-          {!loading && !error && activeTab === 'reviews' && (
-            <div className="review-list">
-              {filteredReviews.length > 0 ? (
-                filteredReviews.map((review) => {
-                  const course = allCourses.find((c) => c.course_id === review.courseId);
-                  if (!course) return null;
-                  return <ReviewCard key={review.courseId} review={review} course={course} />;
-                })
-              ) : (
-                <p className="no-reviews">No reviews found.</p>
+          {loading ? <p>Loading...</p> : error ? <p className="error-message">Error: {error}</p> : (
+            <>
+              {activeTab === 'reviews' && (
+                <div className="review-list">
+                  {filteredReviews.length > 0 ? (
+                    filteredReviews.map((review) => {
+                      const course = allCourses.find((c) => c.course_id === review.courseId);
+                      return course ? <ReviewCard key={review.courseId} review={review} course={course} /> : null;
+                    })
+                  ) : <p className="no-reviews">No reviews found.</p>}
+                </div>
               )}
-            </div>
-          )}
 
-          {!loading && !error && activeTab === 'questions' && (
-            <div className="question-list">
-              {filteredQuestions.length > 0 ? (
-                filteredQuestions.map((question) => (
-                  <QuestionCard key={question.id} question={question} courses={allCourses} />
-                ))
-              ) : (
-                <p className="no-questions">No questions found.</p>
+              {activeTab === 'questions' && (
+                <div className="question-list">
+                  {filteredQuestions.length > 0 ? (
+                    filteredQuestions.map((question) => (
+                      <QuestionCard key={question.id} question={question} courses={allCourses} />
+                    ))
+                  ) : <p className="no-questions">No questions found.</p>}
+                </div>
               )}
-            </div>
-          )}
 
-          {!loading && !error && activeTab === 'courses' && (
-            <div className="course-list">
-              {filteredCourses.length > 0 ? (
-                filteredCourses.map((course) => (
-                  <CourseCard key={course.course_id} course={course} />
-                ))
-              ) : (
-                <p className="no-courses">No courses found.</p>
+              {activeTab === 'courses' && (
+                <div className="course-list">
+                  {filteredCourses.length > 0 ? (
+                    filteredCourses.map((course) => (
+                      <CourseCard key={course.course_id} course={course} />
+                    ))
+                  ) : <p className="no-courses">No courses found.</p>}
+                </div>
               )}
-            </div>
+            </>
           )}
         </div>
       </main>
