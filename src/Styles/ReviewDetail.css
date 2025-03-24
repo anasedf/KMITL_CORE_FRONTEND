@@ -1,0 +1,80 @@
+.re-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.re-card {
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  color: #333;
+  padding: 0 1.5rem;
+  position: relative;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+}
+.top p {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.average-score-container {
+  font-size: 1.5rem;
+}
+
+.mid {
+  font-size: 1.3rem;
+  color: #333;
+  overflow-wrap: break-word;
+  flex-grow: 1;
+  margin: 0 2rem;
+}
+
+.mid p {
+  margin: 0;
+}
+
+.bot {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 5px;
+  justify-content: space-between; /* เพิ่มบรรทัดนี้ */
+}
+
+.name-grade {
+  display: flex;
+  gap: 1rem;
+}
+
+.grade {
+  padding: 0.1rem 0.4rem;
+  border: 2px solid #777;
+  border-radius: 5px;
+  color: #e35205;
+}
+
+.delete-review-button {
+  color: #777;
+  cursor: pointer;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.delete-review-button:hover {
+  color: #e35205;
+}
+
+.no-reviews-message {
+  font-style: italic;
+  color: #888;
+  text-align: center;
+  margin-top: 10px;
+}
+

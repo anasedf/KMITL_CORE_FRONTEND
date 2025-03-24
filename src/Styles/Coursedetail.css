@@ -1,53 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 .course-detail {
-  font-family: 'Arial', sans-serif;
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 2rem 3rem;
+  font-family: 'Kanit', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ffffff;
+  color: #484848;
 }
 
-.course-header {
-  text-align: center;
+/* -------------------------------------------- */
+.Tab {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.button-text {
+  display: inline-block;
+}
+
+.icon {
+  display: none;
+}
+
+.add {
+  display: flex;
+  gap: 1rem;
+}
+
+.home-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  color: #333;
+  cursor: pointer;
+  font-size: 16px;
+  text-decoration: none;
+  min-width: 120px;
+}
+
+.Tab a,
+.home-button {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.Tab a:hover,
+.home-button:hover {
+  color: #e35205;
+}
+
+/* -------------------------------------------- */
+
+.course-info {
+  border: 2px solid #ddd;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
 }
 
-.course-header h1 {
+.course-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.info {
+  flex-grow: 1;
+  padding: 0 3rem 0 0;
+}
+
+.info h1 {
+  font-size: 2em;
+  margin: 0;
   color: #333;
-  margin-bottom: 10px;
 }
 
-.course-header .course-description {
+.info a {
+  font-size: 1.2em;
+  color: #333;
+  font-weight: 700;
+}
+
+.course-description {
+  font-size: 1em;
   color: #666;
-  margin-bottom: 20px;
+  margin-top: 10px;
 }
 
-.course-header .course-image {
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin-top: 20px;
+.rate {
+  border: 2px solid #ddd;
+  border-radius: 1rem;
+  padding: 1rem;
+  width: 8rem;
+  display: inline-block;
+  text-align: center;
+  font-size: 2em;
+  color: #ffc107;
 }
 
-.score-summary {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+.rate span {
+  display: block;
+  font-size: 0.5em;
+  color: #333;
 }
+
+/* ----------------------------------------- */
+
+/* .score-summary {
+} */
 
 .score-summary h2 {
-  color: #333;
+  font-size: 1.3em;
   margin-bottom: 15px;
-  text-align: center;
+  color: #333;
 }
 
 .score-bars {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .score-bar {
@@ -56,59 +133,70 @@
 }
 
 .score-bar label {
-  width: 200px;
+  width: 180px;
+  font-weight: 600;
   color: #555;
-  font-weight: bold;
+  font-size: 0.9em;
 }
 
-.score-bar .bar {
+.scale {
   flex-grow: 1;
-  background-color: #e0e0e0;
-  border-radius: 10px;
-  height: 20px;
+  background-color: #f0f0f0;
+  border-radius: 1rem;
+  height: 18px;
+  position: relative;
   overflow: hidden;
   margin: 0 10px;
 }
 
-.score-bar .fill {
-  background-color: #4CAF50;
+.fill {
+  background-color: #e35205;
   height: 100%;
+  border-radius: 1rem;
 }
 
-.score-bar .score {
+.score {
   width: 40px;
   text-align: right;
-  color: #333;
+  font-weight: 600;
+  color: #444;
+  font-size: 0.9em;
 }
+
+/* --------------------------------------- */
 
 .toggle-sections {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
 .toggle-button {
-  padding: 10px 20px;
-  margin: 0 10px;
-  border: none;
-  background-color: #f0f0f0;
-  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  color: #333;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-decoration: none;
+  min-width: 120px;
 }
 
-.toggle-button.active,
-.toggle-button:hover {
-  background-color: #ddd;
+.toggle-button.active {
+  background-color: #e35205;
+  color: white;
 }
 
-.reviews-section,
+/* ------------------------------------------- */
+
+/* .reviews-section,
 .questions-section {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
   margin-bottom: 20px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .reviews-header,
@@ -121,18 +209,17 @@
 
 .reviews-header h2,
 .questions-header h2 {
-  color: #333;
+  font-size: 1.5em;
 }
 
 .add-review-button,
 .add-question-button {
-  padding: 10px 15px;
   background-color: #007bff;
   color: white;
+  padding: 10px 15px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .add-review-button:hover,
@@ -140,17 +227,138 @@
   background-color: #0056b3;
 }
 
-.home-button {
-  display: inline-block;
-  padding: 10px 15px;
-  background-color: #007bff;
-  color: white;
-  border: none;
+.review-item,
+.question-item {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 10px;
   border-radius: 5px;
-  text-decoration: none;
-  margin-bottom: 20px;
 }
 
-.home-button:hover {
+.review-item h3,
+.question-header p {
+  margin-bottom: 5px;
+}
+
+.review-item p,
+.answer-item p {
+  color: #333;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 500px;
+  max-width: 90%;
+}
+
+.modal h2 {
+  margin-bottom: 15px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: calc(100% - 12px);
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.form-buttons button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.form-buttons button:last-child {
+  background-color: #6c757d;
+}
+
+.form-buttons button:hover {
   background-color: #0056b3;
+} */
+
+@media (max-width: 850px) {
+  .course-header {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .info {
+    font-size: 1rem;
+    padding: 0;
+  }
+
+  .info p,
+  .info a {
+    font-size: 1rem;
+  }
+
+  .info h1 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .button-text {
+    display: none;
+  }
+
+  .icon {
+    display: inline-block;
+  }
+
+  .home-button {
+    min-width: auto;
+  }
+
+  .score-bar {
+    display: grid;
+    grid-template-rows: auto 1fr;
+  }
+
+  .label {
+    grid-column: 1;;
+  }
+
+  .scale {
+    grid-column: 1; /* scale อยู่คอลัมน์แรก */
+    width: 90%; /* scale กิน 80% ของคอลัมน์ */
+    margin: 0;
+  }
+  
+  .score {
+    grid-column: 2; /* score อยู่คอลัมน์สอง */
+  }
 }

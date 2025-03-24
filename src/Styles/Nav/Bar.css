@@ -1,0 +1,47 @@
+body {
+    margin: 0;
+    font-family: 'Kanit';
+}
+
+.bar {
+    background-color: #a8a8a8; /* สีน้ำเงินเข้ม */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    color: white;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 3rem; /* ปรับขนาดโลโก้ตามต้องการ */
+    margin-right: 10px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    margin-left: 20px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+}
+
+.login-button a {
+    color: white;
+    text-decoration: none;
+    background-color: #3f51b5; /* สีปุ่มเข้าสู่ระบบ */
+    padding: 8px 15px;
+    border-radius: 5px;
+}

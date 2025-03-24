@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import Header from '../Component/Nav/Header';
 import Footer from '../Component/Nav/Footer';
+import Bar from '../Component/Nav/Bar';
 import ReviewDetail from '../Component/Course/ReviewDetail';
 import QuestionDetail from '../Component/Course/QuestionDetail';
 import ReviewModal from '../Component/Course/ReviewModal';
@@ -15,7 +16,8 @@ import {
   postQuestion,
   deleteReviewById,
   deleteQuestionById,
-} from '../services/api'; 
+} from '../services/api';
+import { FaHome, FaPencilAlt, FaQuestionCircle } from 'react-icons/fa';
 
 const CourseDetail: React.FC = () => {
   const { courseId } = useParams<{ courseId: string }>();
@@ -62,6 +64,18 @@ const CourseDetail: React.FC = () => {
 
   const homeScoreAverage = calculateAverageScore('homeScore');
   const interestScoreAverage = calculateAverageScore('interestScore');
+
+  const calculateOverall = () => {
+    if (!course?.reviews.length) return 0;
+    const totalHomeScore = course.reviews.reduce((sum, review) => sum + review.homeScore, 0);
+    const totalInterestScore = course.reviews.reduce((sum, review) => sum + review.interestScore, 0);
+    const averageHomeScore = totalHomeScore / course.reviews.length;
+    const averageInterestScore = totalInterestScore / course.reviews.length;
+    const overallAverage = (averageHomeScore + averageInterestScore) / 2;
+    return overallAverage.toFixed(1);
+  };
+
+  const overallRating = calculateOverall();
 
   const handleAddReview = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -127,7 +141,7 @@ const CourseDetail: React.FC = () => {
     }
   };
 
-  const handleDeleteQuestion = async (questionId: number, passcodePin:string) => {
+  const handleDeleteQuestion = async (questionId: number, passcodePin: string) => {
     try {
       await deleteQuestionById(questionId, passcodePin);
       await fetchCourse();
@@ -143,46 +157,70 @@ const CourseDetail: React.FC = () => {
 
   return (
     <div>
-      <Header />
+      <Bar />
       <main className="course-detail">
-        <div className="course-header">
-          <h1>{course.name}</h1>
-          <p className="course-description">{course.description}</p>
-          {course.image && <img src={course.image} alt={course.name} className="course-image" />}
+
+        <div className='Tab'>
+          <Link to="/" className="home-button">
+            <span className="button-text">Home</span>
+            <a className="icon">🏠︎</a>
+          </Link>
+          <div className='add'>
+            <div className="home-button" onClick={() => setIsModalOpen(true)}>
+              <span className="button-text">เขียนรีวิว</span>
+              <a className="icon">✎</a>
+            </div>
+            <div className="home-button" onClick={() => setIsQuestionModalOpen(true)}>
+              <span className="button-text">เขียนคำถาม</span>
+              <a className="icon">?</a>
+            </div>
+          </div>
         </div>
 
-        <div className="score-summary">
-          <Link to="/" className="home-button">
-            Home
-          </Link>
-          <h2>คะแนนภาพรวม</h2>
-          <div className="score-bars">
-            <div className="score-bar">
-              <label>จำนวนงานและการบ้าน</label>
-              <div className="bar">
-                <div className="fill" style={{ width: `${homeScoreAverage}%` }}></div>
-              </div>
-              <span className="score">{homeScoreAverage}%</span>
+        <div className='course-info'>
+
+          <div className="course-header">
+            <div className='info'>
+              <a>{course.course_id} | {course.nameTH}</a>
+              <h1>{course.name}</h1>
+              <p className="course-description">{course.description}</p>
             </div>
-            <div className="score-bar">
-              <label>ความน่าสนใจของเนื้อหา</label>
-              <div className="bar">
-                <div className="fill" style={{ width: `${interestScoreAverage}%` }}></div>
-              </div>
-              <span className="score">{interestScoreAverage}%</span>
+            <div className='rate'>
+              {overallRating} ★
+              <span>OVERALL</span>
             </div>
-            <div className="score-bar">
-              <label>การสอนของอาจารย์</label>
-              <div className="bar">
-                <div className="fill" style={{ width: `${(homeScoreAverage + interestScoreAverage) / 2}%` }}></div>
+          </div>
+
+          <div className="score-summary">
+            <h2>คะแนนภาพรวม</h2>
+            <div className="score-bars">
+              <div className="score-bar">
+                <label>จำนวนงานและการบ้าน</label>
+                <div className="scale">
+                  <div className="fill" style={{ width: `${homeScoreAverage}%` }}></div>
+                </div>
+                <span className="score">{homeScoreAverage}%</span>
               </div>
-              <span className="score">{(homeScoreAverage + interestScoreAverage) / 2}%</span>
+              <div className="score-bar">
+                <label>ความน่าสนใจของเนื้อหา</label>
+                <div className="scale">
+                  <div className="fill" style={{ width: `${interestScoreAverage}%` }}></div>
+                </div>
+                <span className="score">{interestScoreAverage}%</span>
+              </div>
+              <div className="score-bar">
+                <label>การสอนของอาจารย์</label>
+                <div className="scale">
+                  <div className="fill" style={{ width: `${(homeScoreAverage + interestScoreAverage) / 2}%` }}></div>
+                </div>
+                <span className="score">{(homeScoreAverage + interestScoreAverage) / 2}%</span>
+              </div>
             </div>
           </div>
         </div>
 
         <div className="toggle-sections">
-          <button
+          <div
             className={`toggle-button ${showReviews ? 'active' : ''}`}
             onClick={() => {
               setShowReviews(true);
@@ -190,8 +228,8 @@ const CourseDetail: React.FC = () => {
             }}
           >
             รีวิวทั้งหมด
-          </button>
-          <button
+          </div>
+          <div
             className={`toggle-button ${showQuestions ? 'active' : ''}`}
             onClick={() => {
               setShowReviews(false);
@@ -199,17 +237,11 @@ const CourseDetail: React.FC = () => {
             }}
           >
             คำถามทั้งหมด
-          </button>
+          </div>
         </div>
 
         {showReviews && (
           <div className="reviews-section">
-            <div className="reviews-header">
-              <h2>รีวิวทั้งหมด</h2>
-              <button className="add-review-button" onClick={() => setIsModalOpen(true)}>
-                รีวิววิชานี้
-              </button>
-            </div>
             {course.reviews.length > 0 ? (
               <ReviewDetail
                 reviews={course.reviews}
@@ -225,12 +257,6 @@ const CourseDetail: React.FC = () => {
 
         {showQuestions && (
           <div className="questions-section">
-            <div className="questions-header">
-              <h2>คำถามทั้งหมด</h2>
-              <button className="add-question-button" onClick={() => setIsQuestionModalOpen(true)}>
-                เพิ่มคำถาม
-              </button>
-            </div>
             {course.questions.length > 0 ? (
               <QuestionDetail questions={course.questions} courseId={course.course_id} fetchCourse={fetchCourse} handleDeleteQuestion={handleDeleteQuestion} />
             ) : (
