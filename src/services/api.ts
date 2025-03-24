@@ -69,7 +69,7 @@ export const postQuestion = async (questionData: any) => {
 };
 
 export const postAnswer = async (answerData: any) => {
-  const response = await fetch(`${BASE_URL}/answer/`, {
+  const response = await fetch(`${BASE_URL}/answers/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
