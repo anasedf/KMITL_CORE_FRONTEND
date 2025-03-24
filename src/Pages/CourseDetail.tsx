@@ -163,16 +163,16 @@ const CourseDetail: React.FC = () => {
         <div className='Tab'>
           <Link to="/" className="home-button">
             <span className="button-text">Home</span>
-            <a className="icon">🏠︎</a>
+            <div className="icon">🏠︎</div>
           </Link>
           <div className='add'>
             <div className="home-button" onClick={() => setIsModalOpen(true)}>
               <span className="button-text">เขียนรีวิว</span>
-              <a className="icon">✎</a>
+              <div className="icon">✎</div>
             </div>
             <div className="home-button" onClick={() => setIsQuestionModalOpen(true)}>
               <span className="button-text">เขียนคำถาม</span>
-              <a className="icon">?</a>
+              <div className="icon">?</div>
             </div>
           </div>
         </div>
