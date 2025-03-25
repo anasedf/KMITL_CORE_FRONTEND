@@ -127,7 +127,7 @@ const QuestionDetail: React.FC<QuestionDetailProps> = ({
               />
             </div>
 
-            <div className='bot'>
+            <div className='ques-bot'>
               <p>{localCreatedAt}</p>
             </div>
           </div>
