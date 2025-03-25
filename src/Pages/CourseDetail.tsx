@@ -208,13 +208,6 @@ const CourseDetail: React.FC = () => {
                 </div>
                 <span className="score">{interestScoreAverage}%</span>
               </div>
-              {/* <div className="score-bar">
-                <label>การสอนของอาจารย์</label>
-                <div className="scale">
-                  <div className="fill" style={{ width: `${(homeScoreAverage + interestScoreAverage) / 2}%` }}></div>
-                </div>
-                <span className="score">{(homeScoreAverage + interestScoreAverage) / 2}%</span>
-              </div> */}
             </div>
           </div>
         </div>
