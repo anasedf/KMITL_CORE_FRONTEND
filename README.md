@@ -1,4 +1,8 @@
-# KMITLCORE FRONTEND
+![image](https://github.com/user-attachments/assets/a724c9ff-d293-4cae-bcc3-0a2002311ca6)# KMITLCORE FRONTEND
+
+![image](https://github.com/user-attachments/assets/8039684e-f014-48d6-ab89-19f39f694c5a)
+
+
 
 ## Overview
 This is the frontend for the **Course Review** application, built with **React** and **Bootstrap** for styling. It allows users to browse and submit course reviews.
