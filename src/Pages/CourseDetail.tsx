@@ -77,6 +77,17 @@ const CourseDetail: React.FC = () => {
 
   const overallRating = calculateOverall();
 
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+    console.log(isModalOpen);
+  };
+
+  const handleOpenQuestion = () => {
+    setIsQuestionModalOpen(true);
+  }
+
+  
+
   const handleAddReview = async (e: React.FormEvent) => {
     e.preventDefault();
     const newReview = {
@@ -155,6 +166,7 @@ const CourseDetail: React.FC = () => {
     return <div></div>;
   }
 
+
   return (
     <div>
       <Bar />
@@ -166,11 +178,11 @@ const CourseDetail: React.FC = () => {
             <div className="icon">🏠︎</div>
           </Link>
           <div className='add'>
-            <div className="home-button" onClick={() => setIsModalOpen(true)}>
+            <div className="home-button" onClick={handleOpenModal}>
               <span className="button-text">เขียนรีวิว</span>
               <div className="icon">✎</div>
             </div>
-            <div className="home-button" onClick={() => setIsQuestionModalOpen(true)}>
+            <div className="home-button" onClick={handleOpenQuestion}>
               <span className="button-text">เขียนคำถาม</span>
               <div className="icon">?</div>
             </div>
