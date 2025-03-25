@@ -20,49 +20,49 @@ const AboutUsPage: React.FC = () => {
 
   const teamMembers: TeamMember[] = [
     {
-      id: 1,
-      fullName: 'สมชาย ใจดี',
-      nickname: 'ชาย',
-      studentId: 'B6230001',
+      id: 1, 
+      fullName: 'Wuttipat Aiemsomboonsuk',
+      nickname: 'nguan',
+      studentId: '65011012',
       role: 'Frontend Developer',
-      imageUrl: 'https://i.pravatar.cc/150?img=1',
+      imageUrl: 'https://cdn.discordapp.com/attachments/1043163353687793704/1354096570559369227/image.png?ex=67e40c34&is=67e2bab4&hm=fed1c02fc9cc730b38abd6942cc8ee91f61acff1a8879ed3244fae9a32194a1d&',
       skills: ['React', 'TypeScript', 'CSS']
     },
     {
       id: 2,
-      fullName: 'สุนิสา รักไทย',
-      nickname: 'นิ',
-      studentId: 'B6230002',
-      role: 'Backend Developer',
+      fullName: 'Anas Niloh',
+      nickname: 'nut',
+      studentId: '65011173',
+      role: 'Frontend Developer',
       imageUrl: 'https://i.pravatar.cc/150?img=2',
-      skills: ['Node.js', 'MySQL', 'Python']
+      skills: ['React', 'TypeScript', 'CSS']
     },
     {
       id: 3,
-      fullName: 'อนุชา สมคิด',
-      nickname: 'นุ',
-      studentId: 'B6230003',
-      role: 'UX/UI Designer',
-      imageUrl: 'https://i.pravatar.cc/150?img=3',
-      skills: ['Figma', 'Adobe XD', 'Photoshop']
+      fullName: 'Pasin Ratcharuk',
+      nickname: 'champ',
+      studentId: '65010711',
+      role: 'Backend Developer',
+      imageUrl: 'https://cdn.discordapp.com/attachments/1350774972955754558/1354096169248100465/download.jpeg?ex=67e40bd4&is=67e2ba54&hm=e8b2c5e8b271eeadff14b76d48f17d49a3e1da5d6429080892e58cc3edaba019&',
+      skills: ['NodeJs', 'Prisma', 'PostgreSQL']
     },
     {
       id: 4,
-      fullName: 'ธนวัฒน์ เก่งจริง',
-      nickname: 'ต้น',
-      studentId: 'B6230004',
-      role: 'DevOps Engineer',
-      imageUrl: 'https://i.pravatar.cc/150?img=4',
-      skills: ['Docker', 'AWS', 'Kubernetes']
+      fullName: 'Paris Rongdech',
+      nickname: 'Paris',
+      studentId: '65010698',
+      role: 'Backend Developer',
+      imageUrl: 'https://cdn.discordapp.com/attachments/1350774972955754558/1354098351318237357/image2.png?ex=67e40ddc&is=67e2bc5c&hm=9cbda4da50737be57e50c5bfcab514a3b5eb8d96bc2ba5e2dbb4f5a506a17187&',
+      skills: ['NodeJs', 'Prisma', 'PostgreSQL']
     },
     {
       id: 5,
-      fullName: 'เพชรลดา ใสสะอาด',
-      nickname: 'เพชร',
-      studentId: 'B6230005',
-      role: 'Full-stack Developer',
-      imageUrl: 'https://i.pravatar.cc/150?img=5',
-      skills: ['React', 'Node.js', 'MongoDB']
+      fullName: 'Sorawich Yimsara',
+      nickname: 'wit',
+      studentId: '65011078',
+      role: 'UX/UI Designer',
+      imageUrl: 'https://scontent.fbkk5-8.fna.fbcdn.net/v/t39.30808-1/403752016_4412001262358448_9165337164943615377_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=106&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeHl5N82IyndlPt1sOUshuRMYfbfr_CNmKNh9t-v8I2Yo9A8DpHHJjgnDiPzDJscs0Y-meoYXIxilVlqjZDrgYyT&_nc_ohc=OUhDTSjUhHEQ7kNvgGZzdkS&_nc_oc=AdksJt-DSyXv7D3_wHmEnRzr736qDGM8J7Q22PFgWUC5_F2OqxfHfehw7F5jfVwVLhs&_nc_zt=24&_nc_ht=scontent.fbkk5-8.fna&_nc_gid=_bULXRp3_FW4Sub9RMp1-A&oh=00_AYHVJBcYSwI5jK4PcU37uD3iX12Bnkll9s9giXDIGmWq6g&oe=67E873C5',
+      skills: ['Figma', 'Adobe XD', 'Photoshop']
     }
   ];
 
