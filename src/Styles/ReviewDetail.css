@@ -9,7 +9,6 @@
   border-radius: 4px;
   color: #333;
   padding: 0 1.5rem;
-  padding-top: 1rem;
   position: relative;
 }
 
@@ -26,21 +25,16 @@
 .name-grade {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 1rem;
-}
-
-.name-grade p {
-  margin: 0;
 }
 
 .grade {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 70%;
-  padding: 0.5rem;
+  min-width: 1.5rem;
+  height: 30%;
+  padding: 0.3rem;
   border: 2px solid #777;
   border-radius: 20%;
 }
@@ -78,7 +72,6 @@
   gap: 1rem;
   font-size: 1rem;
   color: #555;
-  margin-top: 1rem;
   margin-bottom: 5px;
   justify-content: space-between; /* เพิ่มบรรทัดนี้ */
 }
