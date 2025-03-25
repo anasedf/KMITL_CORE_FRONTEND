@@ -61,7 +61,7 @@ const AboutUsPage: React.FC = () => {
       nickname: 'wit',
       studentId: '65011078',
       role: 'UX/UI Designer',
-      imageUrl: 'https://raw.githubusercontent.com/TxBlnwza/picture/refs/heads/main/wit.png',
+      imageUrl: 'https://raw.githubusercontent.com/TxBlnwza/picture/refs/heads/main/wit1.png',
       skills: ['Figma', 'Adobe XD', 'Photoshop']
     }
   ];
