@@ -43,7 +43,7 @@ const AboutUsPage: React.FC = () => {
       nickname: 'champ',
       studentId: '65010711',
       role: 'Backend Developer',
-      imageUrl: 'https://raw.githubusercontent.com/TxBlnwza/picture/refs/heads/main/champ.jpeg',
+      imageUrl: 'https://raw.githubusercontent.com/TxBlnwza/picture/refs/heads/main/champ1.png',
       skills: ['NodeJs', 'Prisma', 'PostgreSQL']
     },
     {
