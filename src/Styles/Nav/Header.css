@@ -1,40 +1,33 @@
 /* Header.css */
 header {
+  background-color: white;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
+  color: #333;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.tab {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  background-color: #f8f9fa;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  /* position: relative; */
+  box-shadow: 10px 4px 8px rgba(0, 10, 0, 0.2);
+  padding: 1rem 2rem;
 }
 
-/* GitHub Logo มุมขวาบน */
-.github-logo {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  
-}
-
-.github-logo img {
-  height: 2.5rem; 
-}
 
 .kmitl-logo img {
-  height: 7rem; 
-  margin-top: 2rem; 
+  height: 3rem;
 }
 
 .header-text {
-  margin-top: 1rem; 
   text-align: center;
 }
 
 .header-text h1 {
-  font-size: 1.5rem;
-  font-weight: 400;
-  color: #636363;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
   margin: 0;
 }

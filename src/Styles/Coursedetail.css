@@ -347,6 +347,10 @@
   .home-button {
     min-width: auto;
   }
+  
+  .toggle-sections{
+    justify-content: center;
+  }
 
   .score-bar {
     display: grid;

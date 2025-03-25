@@ -152,7 +152,7 @@ const CourseDetail: React.FC = () => {
   };
 
   if (!course) {
-    return <div>Loading...</div>;
+    return <div></div>;
   }
 
   return (

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Review, Course, Question } from '../mocks/types';
 import Header from '../Component/Nav/Header';
 import Footer from '../Component/Nav/Footer';
+import Bar from '../Component/Nav/Bar';
 import ReviewCard from '../Component/Home/ReviewCard';
 import QuestionCard from '../Component/Home/QuestionCard';
 import CourseCard from '../Component/Home/CourseCard';
@@ -92,7 +93,7 @@ const Home: React.FC = () => {
         </div>
 
         <div className="content-list">
-          {loading ? <p>Loading...</p> : error ? <p className="error-message">Error: {error}</p> : (
+          {loading ? <p></p> : error ? <p className="error-message">Error: {error}</p> : (
             <>
               {activeTab === 'reviews' && (
                 <div className="review-list">
