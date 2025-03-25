@@ -59,23 +59,24 @@ nav ul li button {
   padding: 10px 25px;
   background: white;
   color: #000000;
-  border-radius: 0.6rem;
-  border: none;
+  border: 2px solid #ddd;
+  border-radius: 4px;
   cursor: pointer;
   font-size: 20px;
+  font-weight: bold;
   transition: all 0.3s ease;
   min-width: 5rem;
 }
 
 nav ul li button:hover,
 nav ul li button:focus {
-  background: #8c8c8c;
+  background: #e38000;
   color: white;
 }
 
 nav ul li button.active {
   height: 100%;
-  background: #000;
+  background: #e35205;
   color: white;
 }
 
