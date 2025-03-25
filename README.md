@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/a724c9ff-d293-4cae-bcc3-0a2002311ca6)# KMITLCORE FRONTEND
+# KMITLCORE FRONTEND
 
 ![image](https://github.com/user-attachments/assets/8039684e-f014-48d6-ab89-19f39f694c5a)
 
