@@ -1,4 +1,4 @@
-# Course Review Frontend
+# KMITLCORE FRONTEND
 
 ## Overview
 This is the frontend for the **Course Review** application, built with **React** and **Bootstrap** for styling. It allows users to browse and submit course reviews.
