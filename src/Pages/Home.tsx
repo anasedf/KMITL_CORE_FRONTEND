@@ -27,6 +27,10 @@ const Home: React.FC = () => {
           fetchQuestions(),
         ]);
 
+        const sortedReviews = reviewsData.sort((a: any, b:any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        const sortedQuestions = questionsData.sort((a: any, b:any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+
         setAllCourses(coursesData);
         setAllReviews(reviewsData);
         setAllQuestions(questionsData);
@@ -51,8 +55,16 @@ const Home: React.FC = () => {
     });
   }, [allCourses, searchTerm]);
 
-  const filteredReviews = useMemo(() => filterData(allReviews, 'review'), [allReviews, filterData]);
-  const filteredQuestions = useMemo(() => filterData(allQuestions, 'question'), [allQuestions, filterData]);
+  const filteredReviews = useMemo(() => {
+    const filtered = filterData(allReviews, 'review');
+    return filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  }, [allReviews, filterData]);
+  
+  const filteredQuestions = useMemo(() => {
+    const filtered = filterData(allQuestions, 'question');
+    return filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  }, [allQuestions, filterData]);
+  
   const filteredCourses = useMemo(() => {
     return allCourses.filter((course) => 
       course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
