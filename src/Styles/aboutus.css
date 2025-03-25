@@ -1,0 +1,60 @@
+/* src/pages/AboutUsPage.css */
+.about-us-page {
+    min-height: calc(100vh - [height-of-your-footer]px); /* ปรับตามความสูง Footer ของคุณ */
+  }
+  
+  .hero-section {
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    color: white;
+    padding-top: 80px; /* ปรับตามความสูง Navbar ถ้ามี */
+  }
+  
+  .profile-header {
+    position: relative;
+  }
+  
+  .profile-image-container {
+    height: 250px;
+    overflow: hidden;
+  }
+  
+  .profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .profile-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+  
+  .card:hover .profile-image {
+    transform: scale(1.05);
+  }
+  
+  .card:hover .profile-overlay {
+    background: rgba(0, 0, 0, 0.8);
+  }
+  
+  .team-section {
+    padding-bottom: 60px; /* ระยะห่างจาก Footer */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .profile-image-container {
+      height: 200px;
+    }
+    
+    .hero-section {
+      padding-top: 60px; /* ปรับสำหรับ Mobile */
+    }
+  }
