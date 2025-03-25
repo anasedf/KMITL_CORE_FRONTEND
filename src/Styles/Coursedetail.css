@@ -74,7 +74,7 @@
 
 .info {
   flex-grow: 1;
-  padding: 0 3rem 0 0;
+  max-width: 85%;
 }
 
 .info h1 {
@@ -96,6 +96,7 @@
 }
 
 .rate {
+  display: flex;
   border: 2px solid #ddd;
   border-radius: 1rem;
   padding: 1rem;
@@ -111,6 +112,10 @@
   display: block;
   font-size: 0.5em;
   color: #333;
+}
+
+.star {
+  display: flex;
 }
 
 /* ----------------------------------------- */

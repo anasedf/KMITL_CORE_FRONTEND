@@ -87,7 +87,7 @@ const CourseDetail: React.FC = () => {
     setIsQuestionModalOpen(true);
   }
 
-  
+
 
   const handleAddReview = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -199,7 +199,9 @@ const CourseDetail: React.FC = () => {
               <p className="course-description">{course.description}</p>
             </div>
             <div className='rate'>
-              {overallRating} ★
+              <div className='star'>
+                {overallRating} ★
+              </div>
               <span>OVERALL</span>
             </div>
           </div>
