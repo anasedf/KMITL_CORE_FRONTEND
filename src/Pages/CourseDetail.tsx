@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import Header from '../Component/Nav/Header';
 import Footer from '../Component/Nav/Footer';
@@ -178,11 +179,11 @@ const CourseDetail: React.FC = () => {
             <div className="icon">🏠︎</div>
           </Link>
           <div className='add'>
-            <div className="home-button" onClick={handleOpenModal}>
+            <div className="home-button" onClick={() => setIsModalOpen(true)}>
               <span className="button-text">เขียนรีวิว</span>
               <div className="icon">✎</div>
             </div>
-            <div className="home-button" onClick={handleOpenQuestion}>
+            <div className="home-button" onClick={() => setIsQuestionModalOpen(true)}>
               <span className="button-text">เขียนคำถาม</span>
               <div className="icon">?</div>
             </div>
