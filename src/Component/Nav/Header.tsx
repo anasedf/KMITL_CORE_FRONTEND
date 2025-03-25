@@ -15,9 +15,11 @@ const Header = () => {
         <div className="header-text">
           <h1>ค้นหาและรีวิววิชา GENED</h1>
         </div>
-        <div className="about-me">
-          <Link to="/about">เกี่ยวกับเรา</Link>
-        </div>
+
+        <Link to="/about" className='about-me'>
+          <span className="about-text">เกี่ยวกับเรา</span>
+          <div className="about-logo">ℹ</div>
+        </Link>
       </div>
 
 

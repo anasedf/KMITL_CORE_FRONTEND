@@ -4,7 +4,7 @@ body {
 }
 
 .bar {
-    background-color: white; 
+    background-color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -12,7 +12,7 @@ body {
     color: #333;
     box-sizing: border-box;
     box-shadow: 10px 4px 8px rgba(0, 10, 0, 0.2);
-    position: relative; 
+    position: relative;
 }
 
 .logo {
@@ -40,14 +40,17 @@ body {
     padding: 0.5rem;
     border-radius: 4px;
 }
+
 .nav-links a {
     color: #333;
     font-weight: bold;
     text-decoration: none;
 }
+
 .about-me:hover {
     background-color: #333;
 }
+
 .about-me a {
     color: #333;
     font-weight: 500;
@@ -58,4 +61,10 @@ body {
 
 .about-me a:hover {
     color: white;
+}
+
+@media (max-width: 600px) {
+    .nav-links {
+        display: none;
+    }
 }

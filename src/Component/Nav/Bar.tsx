@@ -21,9 +21,10 @@ const Bar = () => {
         </ul>
       </div>
 
-      <div className="about-me">
-        <Link to="/about">เกี่ยวกับเรา</Link>
-      </div>
+      <Link to="/about" className='about-me'>
+        <span className="about-text">เกี่ยวกับเรา</span>
+        <div className="about-logo">ℹ</div>
+      </Link>
     </div>
   );
 };

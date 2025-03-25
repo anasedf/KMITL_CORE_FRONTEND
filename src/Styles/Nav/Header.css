@@ -33,3 +33,51 @@ header {
   color: #333;
   margin: 0;
 }
+
+.about-me {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  color: #333;
+  cursor: pointer;
+  font-size: 16px;
+  text-decoration: none;
+  min-width: 120px;
+}
+
+.about-me:hover {
+  background-color: #333;
+  color: #ddd;
+}
+
+.about-logo {
+  display: none;
+  font-size: large;
+}
+
+@media (max-width: 768px) {
+  .header-text h1 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .about-me {
+    min-width: 3rem;
+  }
+  .header-text h1 {
+    font-size: 1.1rem;
+  }
+
+  .about-text{
+    display: none;
+  }
+
+  .about-logo {
+    display: inline-block;
+  }
+}
