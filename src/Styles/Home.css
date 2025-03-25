@@ -86,7 +86,7 @@ nav ul li button.active {
 .review-list,
 .question-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
 }
 
@@ -117,6 +117,20 @@ nav ul li button.active {
   transition: transform 0.2s ease-in-out;
   display: flex;
   flex-direction: column;
+}
+
+.review-card,
+.question-card {
+  border: 1px solid #ddd;
+  border-radius: 1rem;
+  padding: 15px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* ซ่อนเนื้อหาที่เกินขอบเขต */
+  width: 100%; /* ให้ Card ขยายเต็ม Container */
+  max-height: 20rem; /* กำหนดความสูงสูงสุดของ Card */
 }
 
 .review-card:hover,
@@ -169,13 +183,20 @@ nav ul li button.active {
   font-weight: 400;
 }
 
-.question-detail,
-.review-detail {
+.review-detail,
+.question-detail {
   font-size: 1.2rem;
   margin: 0;
   color: #555;
   overflow-wrap: break-word;
-  flex-grow: 1;
+  flex-grow: 1; /* ให้ Detail ขยายเพื่อดันส่วนล่างลง */
+
+  /* CSS สำหรับตัดข้อความหลายบรรทัด */
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* กำหนดจำนวนบรรทัดที่ต้องการแสดง */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis; /* แสดง ... เมื่อข้อความถูกตัด */
 }
 
 .question-buttom,

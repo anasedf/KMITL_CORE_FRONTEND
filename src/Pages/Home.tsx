@@ -96,7 +96,7 @@ const Home: React.FC = () => {
                     onClick={() => setActiveTab(tab as any)}
                     className={activeTab === tab ? 'active' : ''}
                   >
-                    {tab === 'reviews' ? 'รีวิว' : tab === 'questions' ? 'คำถาม' : 'วิชาทั้งหมด'}
+                    {tab === 'reviews' ? 'รีวิว' : tab === 'questions' ? 'คำถาม' : 'วิชา'}
                   </button>
                 </li>
               ))}
