@@ -1,4 +1,4 @@
-const BASE_URL = 'https://course-review-back-app-741869911637.asia-southeast1.run.app/api';
+const BASE_URL = 'https://kmitlcore-652221121310.asia-southeast1.run.app/api';
 
 // ดึงข้อมูลคอร์สทั้งหมด
 export const fetchCourses = async () => {
