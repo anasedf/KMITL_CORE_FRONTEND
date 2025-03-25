@@ -11,7 +11,9 @@ const Bar = () => {
   return (
     <div className="bar">
       <div className="logo">
-        <img src="/kmitl.png" alt="Cureg Logo" />
+        <Link to="/" className="kmitl-logo">
+          <img src="/kmitl.png" alt="KMITL Logo" />
+        </Link>
         <ul className="nav-links">
           <li><a href="">รีวิวทั้งหมด</a></li>
           <li><a href="" onClick={() => handleNavigation('questions')}>คำถามทั้งหมด</a></li>
