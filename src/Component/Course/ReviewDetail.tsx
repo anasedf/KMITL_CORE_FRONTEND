@@ -8,21 +8,44 @@ const ReviewDetail: React.FC<ReviewDetailProps> = ({
   handleExpandReview,
   handleDeleteReview,
 }) => {
+
+  const sortedReviews = [...reviews].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
   return (
     <div className="re-list">
-      {reviews.length > 0 ? (
-        reviews.map((review) => {
+      {sortedReviews.length > 0 ? ( 
+        sortedReviews.map((review) => {
           const createdAtDate = new Date(review.createdAt);
           const localCreatedAt = createdAtDate.toLocaleDateString();
           const averageScore = (review.homeScore + review.interestScore) / 2;
 
           return (
             <div key={review.id} className="re-card">
+
               <div className="top">
-                <p>{localCreatedAt}</p>
-                <div className="average-score-container">
-                  <span className="average-score-icon">★</span>
-                  <span className="average-score-value">{averageScore.toFixed(1)}</span>
+                <div className='name-grade'>
+                  <p>{review.reviewerName}</p>
+                  <div className='grade'>
+                    <p>{review.grade}</p>
+                  </div>
+                </div>
+
+                <div className='rate-delete'>
+                  <div className="average-score-container">
+                    <span className="average-score-icon">★</span>
+                    <span className="average-score-value">{averageScore.toFixed(1)}</span>/5
+                  </div>
+                  <div
+                    className="delete-button"
+                    onClick={() => {
+                      const passcode_pin = prompt('กรุณาใส่รหัสผ่าน (passcode_pin) เพื่อลบรีวิว');
+                      if (passcode_pin) {
+                        handleDeleteReview(review.id, passcode_pin);
+                      }
+                    }}
+                  >
+                    🗙
+                  </div>
                 </div>
               </div>
 
@@ -31,22 +54,7 @@ const ReviewDetail: React.FC<ReviewDetailProps> = ({
               </div>
 
               <div className="bot">
-                <div className='name-grade'>
-                  <p>{review.reviewerName}</p>
-                  <p className="grade">{review.grade}</p>
-                </div>
-
-                <div
-                  className="delete-review-button"
-                  onClick={() => {
-                    const passcode_pin = prompt('กรุณาใส่รหัสผ่าน (passcode_pin) เพื่อลบรีวิว');
-                    if (passcode_pin) {
-                      handleDeleteReview(review.id, passcode_pin);
-                    }
-                  }}
-                >
-                  🗑
-                </div>
+                <p>{localCreatedAt}</p>
               </div>
             </div>
           );

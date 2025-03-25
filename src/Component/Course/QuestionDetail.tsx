@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { QuestionDetailProps } from '../../mocks/types';
-import '../../Styles/CourseQuestion.css';
+import '../../Styles/QuestionDetail.css';
 import { postAnswer, deleteQuestionById } from '../../services/api';
 
 const QuestionDetail: React.FC<QuestionDetailProps> = ({
@@ -9,31 +9,33 @@ const QuestionDetail: React.FC<QuestionDetailProps> = ({
   fetchCourse,
   handleDeleteQuestion,
 }) => {
-  const [isAnswerModalOpen, setIsAnswerModalOpen] = useState(false);
-  const [currentQuestionId, setCurrentQuestionId] = useState<number | null>(null);
-  const [answerText, setAnswerText] = useState('');
-  const [answererName, setAnswererName] = useState('');
+  const [answers, setAnswers] = useState<{ [questionId: number]: { answerText: string, answererName: string } }>({});
 
-  const handleAddAnswer = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleAnswerChange = (questionId: number, field: string, value: string) => {
+    setAnswers(prevAnswers => ({
+      ...prevAnswers,
+      [questionId]: {
+        ...prevAnswers[questionId],
+        [field]: value,
+      },
+    }));
+  };
 
-    if (!currentQuestionId) {
-      alert('ไม่พบคำถามที่ต้องการตอบ');
-      return;
-    }
-    if (!answerText || answerText.trim() === '') {
+  const handleAddAnswer = async (questionId: number) => {
+    const answer = answers[questionId];
+    if (!answer?.answerText || answer.answerText.trim() === '') {
       alert('กรุณากรอกคำตอบ');
       return;
     }
-    if (!answererName || answererName.trim().length < 3) {
+    if (!answer?.answererName || answer.answererName.trim().length < 3) {
       alert('ชื่อผู้ตอบต้องมีความยาวอย่างน้อย 3 ตัวอักษร');
       return;
     }
 
     const newAnswer = {
-      questionId: currentQuestionId,
-      answerText,
-      answererName: answererName,
+      questionId: questionId,
+      answerText: answer.answerText,
+      answererName: answer.answererName,
     };
 
     console.log('Data being sent to API:', newAnswer);
@@ -41,96 +43,96 @@ const QuestionDetail: React.FC<QuestionDetailProps> = ({
     try {
       await postAnswer(newAnswer);
       await fetchCourse();
-
-      setIsAnswerModalOpen(false);
-      setAnswerText('');
-      setAnswererName('');
+      setAnswers(prevAnswers => ({
+        ...prevAnswers,
+        [questionId]: {
+          answerText: '',
+          answererName: '',
+        },
+      }));
     } catch (error) {
       console.error('Error submitting answer:', error);
       alert('เกิดข้อผิดพลาดในการส่งคำตอบ กรุณาลองอีกครั้ง');
     }
   };
 
+  const sortedQuestions = [...questions].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+
   return (
-    <div className="questions-section">
-      {questions.map((question) => (
-        <div key={question.id} className="question-item">
-          <div className="question-header">
-            <p className="questioner-name">{question.questionerName}</p>
-            <p className="question-text">{question.questionText}</p>
-          </div>
+    <div className="ques-list">
+      {sortedQuestions.map((question) => {
+        const createdAtDate = new Date(question.createdAt);
+        const localCreatedAt = createdAtDate.toLocaleDateString();
 
-          {question.answers && question.answers.length > 0 && (
-            <div className="answers-list">
-              {question.answers.map((answer) => (
-                <div key={answer.id} className="answer-item">
-                  <p className="answer-text">
-                    <strong>{answer.answererName || 'ไม่ระบุชื่อ'}:</strong> {answer.answerText}
-                  </p>
-                </div>
-              ))}
+        return (
+          <div key={question.id} className="ques-card">
+
+            <div className="quas-top">
+              <div className='ques-head'>
+                <p>{question.questionerName}</p>
+              </div>
+
+              <div
+                className="delete-button"
+                onClick={() => {
+                  const passcode_pin = prompt(
+                    'กรุณาใส่รหัสผ่าน (passcode_pin) เพื่อลบคำถาม'
+                  );
+                  if (passcode_pin) {
+                    deleteQuestionById(question.id, passcode_pin);
+                  }
+                }}
+              >
+                🗙
+              </div>
             </div>
-          )}
 
-          <div className="question-actions">
-            <button
-              className="add-answer-button"
-              onClick={() => {
-                setCurrentQuestionId(question.id);
-                setIsAnswerModalOpen(true);
-              }}
-            >
-              ตอบ
-            </button>
-            <button
-              className="delete-question-button"
-              onClick={() => {
-                const passcode_pin = prompt(
-                  'กรุณาใส่รหัสผ่าน (passcode_pin) เพื่อลบคำถาม'
-                );
-                if (passcode_pin) {
-                  deleteQuestionById(question.id, passcode_pin);
-                }
-              }}
-            >
-              ลบ
-            </button>
-          </div>
-        </div>
-      ))}
+            <div className='ques-mid'>
+              <p className="question-text">{question.questionText}</p>
+            </div>
 
-      {isAnswerModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2>ตอบคำถาม</h2>
-            <form onSubmit={handleAddAnswer}>
-              <div className="form-group">
-                <label>ชื่อผู้ตอบ:</label>
-                <input
-                  type="text"
-                  value={answererName}
-                  onChange={(e) => setAnswererName(e.target.value)}
-                  required
-                />
+
+            {question.answers && question.answers.length > 0 && (
+              <div className="answers-list">
+                {question.answers.map((answer) => (
+                  <div key={answer.id} className="answer-item">
+                    <p className="answer-text">
+                      {answer.answererName || 'ไม่ระบุชื่อ'} : {answer.answerText}
+                    </p>
+                  </div>
+                ))}
               </div>
-              <div className="form-group">
-                <label>คำตอบ:</label>
-                <textarea
-                  value={answerText}
-                  onChange={(e) => setAnswerText(e.target.value)}
-                  required
-                />
+            )}
+
+            <div className="question-actions">
+              <div className="answer-header">
+                <span className="answer-label">ตอบคำถามนี้</span>
+                <div className='answer-info'>
+                  <input
+                    type="text"
+                    placeholder="ชื่อผู้ตอบ"
+                    value={answers[question.id]?.answererName || ''}
+                    onChange={(e) => handleAnswerChange(question.id, 'answererName', e.target.value)}
+                  />
+                  <div className="answer-button" onClick={() => handleAddAnswer(question.id)}>
+                    ➤
+                  </div>
+                </div>
               </div>
-              <div className="form-buttons">
-                <button type="submit">ส่งคำตอบ</button>
-                <button type="button" onClick={() => setIsAnswerModalOpen(false)}>
-                  ยกเลิก
-                </button>
-              </div>
-            </form>
+              <textarea
+                placeholder="คำตอบ"
+                value={answers[question.id]?.answerText || ''}
+                onChange={(e) => handleAnswerChange(question.id, 'answerText', e.target.value)}
+              />
+            </div>
+
+            <div className='bot'>
+              <p>{localCreatedAt}</p>
+            </div>
           </div>
-        </div>
-      )}
+        );
+      })}
     </div>
   );
 };

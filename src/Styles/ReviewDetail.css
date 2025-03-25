@@ -22,12 +22,40 @@
   color: #333;
 }
 
+.name-grade {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.grade {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  height: 30%;
+  padding: 0.3rem;
+  border: 2px solid #777;
+  border-radius: 20%;
+}
+
+.grade p {
+  font-size: 1rem;
+  color: #e35205;
+}
+
 .average-score-container {
   font-size: 1.5rem;
 }
 
+.rate-delete {
+  display: flex;
+  align-items: center;
+  gap: 1rem
+}
+
 .mid {
-  font-size: 1.3rem;
+  font-size: 1rem;
   color: #333;
   overflow-wrap: break-word;
   flex-grow: 1;
@@ -48,26 +76,14 @@
   justify-content: space-between; /* เพิ่มบรรทัดนี้ */
 }
 
-.name-grade {
-  display: flex;
-  gap: 1rem;
-}
-
-.grade {
-  padding: 0.1rem 0.4rem;
-  border: 2px solid #777;
-  border-radius: 5px;
-  color: #e35205;
-}
-
-.delete-review-button {
+.delete-button {
   color: #777;
   cursor: pointer;
   font-size: 2rem;
   font-weight: 500;
 }
 
-.delete-review-button:hover {
+.delete-button:hover {
   color: #e35205;
 }
 
