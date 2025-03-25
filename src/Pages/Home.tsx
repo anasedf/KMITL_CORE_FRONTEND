@@ -105,18 +105,24 @@ const Home: React.FC = () => {
         </div>
 
         <div className="content-list">
-          {loading ? <p></p> : error ? <p className="error-message">Error: {error}</p> : (
-            <>
-              {activeTab === 'reviews' && (
-                <div className="review-list">
-                  {filteredReviews.length > 0 ? (
-                    filteredReviews.map((review) => {
-                      const course = allCourses.find((c) => c.course_id === review.courseId);
-                      return course ? <ReviewCard key={review.courseId} review={review} course={course} /> : null;
-                    })
-                  ) : <p className="no-reviews">No reviews found.</p>}
-                </div>
-              )}
+  {loading ? (
+    <p>Loading...</p>
+  ) : error ? (
+    <p className="error-message">Error: {error}</p>
+  ) : (
+    <>
+      {activeTab === 'reviews' && (
+        <div className="review-list">
+          {filteredReviews.length > 0 ? (
+            filteredReviews.map((review) => {
+              const course = allCourses.find((c) => c.course_id === review.courseId);
+              return course ? <ReviewCard key={review.id} review={review} course={course} /> : null;
+            })
+          ) : (
+            <p className="no-reviews">No reviews found.</p>
+          )}
+        </div>
+      )}
 
               {activeTab === 'questions' && (
                 <div className="question-list">
