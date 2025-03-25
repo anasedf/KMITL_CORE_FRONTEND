@@ -188,6 +188,10 @@
   min-width: 120px;
 }
 
+.toggle-button:hover {
+  color: #e35205;
+}
+
 .toggle-button.active {
   background-color: #e35205;
   color: white;
