@@ -234,6 +234,7 @@ nav ul li button.active {
 @media (max-width: 768px) {
   .home {
     padding: 1rem;
+    padding-top: 2rem;
   }
 
   .search-box {
@@ -281,6 +282,11 @@ nav ul li button.active {
 @media (max-width: 576px) {
   .home {
     padding: 0.5rem;
+    padding-top: 2rem;
+  }
+
+  .content-list {
+    margin-top: 1rem;
   }
 
   .search-box {
