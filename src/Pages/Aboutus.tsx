@@ -44,7 +44,7 @@ const AboutUsPage: React.FC = () => {
       studentId: '65010711',
       role: 'Backend Developer',
       imageUrl: 'https://raw.githubusercontent.com/TxBlnwza/picture/refs/heads/main/champ1.png',
-      skills: ['NodeJs', 'Prisma', 'PostgreSQL']
+      skills: ['Bun', 'ElysiaJs', 'Prisma', 'PostgreSQL']
     },
     {
       id: 4,
@@ -53,7 +53,7 @@ const AboutUsPage: React.FC = () => {
       studentId: '65010698',
       role: 'Backend Developer',
       imageUrl: 'https://raw.githubusercontent.com/TxBlnwza/picture/refs/heads/main/paris.png',
-      skills: ['NodeJs', 'Prisma', 'PostgreSQL']
+      skills: ['Bun', 'ElysiaJs', 'Prisma', 'PostgreSQL']
     },
     {
       id: 5,
