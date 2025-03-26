@@ -10,16 +10,30 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    padding: 20px;
+    box-sizing: border-box;
   }
   
   .review-modal-container {
     background-color: white;
-    border-radius: 8px;
-    width: 90%;
-    max-width: 600px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
     max-height: 90vh;
     overflow-y: auto;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    animation: modalFadeIn 0.3s ease-out;
+  }
+  
+  @keyframes modalFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   
   .review-modal-header {
@@ -27,7 +41,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    border-bottom: 1px solid #eaeaea;
+    border-bottom: 1px solid #eee;
     position: sticky;
     top: 0;
     background-color: white;
@@ -36,51 +50,67 @@
   
   .review-modal-header h2 {
     margin: 0;
-    color: #333;
+    color: #e35205;
     font-size: 1.5rem;
   }
   
   .close-button {
     background: none;
     border: none;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     cursor: pointer;
-    color: #666;
-    padding: 5px;
+    color: #777;
+    padding: 0 10px;
+    transition: color 0.2s;
   }
   
   .close-button:hover {
-    color: #333;
+    color: #e35205;
   }
   
   .review-modal-form {
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
   
   .form-section {
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
   
   .form-group {
-    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
   
   .form-group label {
-    display: block;
-    margin-bottom: 8px;
     font-weight: 500;
-    color: #444;
+    color: #555;
+    font-size: 0.95rem;
   }
   
-  .form-group input[type="text"],
-  .form-group input[type="password"],
-  .form-group select,
-  .form-group textarea {
-    width: 100%;
-    padding: 10px;
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    padding: 12px 15px;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 8px;
     font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.2s;
+  }
+  
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: #e35205;
+    box-shadow: 0 0 0 3px rgba(227, 82, 5, 0.1);
+    outline: none;
   }
   
   .form-group textarea {
@@ -88,67 +118,72 @@
     resize: vertical;
   }
   
-  .score-select-container {
-    display: inline-block;
-    width: 100%;
-  }
-  
-  .score-select-container select {
-    width: 100%;
+  .score-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
   }
   
   .grid-section {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 16px;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  
+  .score-select-container select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 1em;
   }
   
   .input-hint {
-    font-size: 0.8rem;
-    color: #666;
-    margin-top: 4px;
+    margin: 5px 0 0;
+    color: #888;
+    font-size: 0.85rem;
   }
   
   .form-actions {
     display: flex;
     justify-content: flex-end;
-    gap: 12px;
-    margin-top: 24px;
-    padding-top: 16px;
+    gap: 15px;
+    padding-top: 10px;
     border-top: 1px solid #eee;
+    margin-top: 10px;
   }
   
   .cancel-button,
   .submit-button {
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
+    padding: 12px 24px;
+    border-radius: 8px;
     font-weight: 500;
+    cursor: pointer;
     transition: all 0.2s;
+    font-size: 1rem;
+    border: none;
   }
   
   .cancel-button {
     background-color: #f5f5f5;
-    color: #333;
-    border: 1px solid #ddd;
+    color: #555;
   }
   
   .cancel-button:hover {
-    background-color: #eaeaea;
+    background-color: #e0e0e0;
   }
   
   .submit-button {
-    background-color: #4CAF50;
+    background-color: #e35205;
     color: white;
-    border: none;
   }
   
   .submit-button:hover {
-    background-color: #45a049;
+    background-color: #c14604;
   }
   
   .submit-button:disabled {
-    background-color: #a5d6a7;
+    background-color: #ccc;
     cursor: not-allowed;
   }
   
@@ -156,14 +191,15 @@
     background-color: #ffebee;
     color: #d32f2f;
     padding: 12px;
-    border-radius: 4px;
-    margin-bottom: 16px;
+    border-radius: 8px;
+    margin-bottom: 15px;
     display: flex;
     align-items: center;
+    gap: 8px;
   }
   
-  .error-icon {
-    margin-right: 8px;
+  .error-message:before {
+    content: "⚠️";
   }
   
   .course-search-container {
@@ -179,18 +215,20 @@
     overflow-y: auto;
     background: white;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-top: 4px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    z-index: 10;
+    border-radius: 8px;
+    margin-top: 5px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 100;
   }
   
   .course-option {
-    padding: 12px;
+    padding: 12px 15px;
     cursor: pointer;
     border-bottom: 1px solid #eee;
     display: flex;
     align-items: center;
+    gap: 10px;
+    transition: background-color 0.2s;
   }
   
   .course-option:hover {
@@ -198,17 +236,17 @@
   }
   
   .course-option.selected {
-    background-color: #e3f2fd;
+    background-color: #f0f7ff;
   }
   
   .course-code {
     font-weight: bold;
+    color: #e35205;
     min-width: 60px;
-    color: #1976d2;
   }
   
   .course-name {
-    margin-left: 12px;
+    flex: 1;
   }
   
   .thai-name {
@@ -223,46 +261,52 @@
   .no-course {
     padding: 12px;
     text-align: center;
-    color: #666;
+    color: #888;
   }
   
-  .spinner {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-radius: 50%;
-    border-top-color: white;
-    animation: spin 1s ease-in-out infinite;
-    margin-right: 8px;
-  }
-  
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-  
-  /* ปรับแต่ง responsive */
+  /* Responsive Adjustments */
   @media (max-width: 768px) {
-    .review-modal-container {
-      width: 95%;
-      max-width: none;
+    .review-modal-overlay {
+      padding: 10px;
     }
-    
+  
+    .review-modal-container {
+      max-height: 95vh;
+    }
+  
+    .review-modal-header {
+      padding: 15px;
+    }
+  
+    .review-modal-form {
+      padding: 15px;
+      gap: 15px;
+    }
+  
+    .score-section,
     .grid-section {
       grid-template-columns: 1fr;
     }
-    
-    .course-dropdown {
-      max-height: 200px;
+  
+    .form-actions {
+      flex-direction: column-reverse;
+      gap: 10px;
     }
-    
-    .course-option {
-      flex-direction: column;
-      align-items: flex-start;
+  
+    .cancel-button,
+    .submit-button {
+      width: 100%;
     }
-    
-    .course-name {
-      margin-left: 0;
-      margin-top: 4px;
+  }
+  
+  @media (max-width: 480px) {
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      padding: 10px 12px;
+    }
+  
+    .review-modal-header h2 {
+      font-size: 1.3rem;
     }
   }
