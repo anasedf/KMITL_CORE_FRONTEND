@@ -15,7 +15,7 @@ const Bar = () => {
           <img src="/kmitl.png" alt="KMITL Logo" />
         </Link>
         <ul className="nav-links">
-          <li><a href="">รีวิวทั้งหมด</a></li>
+          <li><Link to="/">รีวิวทั้งหมด</Link></li>
           <li><a href="" onClick={() => handleNavigation('questions')}>คำถามทั้งหมด</a></li>
           <li><a href="" onClick={() => handleNavigation('courses')}>วิชาทั้งหมด</a></li>
         </ul>

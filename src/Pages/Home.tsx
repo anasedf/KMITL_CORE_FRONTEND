@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Review, Course, Question } from '../mocks/types';
 import Header from '../Component/Nav/Header';
 import Footer from '../Component/Nav/Footer';
@@ -13,6 +13,7 @@ import { fetchCourses, fetchReviews, fetchQuestions } from '../services/api';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
   const [allReviews, setAllReviews] = useState<Review[]>([]);
   const [allQuestions, setAllQuestions] = useState<Question[]>([]);
@@ -51,6 +52,13 @@ const Home: React.FC = () => {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (location.state && location.state.activeTab) {
+      setActiveTab(location.state.activeTab as 'reviews' | 'questions' | 'courses');
+    } else {
+    }
+  }, [location.state]);
 
   useEffect(() => {
     if (searchTerm.trim() === '') {
