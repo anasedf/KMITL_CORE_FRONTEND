@@ -11,6 +11,15 @@ import AddReviewModal from '../Component/Course/AddReviewModal';
 import '../Styles/Home.css';
 import { fetchCourses, fetchReviews, fetchQuestions } from '../services/api';
 
+const shuffleArray = (array: any[]) => {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+};
+
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,6 +34,7 @@ const Home: React.FC = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
+  const [shuffledCourses, setShuffledCourses] = useState<Course[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -107,12 +117,16 @@ const Home: React.FC = () => {
   }, [allQuestions, filterData]);
 
   const filteredCourses = useMemo(() => {
-    return allCourses.filter((course: Course) =>
+    const filtered = allCourses.filter(course =>
       course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       course.nameTH.toLowerCase().includes(searchTerm.toLowerCase()) ||
       course.course_id.toString().includes(searchTerm)
     );
-  }, [allCourses, searchTerm]);
+    if (activeTab === 'courses') {
+      return shuffleArray(filtered);
+    }
+    return filtered;
+  }, [allCourses, searchTerm, activeTab]);
 
   const handleReviewSubmit = (newReview: Review) => {
     setAllReviews(prev => [newReview, ...prev]);
