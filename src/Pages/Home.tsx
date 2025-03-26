@@ -7,6 +7,7 @@ import Bar from '../Component/Nav/Bar';
 import ReviewCard from '../Component/Home/ReviewCard';
 import QuestionCard from '../Component/Home/QuestionCard';
 import CourseCard from '../Component/Home/CourseCard';
+import AddReviewModal from '../Component/Course/AddReviewModal';
 import '../Styles/Home.css';
 import { fetchCourses, fetchReviews, fetchQuestions } from '../services/api';
 
@@ -21,6 +22,7 @@ const Home: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [filteredDropdownCourses, setFilteredDropdownCourses] = useState<Course[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showReviewModal, setShowReviewModal] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -32,8 +34,10 @@ const Home: React.FC = () => {
           fetchQuestions(),
         ]);
 
-        const sortedReviews = reviewsData.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-        const sortedQuestions = questionsData.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        const sortedReviews = reviewsData.sort((a: Review, b: Review) => 
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        const sortedQuestions = questionsData.sort((a: Question, b: Question) => 
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
         setAllCourses(coursesData);
         setAllReviews(sortedReviews);
@@ -54,7 +58,7 @@ const Home: React.FC = () => {
       return;
     }
 
-    const filtered = allCourses.filter(course =>
+    const filtered = allCourses.filter((course: Course) =>
       course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       course.nameTH.toLowerCase().includes(searchTerm.toLowerCase()) ||
       course.course_id.toString().includes(searchTerm)
@@ -74,8 +78,8 @@ const Home: React.FC = () => {
   }, []);
 
   const filterData = useCallback((items: any[]) => {
-    return items.filter((item) => {
-      const course = allCourses.find((c) => c.course_id === item.courseId);
+    return items.filter((item: any) => {
+      const course = allCourses.find((c: Course) => c.course_id === item.courseId);
       return course
         ? course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           course.nameTH.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -85,44 +89,66 @@ const Home: React.FC = () => {
   }, [allCourses, searchTerm]);
 
   const filteredReviews = useMemo(() => {
-    return filterData(allReviews).sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    return filterData(allReviews).sort((a: Review, b: Review) => 
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }, [allReviews, filterData]);
 
   const filteredQuestions = useMemo(() => {
-    return filterData(allQuestions).sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    return filterData(allQuestions).sort((a: Question, b: Question) => 
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }, [allQuestions, filterData]);
 
   const filteredCourses = useMemo(() => {
-    return allCourses.filter(course =>
+    return allCourses.filter((course: Course) =>
       course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       course.nameTH.toLowerCase().includes(searchTerm.toLowerCase()) ||
       course.course_id.toString().includes(searchTerm)
     );
   }, [allCourses, searchTerm]);
 
+  const handleReviewSubmit = (newReview: Review) => {
+    setAllReviews(prev => [newReview, ...prev]);
+  };
+
   return (
     <div>
       <Header />
       <main className="home">
-        <div className="search-container" ref={searchRef}>
-          <input
-            type="text"
-            placeholder="Search by course name or ID..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onFocus={() => setShowDropdown(true)}
-            className="search-box"
-          />
-          {showDropdown && filteredDropdownCourses.length > 0 && (
-            <ul className="search-dropdown">
-              {filteredDropdownCourses.map(course => (
-                <li key={course.course_id} onClick={() => navigate(`/course/${course.course_id}`)}>
-                  ({course.course_id}) {course.name} {course.nameTH}
-                </li>
-              ))}
-            </ul>
-          )}
+        <div className="home-header">
+          <div className="search-container" ref={searchRef}>
+            <input
+              type="text"
+              placeholder="Search by course name or ID..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onFocus={() => setShowDropdown(true)}
+              className="search-box"
+            />
+            {showDropdown && filteredDropdownCourses.length > 0 && (
+              <ul className="search-dropdown">
+                {filteredDropdownCourses.map((course: Course) => (
+                  <li key={course.course_id} onClick={() => navigate(`/course/${course.course_id}`)}>
+                    ({course.course_id}) {course.name} {course.nameTH}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          
+          <button 
+            className="add-review-button"
+            onClick={() => setShowReviewModal(true)}
+          >
+            + เขียนรีวิว
+          </button>
         </div>
+
+        <AddReviewModal
+          isOpen={showReviewModal}
+          onClose={() => setShowReviewModal(false)}
+          onSubmit={handleReviewSubmit}
+          courses={allCourses}
+        />
 
         <div className="Nav-con">
           <nav>
@@ -130,7 +156,7 @@ const Home: React.FC = () => {
               {['reviews', 'questions', 'courses'].map((tab) => (
                 <li key={tab}>
                   <button
-                    onClick={() => setActiveTab(tab as any)}
+                    onClick={() => setActiveTab(tab as 'reviews' | 'questions' | 'courses')}
                     className={activeTab === tab ? 'active' : ''}
                   >
                     {tab === 'reviews' ? 'รีวิว' : tab === 'questions' ? 'คำถาม' : 'วิชา'}
@@ -151,8 +177,8 @@ const Home: React.FC = () => {
               {activeTab === 'reviews' && (
                 <div className="review-list">
                   {filteredReviews.length > 0 ? (
-                    filteredReviews.map((review) => {
-                      const course = allCourses.find((c) => c.course_id === review.courseId);
+                    filteredReviews.map((review: Review) => {
+                      const course = allCourses.find((c: Course) => c.course_id === review.courseId);
                       return course ? <ReviewCard key={review.id} review={review} course={course} /> : null;
                     })
                   ) : (
@@ -164,7 +190,7 @@ const Home: React.FC = () => {
               {activeTab === 'questions' && (
                 <div className="question-list">
                   {filteredQuestions.length > 0 ? (
-                    filteredQuestions.map((question) => (
+                    filteredQuestions.map((question: Question) => (
                       <QuestionCard key={question.id} question={question} courses={allCourses} />
                     ))
                   ) : <p className="no-questions">No questions found.</p>}
@@ -174,7 +200,7 @@ const Home: React.FC = () => {
               {activeTab === 'courses' && (
                 <div className="course-list">
                   {filteredCourses.length > 0 ? (
-                    filteredCourses.map((course) => (
+                    filteredCourses.map((course: Course) => (
                       <CourseCard key={course.course_id} course={course} />
                     ))
                   ) : <p className="no-courses">No courses found.</p>}

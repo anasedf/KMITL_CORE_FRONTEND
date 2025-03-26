@@ -48,13 +48,19 @@ export const postReview = async (reviewData: any) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'Accept': 'application/json' // <-- บาง API ต้องการ header นี้
     },
     body: JSON.stringify(reviewData),
   });
-  if (!response.ok) throw new Error(`Failed to post review: ${response.status}`);
+  
+  if (!response.ok) {
+    const errorData = await response.json(); // <-- อ่าน error message จากเซิร์ฟเวอร์
+    console.error("Server error details:", errorData);
+    throw new Error(errorData.message || `Failed to post review: ${response.status}`);
+  }
+  
   return response.json();
 };
-
 // เพิ่มคำถามใหม่
 export const postQuestion = async (questionData: any) => {
     const response = await fetch(`${BASE_URL}/questions/`, {
