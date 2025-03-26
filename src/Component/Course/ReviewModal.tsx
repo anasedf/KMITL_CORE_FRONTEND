@@ -152,7 +152,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
                 maxLength={6}
                 placeholder="4-6 ตัวอักษร"
               />
-              <p className="input-hint">สำหรับแก้ไข/ลบรีวิวในภายหลัง</p>
+              <p className="input-hint">สำหรับลบรีวิวในภายหลัง</p>
             </div>
           </div>
 

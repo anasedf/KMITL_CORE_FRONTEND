@@ -67,7 +67,7 @@ const QuestionModal: React.FC<QuestionModalProps> = ({
               maxLength={6}
               placeholder="4-6 ตัวอักษร"
             />
-            <p className="input-hint">สำหรับแก้ไข/ลบคำถามในภายหลัง</p>
+            <p className="input-hint">สำหรับลบคำถามในภายหลัง</p>
           </div>
 
           <div className="form-actions">
