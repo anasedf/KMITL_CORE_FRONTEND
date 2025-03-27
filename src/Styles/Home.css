@@ -174,7 +174,6 @@ nav ul li button.active {
 }
 
 .course-card {
-  position: relative;
   break-inside: avoid;
   margin-bottom: 2rem;
 }
