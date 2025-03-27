@@ -96,3 +96,17 @@
   margin-top: 10px;
 }
 
+@media (max-width: 576px) {
+  .top p,
+  .average-score-container {
+    font-size: 1rem;
+  }
+
+  .name-grade {
+    gap: 0.5rem;
+  }
+  .mid {
+    margin: 0;
+  }
+}
+

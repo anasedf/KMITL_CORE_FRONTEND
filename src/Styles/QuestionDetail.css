@@ -27,6 +27,11 @@
 .ques-head {
   display: flex;
   align-items: center;
+  text-align: center;
+}
+
+.ques-head p {
+  margin: 0;
 }
 
 .delete-button {
@@ -154,9 +159,18 @@
 /* --------------------- */
 
 
-@media (max-width: 600px) {
+@media (max-width: 576px) {
   .answer-header {
     flex-direction: column;
+  }
+
+  .answers-list {
+    margin: 0 0.5rem;
+  }
+
+  .ques-head p,
+  .ques-mid p {
+    font-size: 1.2rem;
   }
 
   .answer-label {
