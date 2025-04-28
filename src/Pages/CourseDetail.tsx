@@ -10,7 +10,7 @@ import QuestionDetail from '../Component/Course/QuestionDetail';
 import ReviewModal from '../Component/Course/ReviewModal';
 import QuestionModal from '../Component/Course/QuestionModal';
 import { Review, Course, Question } from '../mocks/types';
-import '../Styles/Coursedetail.css';
+import '../Styles/pages/Coursedetail.css';
 import {
   fetchCourseById,
   postReview,

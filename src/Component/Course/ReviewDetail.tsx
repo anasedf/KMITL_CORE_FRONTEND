@@ -1,6 +1,6 @@
 import React from 'react';
 import { ReviewDetailProps } from '../../mocks/types';
-import '../../Styles/ReviewDetail.css';
+import '../../Styles/course/ReviewDetail.css';
 
 const ReviewDetail: React.FC<ReviewDetailProps> = ({
   reviews,

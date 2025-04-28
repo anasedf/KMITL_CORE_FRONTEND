@@ -1,6 +1,6 @@
 import React from 'react';
 import { ReviewModalProps } from '../../mocks/types';
-import '../../Styles/ReviewModal.css';
+import '../../Styles/course/ReviewModal.css';
 
 const ReviewModal: React.FC<ReviewModalProps> = ({
   isOpen,

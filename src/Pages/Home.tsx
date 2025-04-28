@@ -3,12 +3,11 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Review, Course, Question } from '../mocks/types';
 import Header from '../Component/Nav/Header';
 import Footer from '../Component/Nav/Footer';
-import Bar from '../Component/Nav/Bar';
 import ReviewCard from '../Component/Home/ReviewCard';
 import QuestionCard from '../Component/Home/QuestionCard';
 import CourseCard from '../Component/Home/CourseCard';
 import AddReviewModal from '../Component/Course/AddReviewModal';
-import '../Styles/Home.css';
+import '../Styles/pages/Home.css';
 import { fetchCourses, fetchReviews, fetchQuestions } from '../services/api';
 
 const shuffleArray = (array: any[]) => {
@@ -34,7 +33,6 @@ const Home: React.FC = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
-  const [shuffledCourses, setShuffledCourses] = useState<Course[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {

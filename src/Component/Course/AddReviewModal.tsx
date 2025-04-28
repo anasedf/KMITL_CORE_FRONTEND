@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Review, Course } from '../../mocks/types';
 import { postReview } from '../../services/api';
-import '../../Styles/AddReviewModal.css';
+import '../../Styles/course/AddReviewModal.css';
 
 interface AddReviewModalProps {
   isOpen: boolean;

@@ -5,6 +5,7 @@
   font-family: 'Kanit', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #ffffff;
   color: #484848;
+  min-height: 100vh;
 }
 
 /* ------------------------------------------------------------- */

@@ -1,6 +1,6 @@
 import React from 'react';
 import { QuestionModalProps } from '../../mocks/types';
-import '../../Styles/QuestionModal.css';
+import '../../Styles/course/QuestionModal.css';
 
 const QuestionModal: React.FC<QuestionModalProps> = ({
   isOpen,

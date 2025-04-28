@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { QuestionDetailProps } from '../../mocks/types';
-import '../../Styles/QuestionDetail.css';
+import '../../Styles/course/QuestionDetail.css';
 import { postAnswer, deleteQuestionById } from '../../services/api';
 
 const QuestionDetail: React.FC<QuestionDetailProps> = ({
