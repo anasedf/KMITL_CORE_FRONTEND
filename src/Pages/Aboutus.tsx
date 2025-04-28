@@ -2,7 +2,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import { Card, Container, Row, Col, Button } from 'react-bootstrap';
-import '../Styles/pages//aboutus.css'; // เราจะสร้างไฟล์ CSS แยก
+import '../Styles/pages/aboutus.css'; // เราจะสร้างไฟล์ CSS แยก
 import { useNavigate } from 'react-router-dom';
 import Footer from '../Component/Nav/Footer';
 interface TeamMember {

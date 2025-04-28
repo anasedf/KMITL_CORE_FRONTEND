@@ -23,10 +23,6 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question, courses }) => {
         <span>{course.nameTH}</span>
       </h3>
       <p className="question-detail">{question.questionText}</p>
-      {/* The API response for questions doesn't include answers */}
-      {/* {question.answers && question.answers.map((answer) => (
-        <p key={answer.id} className="answer">Answer: {answer.answerText}</p>
-      ))} */}
       <div className='question-buttom'>
         <span>{question.questionerName}</span>
         <span>{formattedDate}</span>

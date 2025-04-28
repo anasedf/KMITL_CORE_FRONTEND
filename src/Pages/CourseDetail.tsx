@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import axios from 'axios';
-import Header from '../Component/Nav/Header';
 import Footer from '../Component/Nav/Footer';
 import Bar from '../Component/Nav/Bar';
 import ReviewDetail from '../Component/Course/ReviewDetail';
 import QuestionDetail from '../Component/Course/QuestionDetail';
 import ReviewModal from '../Component/Course/ReviewModal';
 import QuestionModal from '../Component/Course/QuestionModal';
-import { Review, Course, Question } from '../mocks/types';
+import { Course } from '../mocks/types';
 import '../Styles/pages/Coursedetail.css';
 import {
   fetchCourseById,
@@ -18,7 +16,6 @@ import {
   deleteReviewById,
   deleteQuestionById,
 } from '../services/api';
-import { FaHome, FaPencilAlt, FaQuestionCircle } from 'react-icons/fa';
 
 const CourseDetail: React.FC = () => {
   const { courseId } = useParams<{ courseId: string }>();
@@ -41,6 +38,7 @@ const CourseDetail: React.FC = () => {
   const [questionText, setQuestionText] = useState('');
   const [questionPasscodePin, setQuestionPasscodePin] = useState('');
 
+  // API 
   const fetchCourse = async () => {
     try {
       const data = await fetchCourseById(courseId);
@@ -56,6 +54,7 @@ const CourseDetail: React.FC = () => {
     }
   }, [courseId]);
 
+  //หาค่าเฉลี่ย
   const calculateAverageScore = (scoreType: 'homeScore' | 'interestScore') => {
     if (!course?.reviews.length) return 0;
     const totalScore = course.reviews.reduce((sum, review) => sum + review[scoreType], 0);

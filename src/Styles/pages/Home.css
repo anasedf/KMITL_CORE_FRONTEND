@@ -267,8 +267,8 @@ nav ul li button.active {
   overflow-wrap: break-word;
   flex-grow: 1;
   display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
+/*   -webkit-line-clamp: 4;
+ */  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
 }

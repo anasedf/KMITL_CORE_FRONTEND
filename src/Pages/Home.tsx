@@ -10,6 +10,7 @@ import AddReviewModal from '../Component/Course/AddReviewModal';
 import '../Styles/pages/Home.css';
 import { fetchCourses, fetchReviews, fetchQuestions } from '../services/api';
 
+// สุ่มลำดับหน้า course
 const shuffleArray = (array: any[]) => {
   const newArray = [...array];
   for (let i = newArray.length - 1; i > 0; i--) {
@@ -34,6 +35,7 @@ const Home: React.FC = () => {
   const [showReviewModal, setShowReviewModal] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
 
+  // API
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -61,6 +63,7 @@ const Home: React.FC = () => {
     fetchData();
   }, []);
 
+  // 
   useEffect(() => {
     if (location.state && location.state.activeTab) {
       setActiveTab(location.state.activeTab as 'reviews' | 'questions' | 'courses');
@@ -68,6 +71,7 @@ const Home: React.FC = () => {
     }
   }, [location.state]);
 
+  // กรอง dropdown
   useEffect(() => {
     if (searchTerm.trim() === '') {
       setFilteredDropdownCourses(allCourses);
@@ -83,6 +87,7 @@ const Home: React.FC = () => {
     setFilteredDropdownCourses(filtered);
   }, [searchTerm, allCourses]);
 
+  // คลิ้กนอก drop
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
@@ -93,6 +98,7 @@ const Home: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  //
   const filterData = useCallback((items: any[]) => {
     return items.filter((item: any) => {
       const course = allCourses.find((c: Course) => c.course_id === item.courseId);
@@ -104,16 +110,19 @@ const Home: React.FC = () => {
     });
   }, [allCourses, searchTerm]);
 
+  // เรียงรีวิว
   const filteredReviews = useMemo(() => {
     return filterData(allReviews).sort((a: Review, b: Review) => 
       new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }, [allReviews, filterData]);
 
+  // เรียงคำถาม
   const filteredQuestions = useMemo(() => {
     return filterData(allQuestions).sort((a: Question, b: Question) => 
       new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }, [allQuestions, filterData]);
 
+  // เรียงวิชา
   const filteredCourses = useMemo(() => {
     const filtered = allCourses.filter(course =>
       course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -121,7 +130,7 @@ const Home: React.FC = () => {
       course.course_id.toString().includes(searchTerm)
     );
     if (activeTab === 'courses') {
-      return shuffleArray(filtered);
+      return shuffleArray(filtered); // สุ่ม
     }
     return filtered;
   }, [allCourses, searchTerm, activeTab]);
